@@ -1,0 +1,26 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Testes e lint
+.pytest_cache/
+.ruff_cache/
+
+# Segredos e configuração local (use .env.example como modelo)
+.env
+
+# Material privado do mestrado: NUNCA versionar
+data/private/
+
+# Índice vetorial gerado localmente (reconstruível com `grounded-rag ingest`)
+.chroma/
+
+# macOS
+.DS_Store

@@ -1,0 +1,37 @@
+[project]
+name = "grounded-rag"
+version = "0.1.0"
+description = "Assistente RAG local e avaliado: respostas fundamentadas em documentos, com citações de fonte e página."
+readme = "README.md"
+authors = [
+    { name = "Piero Volpato", email = "pierobvdev@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic-settings>=2.16.0",
+]
+
+[project.scripts]
+grounded-rag = "grounded_rag.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.1,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.17.1",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# E/F: erros básicos (pyflakes, pycodestyle); I: ordem de imports;
+# B: bugs comuns (bugbear); UP: sintaxe moderna; SIM: simplificações.
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

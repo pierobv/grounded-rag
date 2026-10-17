@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Instala o uv e guarda em cache os pacotes baixados entre execuções.
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      # --locked: falha se o uv.lock estiver desatualizado em relação ao pyproject.toml.
+      # Garante que o CI instala exatamente as versões testadas localmente.
+      - name: Instalar dependências
+        run: uv sync --locked
+
+      - name: Lint
+        run: uv run ruff check .
+
+      - name: Formatação
+        run: uv run ruff format --check .
+
+      # O CI não tem Ollama: os testes simulam as chamadas ao modelo.
+      - name: Testes
+        run: uv run pytest
+
+  semgrep:
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v4
+      # Análise estática de segurança com as regras públicas para Python.
+      - name: Semgrep
+        run: semgrep scan --config p/python --error
