@@ -1,7 +1,7 @@
 """Interface de linha de comando: `grounded-rag ingest | search | ask | eval`.
 
 O CLI é uma camada fina: lê argumentos, chama as funções do projeto e imprime o resultado.
-`ask` e `eval` ganham implementação nas próximas etapas.
+`eval` ganha implementação na etapa de avaliação.
 """
 
 import argparse
@@ -9,6 +9,7 @@ import sys
 import time
 
 from grounded_rag.config import Settings, get_settings
+from grounded_rag.generation.answer import Final, Retrieved, TextDelta, stream_answer
 from grounded_rag.ingest.chunking import STRATEGIES
 from grounded_rag.ingest.pipeline import compute_stats, ingest_folder, write_jsonl
 from grounded_rag.retrieval import factory
@@ -42,19 +43,34 @@ def build_parser() -> argparse.ArgumentParser:
         "--no-index", action="store_true", help="Só gera os trechos, sem embeddings (sem Ollama)."
     )
 
-    search = sub.add_parser(
-        "search", parents=[chunking], help="Busca trechos relevantes (sem gerar resposta)."
-    )
-    search.add_argument("query", help="Texto da busca.")
-    search.add_argument("--mode", choices=["vector", "bm25", "hybrid"], help="Tipo de busca.")
-    search.add_argument("-k", type=int, help="Quantos trechos devolver.")
+    # Opções de busca compartilhadas por search e ask.
+    retrieval = argparse.ArgumentParser(add_help=False)
+    retrieval.add_argument("--mode", choices=["vector", "bm25", "hybrid"], help="Tipo de busca.")
+    retrieval.add_argument("-k", type=int, help="Quantos trechos buscar.")
     # BooleanOptionalAction cria --rerank e --no-rerank; None = usar o valor do .env.
-    search.add_argument(
+    retrieval.add_argument(
         "--rerank", action=argparse.BooleanOptionalAction, help="Reordenar com cross-encoder."
     )
 
-    ask = sub.add_parser("ask", help="Responde a uma pergunta citando fonte e localização.")
+    search = sub.add_parser(
+        "search",
+        parents=[chunking, retrieval],
+        help="Busca trechos relevantes (sem gerar resposta).",
+    )
+    search.add_argument("query", help="Texto da busca.")
+
+    ask = sub.add_parser(
+        "ask",
+        parents=[chunking, retrieval],
+        help="Responde a uma pergunta citando fonte e localização.",
+    )
     ask.add_argument("question", help="Pergunta em linguagem natural.")
+    model = ask.add_mutually_exclusive_group()
+    model.add_argument("--dev", action="store_true", help="Usa o modelo pequeno (DEV_LLM_MODEL).")
+    model.add_argument("--model", help="Usa este modelo do Ollama.")
+    ask.add_argument(
+        "--show-context", action="store_true", help="Mostra os trechos enviados ao modelo."
+    )
 
     sub.add_parser("eval", help="Roda a avaliação sobre evals/dataset.jsonl.")
 
@@ -153,7 +169,72 @@ def run_search(args: argparse.Namespace) -> int:
     return 0
 
 
-COMMANDS = {"ingest": run_ingest, "search": run_search}
+def run_ask(args: argparse.Namespace) -> int:
+    settings = get_settings()
+    config = resolve_chunking(args, settings)
+    mode = args.mode or settings.retrieval_mode
+    k = args.k or settings.top_k
+    rerank = settings.rerank if args.rerank is None else args.rerank
+    model = args.model or (settings.dev_llm_model if args.dev else settings.llm_model)
+    # O portão de confiança usa a escala do cross-encoder: só vale com reranking ligado.
+    min_score = settings.min_rerank_score if rerank else None
+
+    streamed = False
+    try:
+        retriever = factory.build_retriever(settings, config, mode, rerank)
+        llm = factory.make_llm(settings, model)
+        for event in stream_answer(args.question, retriever, llm, k, min_score):
+            if isinstance(event, Retrieved) and args.show_context:
+                print("Trechos enviados ao modelo:")
+                for n, r in enumerate(event.results, start=1):
+                    print(f"  [{n}] ({r.score:.3f}) {r.chunk.source} — {r.chunk.location}")
+                print()
+            elif isinstance(event, TextDelta):
+                # flush=True: mostra cada pedaço assim que chega (streaming de verdade).
+                print(event.text, end="", flush=True)
+                streamed = True
+            elif isinstance(event, Final):
+                print_final(event, streamed)
+    except (IndexNotReadyError, OllamaError) as exc:
+        print(f"\nErro: {exc}", file=sys.stderr)
+        return 1
+    return 0
+
+
+def print_final(final: Final, streamed: bool) -> None:
+    answer, stats = final.answer, final.stats
+    if streamed:
+        print("\n")
+
+    if answer.abstained:
+        if streamed:
+            # O modelo escreveu algo, mas sem nenhuma citação válida: a resposta é descartada.
+            print("⚠ Resposta descartada: nenhuma afirmação tinha citação válida.")
+        print(answer.text)
+    else:
+        if answer.invalid_citations:
+            invalid = ", ".join(f"[{n}]" for n in answer.invalid_citations)
+            print(f"⚠ Citações para trechos inexistentes removidas: {invalid}\n")
+        print("Fontes:")
+        for c in answer.citations:
+            print(f"  [{c.number}] {c.source} — {c.location}")
+
+    parts = [stats.model, f"busca {stats.retrieval_ms:.0f} ms"]
+    if stats.time_to_first_token_ms is None:
+        parts.append("LLM não chamado")
+    else:
+        parts += [
+            f"1º token {stats.time_to_first_token_ms / 1000:.1f} s",
+            f"total {stats.total_ms / 1000:.1f} s",
+            f"{stats.completion_tokens} tokens ({stats.tokens_per_second:.0f} tok/s)",
+            f"prompt {stats.prompt_tokens} tokens",
+        ]
+    print(f"\n({' · '.join(parts)})")
+    if stats.context_near_limit:
+        print("⚠ O prompt está perto do limite de contexto (NUM_CTX): trechos podem ser cortados.")
+
+
+COMMANDS = {"ingest": run_ingest, "search": run_search, "ask": run_ask}
 
 
 def main(argv: list[str] | None = None) -> int:

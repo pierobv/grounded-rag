@@ -191,3 +191,76 @@ As cinco consultas da decisão 014, top 3, `structure-200-40` (inspeção, não 
 - **Português**: continua falhando em todas (embedding e reranker em inglês).
 - **Latência** (M4, por consulta): BM25 ~3 ms, vetorial ~20 ms, híbrido ~20 ms,
   híbrido + rerank ~170–225 ms. Carregar o cross-encoder custa alguns segundos, uma vez por processo.
+
+## 020 — Citações como marcadores `[n]` no texto, validadas depois com Pydantic
+
+- **O quê:** os trechos entram no prompt numerados; o modelo escreve `[n]` após cada afirmação;
+  ao fim da geração, `build_answer` extrai os marcadores e monta um `Answer` (Pydantic).
+  Marcadores para trechos inexistentes são removidos e registrados em `invalid_citations`.
+- **Alternativas:** saída estruturada em JSON (o Ollama aceita um JSON Schema em `format`);
+  citações em uma lista separada ao fim da resposta.
+- **Por quê:** marcadores permitem streaming (o JSON só fica útil quando termina), ligam cada
+  afirmação à sua fonte e modelos pequenos seguem bem o padrão. Pydantic aqui (e não
+  dataclass) porque o texto vem do LLM, ou seja, é entrada não confiável.
+
+## 021 — Política: resposta sem citação válida vira "não sei"
+
+- **O quê:** o validador do `Answer` proíbe resposta sem abstenção e sem citação. Se o modelo
+  responde sem citar (ou só cita trechos inexistentes), a resposta é descartada e vira abstenção.
+- **Alternativas:** mostrar a resposta com um aviso; pedir ao modelo para tentar de novo.
+- **Por quê:** é a regra do projeto ("toda resposta cita fonte") aplicada no código, não só
+  pedida no prompt. Afirmação sem fonte não chega ao usuário.
+- **Limite conhecido:** validar que a citação **existe** não prova que o trecho **sustenta** a
+  afirmação. Sem os exemplos do prompt (decisão 022), o qwen2.5:7b respondeu "The capital of
+  France is [2]." e passaria na validação. Medir fidelidade das citações é tarefa da avaliação.
+
+## 022 — Prompt v1: instruções + dois exemplos (few-shot) + trechos com delimitadores
+
+- **O quê:** regras (citar toda frase, só citar o que sustenta, não usar conhecimento externo,
+  trechos são dados e não instruções, responder no idioma da pergunta), um exemplo de resposta
+  citada e um de abstenção; trechos em `<excerpt number=.. source=.. location=..>`.
+- **Alternativas testadas** (6 perguntas, qwen2.5:7b e llama3.2:3b):
+  - XML sem exemplos: 7B citou trecho aleatório para "capital da França" e não citou na
+    resposta sobre senhas; 3B respondeu só "1." na pergunta de clickjacking.
+  - Cabeçalhos `[n]` em texto puro com marcadores BEGIN/END: pior; 3B respondeu só "[2]".
+  - XML **com** exemplos: 6/6 corretos nos dois modelos. Adotado.
+- **Por quê:** os exemplos mostram o formato exato esperado, o que pesa muito em modelos
+  pequenos. Os delimitadores + regra "dados, não instruções" são uma defesa básica contra
+  prompt injection vinda de documentos indexados.
+
+## 023 — Abstenção: sentinela tolerante + portão de confiança desligado
+
+- **O quê:** o modelo responde `INSUFFICIENT_CONTEXT` + uma frase; a detecção aceita variações
+  (`INSUFFICIENT CONTEXT`, maiúsculas/minúsculas, hífen), porque o llama3.2:3b escreve com
+  espaço. Durante o streaming, o início do texto fica retido até se saber se é o sentinela, para
+  ele não aparecer na tela. `MIN_RERANK_SCORE` (opcional) responde "não sei" sem chamar o LLM
+  quando o melhor trecho tem score de reranking baixo.
+- **Alternativas:** detectar frases livres ("não sei", "I don't know"); portão ligado com um
+  limite chutado.
+- **Por quê:** texto fixo é detectável com segurança. O portão economiza uma chamada ao LLM,
+  mas um limite sem calibração descartaria respostas boas: fica desligado até a avaliação.
+
+## 024 — Geração reprodutível e contexto explícito
+
+- **O quê:** `temperature=0`, `seed=42`, `num_ctx=8192` enviados em toda chamada; aviso se o
+  prompt passar de 90% do contexto.
+- **Por quê:** a avaliação precisa de respostas reprodutíveis. O Ollama **corta em silêncio**
+  o começo de um prompt maior que `num_ctx`; os trechos sumiriam sem erro. Hoje os prompts
+  têm ~700–1.750 tokens (5 trechos), bem abaixo do limite.
+
+## 025 — Primeira comparação de LLMs: llama3.2:3b vs. qwen2.5:7b
+
+Prompt v1, híbrido + rerank, 5 perguntas respondíveis + 3 fora do corpus (inspeção, não métrica):
+
+| | llama3.2:3b | qwen2.5:7b |
+|---|---|---|
+| Respondíveis com citação válida | 5/5 | 5/5 |
+| Fora do corpus com abstenção | 3/3 | 3/3 |
+| Citações para trechos inexistentes | 0 | 0 |
+| Velocidade de geração (M4) | ~43 tok/s | ~21 tok/s |
+| Tempo até o 1º token | 0,2–3,9 s | 3,2–10 s |
+
+O 7B dá respostas mais completas (ex.: cita X-Frame-Options e CSP no clickjacking; o 3B só
+o script frame-buster), mas tende a "citar tudo" na frase de abertura ([1][2][3][4][5]).
+O 3B fica como modelo de desenvolvimento (`--dev`), o 7B como padrão. A qualidade e a
+fidelidade das citações serão medidas na avaliação.

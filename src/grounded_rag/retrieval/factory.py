@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from grounded_rag.config import Settings
+from grounded_rag.generation.llm import LLM, OllamaChat
 from grounded_rag.ingest.pipeline import read_jsonl
 from grounded_rag.retrieval.base import Retriever
 from grounded_rag.retrieval.bm25 import BM25Index
@@ -43,6 +44,17 @@ def make_embedder(settings: Settings) -> Embedder:
         doc_prefix=settings.embed_doc_prefix,
         query_prefix=settings.embed_query_prefix,
         batch_size=settings.embed_batch_size,
+    )
+
+
+def make_llm(settings: Settings, model: str) -> LLM:
+    """Ponto único de criação do LLM (os testes o substituem por um falso)."""
+    return OllamaChat(
+        base_url=str(settings.ollama_base_url),
+        model=model,
+        num_ctx=settings.num_ctx,
+        temperature=settings.temperature,
+        seed=settings.seed,
     )
 
 

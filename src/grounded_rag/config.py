@@ -56,6 +56,14 @@ class Settings(BaseSettings):
     rerank: bool = True
     rerank_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
+    # Geração
+    num_ctx: PositiveInt = 8192  # contexto do LLM em tokens (o Ollama corta o que passar)
+    temperature: float = 0.0
+    seed: int = 42
+    # Portão de confiança: se o melhor trecho (após reranking) tiver score abaixo disso,
+    # responde "não sei" sem chamar o LLM. Desligado (vazio) até ser calibrado na avaliação.
+    min_rerank_score: float | None = None
+
     @model_validator(mode="after")
     def _check_overlap(self) -> Self:
         # Validação entre campos: roda depois que cada campo já foi validado sozinho.

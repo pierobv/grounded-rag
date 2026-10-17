@@ -10,7 +10,8 @@ medida com métricas e registrada em [`docs/decisions.md`](docs/decisions.md).
 ## Requisitos
 
 - [uv](https://docs.astral.sh/uv/)
-- [Ollama](https://ollama.com/) com um LLM e um modelo de embedding
+- [Ollama](https://ollama.com/) com os modelos:
+  `ollama pull nomic-embed-text && ollama pull qwen2.5:7b && ollama pull llama3.2:3b`
 
 ## Começando
 
@@ -21,6 +22,8 @@ uv run python scripts/fetch_corpus.py   # baixa o corpus (OWASP Cheat Sheets)
 uv run grounded-rag ingest              # gera os trechos e o índice vetorial (Chroma)
 uv run grounded-rag search "How do I prevent CSRF?"   # padrão: híbrido (RRF) + reranking
 uv run grounded-rag search "..." --mode bm25 --no-rerank   # modos: vector | bm25 | hybrid
+uv run grounded-rag ask "How should I store passwords?"    # resposta com citações
+uv run grounded-rag ask "..." --dev --show-context         # modelo 3B + trechos usados
 uv run pytest           # testes (offline; o Ollama é simulado)
 uv run pytest -m ollama # testes de integração com o Ollama real
 uv run pytest -m models # testes com o cross-encoder real (baixa o modelo)

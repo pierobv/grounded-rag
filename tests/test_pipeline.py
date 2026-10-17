@@ -42,7 +42,7 @@ def test_jsonl_round_trip(corpus, tmp_path):
 
 
 @pytest.fixture
-def cli_env(corpus, tmp_path, monkeypatch, fake_embedder, fake_reranker):
+def cli_env(corpus, tmp_path, monkeypatch, fake_embedder, fake_reranker, fake_llm):
     # chdir para uma pasta temporária: o .env real do projeto não interfere no teste.
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("OLLAMA_BASE_URL", "http://ollama.test:11434")
@@ -53,6 +53,7 @@ def cli_env(corpus, tmp_path, monkeypatch, fake_embedder, fake_reranker):
     # (sem Ollama e sem baixar modelo do Hugging Face).
     monkeypatch.setattr(factory, "make_embedder", lambda settings: fake_embedder)
     monkeypatch.setattr(factory, "make_reranker", lambda settings: fake_reranker)
+    monkeypatch.setattr(factory, "make_llm", lambda settings, model: fake_llm)
     get_settings.cache_clear()
     yield tmp_path
     get_settings.cache_clear()
@@ -124,3 +125,44 @@ def test_cli_search_without_ingest_explains_what_to_do(cli_env, capsys, mode):
 def test_cli_ingest_rejects_invalid_overlap(cli_env, capsys):
     assert main(["ingest", "--size", "10", "--overlap", "10"]) == 1
     assert "overlap" in capsys.readouterr().err
+
+
+def test_cli_ask_streams_answer_and_lists_sources(cli_env, capsys, fake_llm):
+    main(["ingest", *SIZE])
+    capsys.readouterr()
+
+    assert main(["ask", "codifique a saída", *SIZE, "--show-context"]) == 0
+
+    out = capsys.readouterr().out
+    assert "Trechos enviados ao modelo:" in out
+    assert "Use HttpOnly cookies [1]." in out
+    assert "Fontes:\n  [1] owasp/" in out
+    assert "fake-llm" in out
+
+
+def test_cli_ask_discards_uncited_answer(cli_env, capsys, fake_llm):
+    main(["ingest", *SIZE])
+    capsys.readouterr()
+    fake_llm.reply = "Paris is the capital of France."
+
+    main(["ask", "capital of France?", *SIZE])
+
+    out = capsys.readouterr().out
+    assert "Resposta descartada" in out
+    assert "Não encontrei essa informação nos documentos." in out
+
+
+@pytest.mark.parametrize(
+    ("flags", "expected"),
+    [([], "qwen2.5:7b"), (["--dev"], "llama3.2:3b"), (["--model", "x:1b"], "x:1b")],
+)
+def test_cli_ask_model_selection(cli_env, capsys, monkeypatch, fake_llm, flags, expected):
+    chosen = []
+    monkeypatch.setattr(
+        factory, "make_llm", lambda settings, model: chosen.append(model) or fake_llm
+    )
+    main(["ingest", *SIZE])
+
+    main(["ask", "q", *SIZE, *flags])
+
+    assert chosen == [expected]

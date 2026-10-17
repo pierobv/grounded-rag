@@ -43,3 +43,47 @@ def test_related_text_is_closer_than_unrelated(embedder):
     )
 
     assert cosine(query, related) > cosine(query, unrelated)
+
+
+@pytest.fixture(scope="module")
+def answer():
+    """Responde com o modelo pequeno (DEV_LLM_MODEL) usando trechos fixos."""
+    from grounded_rag.generation.answer import Final, stream_answer
+    from grounded_rag.generation.llm import OllamaChat
+    from grounded_rag.ingest.models import Chunk
+    from grounded_rag.retrieval.base import to_results
+
+    settings = Settings()
+    chunks = [
+        Chunk(
+            id="1",
+            source="owasp/Session.md",
+            location="Cookies",
+            text="Set the HttpOnly attribute on session cookies so JavaScript cannot read them.",
+            strategy="structure",
+        )
+    ]
+
+    class Fixed:
+        def search(self, query, k):
+            return to_results([(c, 1.0) for c in chunks])
+
+    llm = OllamaChat(str(settings.ollama_base_url), settings.dev_llm_model)
+
+    def ask(question):
+        events = list(stream_answer(question, Fixed(), llm, k=5))
+        assert isinstance(events[-1], Final)
+        return events[-1].answer
+
+    return ask
+
+
+def test_answerable_question_is_cited(answer):
+    result = answer("How do I stop JavaScript from reading the session cookie?")
+
+    assert not result.abstained
+    assert [c.number for c in result.citations] == [1]
+
+
+def test_out_of_corpus_question_abstains(answer):
+    assert answer("What is the capital of France?").abstained

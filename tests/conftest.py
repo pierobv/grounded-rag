@@ -60,3 +60,27 @@ class FakeReranker:
 @pytest.fixture
 def fake_reranker() -> FakeReranker:
     return FakeReranker()
+
+
+class FakeLLM:
+    """LLM offline: devolve um texto fixo em pedaços, como se fosse streaming."""
+
+    name = "fake-llm"
+
+    def __init__(self, reply: str = "Use HttpOnly cookies [1].", piece: int = 4) -> None:
+        self.reply = reply
+        self.piece = piece
+        self.calls: list[list[dict[str, str]]] = []
+
+    def stream_chat(self, messages):
+        from grounded_rag.generation.llm import ChatDelta, ChatDone
+
+        self.calls.append(messages)
+        for start in range(0, len(self.reply), self.piece):
+            yield ChatDelta(self.reply[start : start + self.piece])
+        yield ChatDone(prompt_tokens=100, completion_tokens=10, context_window=8192)
+
+
+@pytest.fixture
+def fake_llm() -> FakeLLM:
+    return FakeLLM()
