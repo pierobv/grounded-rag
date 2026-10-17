@@ -9,6 +9,7 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "pydantic-settings>=2.16.0",
+    "pymupdf>=1.28.2",
 ]
 
 [project.scripts]
@@ -27,6 +28,9 @@ dev = [
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+# data/ contém o corpus: o ruff formata blocos de código dentro de .md e alteraria
+# os documentos originais (quebrando os hashes do MANIFEST.json).
+extend-exclude = ["data"]
 
 [tool.ruff.lint]
 # E/F: erros básicos (pyflakes, pycodestyle); I: ordem de imports;
@@ -35,3 +39,5 @@ select = ["E", "F", "I", "B", "UP", "SIM"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Aviso interno do pymupdf (bindings SWIG), sem relação com o nosso código.
+filterwarnings = ["ignore:builtin type (SwigPy|swigvarlink).*:DeprecationWarning"]

@@ -40,9 +40,11 @@ implementados no próprio projeto.
 - Trabalhamos **uma etapa por vez**. Mostre o plano antes de escrever código e espere aprovação.
 - Escreva testes junto com cada funcionalidade. Nos testes, simule o Ollama: o CI não tem modelo.
 - Nunca leia, copie ou faça commit de nada em `data/private/` (material privado do mestrado).
-  O corpus público fica em `data/public/` (OWASP Cheat Sheets).
+  O corpus público fica em `data/public/` (OWASP Cheat Sheets em Markdown, baixados por
+  `scripts/fetch_corpus.py` em um commit fixo; nunca edite esses arquivos).
 - Nunca coloque chaves, tokens ou endereços pessoais no código; use `.env` (ignorado pelo Git).
-- Toda resposta do assistente deve citar fonte e página; se os trechos não contêm a resposta, ele diz que não sabe.
+- Toda resposta do assistente deve citar fonte e localização (página em PDF, caminho de títulos em
+  Markdown); se os trechos não contêm a resposta, ele diz que não sabe.
 - O endereço do Ollama nunca é fixo no código: sempre `OLLAMA_BASE_URL`
   (localhost no Mac; o PC via Tailscale para avaliações longas).
 - Ao terminar uma etapa, resuma o que mudou e sugira a mensagem de commit.

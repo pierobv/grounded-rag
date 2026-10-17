@@ -19,6 +19,12 @@ wheels/
 # Material privado do mestrado: NUNCA versionar
 data/private/
 
+# Corpus baixado por scripts/fetch_corpus.py (só o MANIFEST.json é versionado)
+data/public/owasp/*.md
+
+# Trechos gerados por `grounded-rag ingest`
+data/processed/
+
 # Índice vetorial gerado localmente (reconstruível com `grounded-rag ingest`)
 .chroma/
 

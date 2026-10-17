@@ -6,8 +6,9 @@ ignorado pelo Git). Nada de endereços, chaves ou caminhos pessoais no código.
 
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal, Self
 
-from pydantic import AnyHttpUrl
+from pydantic import AnyHttpUrl, PositiveInt, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -29,7 +30,21 @@ class Settings(BaseSettings):
 
     # Caminhos de dados (relativos à raiz do projeto).
     data_dir: Path = Path("data/public")
+    processed_dir: Path = Path("data/processed")
     chroma_dir: Path = Path(".chroma")
+
+    # Chunking (tamanho em palavras). Valores iniciais, não ajustados: a etapa de
+    # avaliação mede o efeito de cada combinação.
+    chunk_strategy: Literal["fixed", "structure"] = "structure"
+    chunk_size: PositiveInt = 200
+    chunk_overlap: int = 40
+
+    @model_validator(mode="after")
+    def _check_overlap(self) -> Self:
+        # Validação entre campos: roda depois que cada campo já foi validado sozinho.
+        if not 0 <= self.chunk_overlap < self.chunk_size:
+            raise ValueError("CHUNK_OVERLAP deve estar entre 0 e CHUNK_SIZE - 1")
+        return self
 
 
 @lru_cache
