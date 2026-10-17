@@ -83,3 +83,58 @@ Cada decisão relevante: **o quê**, **alternativas consideradas** e **por quê*
   palavras, 352 com menos de 20) contra 2.145 do `fixed` (média de 195). Seções minúsculas
   como "Don't do this." perdem o sentido sem o título: incluir o caminho de títulos no texto
   indexado e juntar seções pequenas são experimentos candidatos para a etapa de avaliação.
+
+## 010 — Embeddings calculados por nós, via API HTTP do Ollama
+
+- **O quê:** `OllamaEmbedder` chama `POST /api/embed` com `httpx`, em lotes de 32 textos, e
+  entrega os vetores prontos ao Chroma (`embedding_function=None`).
+- **Alternativas:** função de embedding do próprio Chroma; SDK `ollama` para Python.
+- **Por quê:** fica explícito o que é enviado e recebido; o modelo é sempre o do Ollama (o
+  Chroma, por padrão, baixaria um modelo ONNX próprio); a interface `Embedder` permite um
+  embedder falso nos testes, e o CI nunca precisa de modelo. Erros de conexão e de modelo
+  ausente viram mensagens que dizem o que fazer.
+
+## 011 — Prefixos de tarefa do `nomic-embed-text`
+
+- **O quê:** trechos indexados com `search_document: ` e consultas com `search_query: `
+  (configuráveis: `EMBED_DOC_PREFIX`, `EMBED_QUERY_PREFIX`).
+- **Alternativas:** embeddar o texto puro.
+- **Por quê:** o modelo foi treinado com esses prefixos; sem eles a qualidade da busca cai.
+  Ficam na config porque outro modelo de embedding pode usar outros prefixos ou nenhum.
+
+## 012 — Chroma: cosseno, uma coleção por configuração, sincronização por ID
+
+- **O quê:** distância de cosseno (score = `1 − distância`); coleção nomeada pela configuração
+  (ex.: `structure-200-40-nomic-embed-text`); `sync` calcula embeddings só dos IDs novos e
+  remove os que sumiram.
+- **Alternativas:** distância L2; uma coleção única recriada a cada ingestão.
+- **Por quê:** cosseno é a métrica usual para embeddings de texto. Coleções separadas permitem
+  comparar configurações lado a lado na avaliação. Graças aos IDs determinísticos, reindexar o
+  corpus inteiro levou 97 s na primeira vez e 0,2 s na segunda (M4, 3.723 trechos).
+
+## 013 — BM25 em memória, com tokenizador Unicode simples
+
+- **O quê:** `rank-bm25` (BM25Okapi, k1=1,5, b=0,75) montado a partir do JSONL de trechos a
+  cada busca; tokens = sequências de letras/dígitos Unicode em minúsculas.
+- **Alternativas:** persistir o índice; tokenizador com stopwords/stemming; Elasticsearch.
+- **Por quê:** montar o índice leva menos de 1 s para alguns milhares de trechos. O primeiro
+  tokenizador (`[a-z0-9]+`) quebrava "saída" em "sa" + "da"; um teste revelou isso e ele passou
+  a usar `[^\W_]+`. Stopwords e stemming ficam como experimentos da avaliação.
+- **Cuidado conhecido:** no BM25Okapi, um termo presente em metade ou mais dos trechos recebe
+  IDF ~0. Em corpus real isso só afeta palavras muito comuns; em testes com 2 trechos, zera tudo.
+
+## 014 — Primeira inspeção qualitativa: vetorial vs. BM25
+
+Cinco consultas, top 3, estratégia `structure-200-40` (não é métrica, só inspeção):
+
+- **Termo exato** (`X-Frame-Options`, `JWT alg none`): os dois acertam; o vetorial pôs a seção
+  mais específica em primeiro.
+- **Paráfrase** ("how should I store user passwords safely"): o vetorial acertou
+  (Password Storage › Introduction); o BM25 pôs uma seção de MFA em primeiro.
+- **Paráfrase difícil** ("stop other websites from loading my page inside an iframe"): nenhum
+  dos dois trouxe a defesa correta (X-Frame-Options / `frame-ancestors`) no top 3.
+- **Pergunta em português**: os dois falham. O `nomic-embed-text` é treinado em inglês, e o BM25
+  casou "com" com domínios ".com". Se o material do mestrado estiver em português, a avaliação
+  precisa comparar um modelo de embedding multilíngue.
+- **Escalas:** cossenos ficam entre ~0,5 e 0,8; scores BM25 entre ~6 e 24. Não são comparáveis,
+  o que motiva fundir por **posição** (RRF) e não por score na etapa 3.

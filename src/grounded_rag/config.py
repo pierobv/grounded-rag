@@ -39,6 +39,16 @@ class Settings(BaseSettings):
     chunk_size: PositiveInt = 200
     chunk_overlap: int = 40
 
+    # Embeddings. O nomic-embed-text foi treinado com prefixos de tarefa; outro modelo
+    # pode precisar de outros prefixos (ou nenhum: defina a variável vazia).
+    embed_doc_prefix: str = "search_document: "
+    embed_query_prefix: str = "search_query: "
+    embed_batch_size: PositiveInt = 32
+
+    # Busca
+    retrieval_mode: Literal["vector", "bm25"] = "vector"
+    top_k: PositiveInt = 5
+
     @model_validator(mode="after")
     def _check_overlap(self) -> Self:
         # Validação entre campos: roda depois que cada campo já foi validado sozinho.

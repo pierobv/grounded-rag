@@ -8,8 +8,11 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "chromadb>=1.5.9",
+    "httpx>=0.28.1",
     "pydantic-settings>=2.16.0",
     "pymupdf>=1.28.2",
+    "rank-bm25>=0.2.2",
 ]
 
 [project.scripts]
@@ -39,5 +42,9 @@ select = ["E", "F", "I", "B", "UP", "SIM"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Testes que usam o Ollama real ficam fora por padrão (o CI não tem modelo).
+# Para rodá-los localmente: uv run pytest -m ollama
+addopts = "-m 'not ollama'"
+markers = ["ollama: precisa de um Ollama rodando em OLLAMA_BASE_URL"]
 # Aviso interno do pymupdf (bindings SWIG), sem relação com o nosso código.
 filterwarnings = ["ignore:builtin type (SwigPy|swigvarlink).*:DeprecationWarning"]
