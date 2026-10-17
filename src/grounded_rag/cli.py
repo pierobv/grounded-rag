@@ -7,15 +7,14 @@ O CLI é uma camada fina: lê argumentos, chama as funções do projeto e imprim
 import argparse
 import sys
 import time
-from dataclasses import dataclass
 
 from grounded_rag.config import Settings, get_settings
 from grounded_rag.ingest.chunking import STRATEGIES
-from grounded_rag.ingest.pipeline import compute_stats, ingest_folder, read_jsonl, write_jsonl
-from grounded_rag.retrieval.base import Retriever
-from grounded_rag.retrieval.bm25 import BM25Index
-from grounded_rag.retrieval.embeddings import Embedder, OllamaEmbedder, OllamaError
-from grounded_rag.retrieval.vector import VectorIndex, collection_name
+from grounded_rag.ingest.pipeline import compute_stats, ingest_folder, write_jsonl
+from grounded_rag.retrieval import factory
+from grounded_rag.retrieval.base import SearchResult
+from grounded_rag.retrieval.embeddings import OllamaError
+from grounded_rag.retrieval.factory import ChunkingConfig, IndexNotReadyError, chunks_path
 
 SNIPPET_CHARS = 200
 
@@ -47,8 +46,12 @@ def build_parser() -> argparse.ArgumentParser:
         "search", parents=[chunking], help="Busca trechos relevantes (sem gerar resposta)."
     )
     search.add_argument("query", help="Texto da busca.")
-    search.add_argument("--mode", choices=["vector", "bm25"], help="Tipo de busca.")
+    search.add_argument("--mode", choices=["vector", "bm25", "hybrid"], help="Tipo de busca.")
     search.add_argument("-k", type=int, help="Quantos trechos devolver.")
+    # BooleanOptionalAction cria --rerank e --no-rerank; None = usar o valor do .env.
+    search.add_argument(
+        "--rerank", action=argparse.BooleanOptionalAction, help="Reordenar com cross-encoder."
+    )
 
     ask = sub.add_parser("ask", help="Responde a uma pergunta citando fonte e localização.")
     ask.add_argument("question", help="Pergunta em linguagem natural.")
@@ -56,17 +59,6 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("eval", help="Roda a avaliação sobre evals/dataset.jsonl.")
 
     return parser
-
-
-@dataclass(frozen=True)
-class ChunkingConfig:
-    strategy: str
-    size: int
-    overlap: int
-
-    @property
-    def index_name(self) -> str:
-        return f"{self.strategy}-{self.size}-{self.overlap}"
 
 
 def resolve_chunking(args: argparse.Namespace, settings: Settings) -> ChunkingConfig:
@@ -80,26 +72,6 @@ def resolve_chunking(args: argparse.Namespace, settings: Settings) -> ChunkingCo
         size=pick(args.size, settings.chunk_size),
         overlap=pick(args.overlap, settings.chunk_overlap),
     )
-
-
-def make_embedder(settings: Settings) -> Embedder:
-    """Ponto único de criação do embedder (os testes o substituem por um falso)."""
-    return OllamaEmbedder(
-        base_url=str(settings.ollama_base_url),
-        model=settings.embedding_model,
-        doc_prefix=settings.embed_doc_prefix,
-        query_prefix=settings.embed_query_prefix,
-        batch_size=settings.embed_batch_size,
-    )
-
-
-def open_vector_index(settings: Settings, config: ChunkingConfig) -> VectorIndex:
-    name = collection_name(config.index_name, settings.embedding_model)
-    return VectorIndex(settings.chroma_dir, name, make_embedder(settings))
-
-
-def chunks_path(settings: Settings, config: ChunkingConfig):
-    return settings.processed_dir / f"chunks-{config.index_name}.jsonl"
 
 
 def run_ingest(args: argparse.Namespace) -> int:
@@ -133,7 +105,7 @@ def run_ingest(args: argparse.Namespace) -> int:
 
     started = time.perf_counter()
     try:
-        sync = open_vector_index(settings, config).sync(chunks)
+        sync = factory.open_vector_index(settings, config).sync(chunks)
     except OllamaError as exc:
         print(f"Erro: {exc}", file=sys.stderr)
         return 1
@@ -145,35 +117,38 @@ def run_ingest(args: argparse.Namespace) -> int:
     return 0
 
 
+def describe_origins(result: SearchResult) -> str:
+    """{"vector": 3, "bm25": 1} -> "vetorial #3 · bm25 #1"."""
+    labels = {"vector": "vetorial", "bm25": "bm25", "before_rerank": "antes do rerank"}
+    return " · ".join(f"{labels.get(name, name)} #{rank}" for name, rank in result.origins.items())
+
+
 def run_search(args: argparse.Namespace) -> int:
     settings = get_settings()
     config = resolve_chunking(args, settings)
     mode = args.mode or settings.retrieval_mode
     k = args.k or settings.top_k
-
-    retriever: Retriever
-    if mode == "bm25":
-        path = chunks_path(settings, config)
-        if not path.exists():
-            print(f"Trechos não encontrados ({path}). Rode `grounded-rag ingest`.", file=sys.stderr)
-            return 1
-        retriever = BM25Index(read_jsonl(path))
-    else:
-        retriever = open_vector_index(settings, config)
-        if retriever.count() == 0:
-            print("Índice vetorial vazio. Rode `grounded-rag ingest`.", file=sys.stderr)
-            return 1
+    rerank = settings.rerank if args.rerank is None else args.rerank
 
     try:
+        retriever = factory.build_retriever(settings, config, mode, rerank)
+        started = time.perf_counter()
         results = retriever.search(args.query, k)
-    except OllamaError as exc:
+        elapsed = time.perf_counter() - started
+    except (IndexNotReadyError, OllamaError) as exc:
         print(f"Erro: {exc}", file=sys.stderr)
         return 1
 
-    print(f"Busca {mode} em {config.index_name}: {len(results)} resultado(s)\n")
+    label = f"{mode} + rerank" if rerank else mode
+    print(
+        f"Busca {label} em {config.index_name}: {len(results)} resultado(s) "
+        f"em {elapsed * 1000:.0f} ms\n"
+    )
     for r in results:
         snippet = " ".join(r.chunk.text.split())[:SNIPPET_CHARS]
         print(f"{r.rank}. [{r.score:.3f}] {r.chunk.source} — {r.chunk.location}")
+        if r.origins:
+            print(f"   ({describe_origins(r)})")
         print(f"   {snippet}\n")
     return 0
 

@@ -138,3 +138,56 @@ Cinco consultas, top 3, estratégia `structure-200-40` (não é métrica, só in
   precisa comparar um modelo de embedding multilíngue.
 - **Escalas:** cossenos ficam entre ~0,5 e 0,8; scores BM25 entre ~6 e 24. Não são comparáveis,
   o que motiva fundir por **posição** (RRF) e não por score na etapa 3.
+
+## 015 — Fusão por Reciprocal Rank Fusion (RRF), k = 60
+
+- **O quê:** `score(d) = Σ 1/(k + posição_i(d))` sobre os buscadores em que o trecho aparece;
+  `k = 60`. Cada resultado guarda de onde veio (`vetorial #3 · bm25 #1`).
+- **Alternativas:** soma ponderada de scores normalizados (min-max, z-score); RRF ponderado.
+- **Por quê:** os scores vivem em escalas diferentes (decisão 014) e normalizá-los é frágil
+  (depende de quais resultados vieram na lista). O RRF só usa posições, não tem parâmetro a
+  ajustar além de `k`, e `k = 60` é o valor do artigo original (Cormack et al., 2009).
+  Pesos por buscador ficam como experimento para a avaliação.
+
+## 016 — Funil de candidatos: 20 por buscador → reranking → top 5
+
+- **O quê:** cada buscador entrega `CANDIDATES = 20`; o RRF funde; o cross-encoder reordena os 20
+  e devolve `TOP_K = 5`.
+- **Alternativas:** reranking direto sobre o top 5 (barato, mas não recupera o que ficou fora);
+  candidatos = 50 ou 100 (mais recall, mais latência).
+- **Por quê:** o reranking só consegue promover o que está entre os candidatos. Na pergunta do
+  iframe (decisão 019), as respostas certas estavam em 13º e 16º antes do reranking; com
+  candidatos = 5 elas nunca apareceriam. 20 é ponto de partida; a avaliação mede recall@N.
+
+## 017 — Cross-encoder inicial: `cross-encoder/ms-marco-MiniLM-L-6-v2`
+
+- **O quê:** cross-encoder via `sentence-transformers` (configurável em `RERANK_MODEL`),
+  carregado só quando o reranking está ligado (import tardio).
+- **Alternativas:** `BAAI/bge-reranker-v2-m3` (multilíngue, ~2 GB); reranking com o LLM.
+- **Por quê:** o corpus é em inglês; o MiniLM tem ~90 MB e reordena 20 candidatos em ~150–200 ms
+  no M4 (MPS). O `bge-reranker-v2-m3` é o candidato da avaliação para perguntas em português,
+  que continuam falhando (o reranker também é treinado em inglês).
+
+## 018 — PyTorch CPU-only no Linux (CI)
+
+- **O quê:** `torch` declarado como dependência direta, com `[tool.uv.sources]` apontando para o
+  índice `https://download.pytorch.org/whl/cpu` só quando `sys_platform == 'linux'`.
+- **Alternativas:** PyTorch padrão em todo lugar (no Linux traz CUDA, vários GB);
+  reranking como dependência opcional fora do CI.
+- **Por quê:** o CI instala exatamente o que o projeto usa, sem GBs de CUDA inútil. No macOS
+  continua o pacote do PyPI, que usa a GPU do Mac. Detalhe aprendido: o uv só aplica `sources`
+  a dependências **diretas**, por isso `torch` precisou entrar no `pyproject.toml`.
+
+## 019 — Inspeção qualitativa: vetorial, BM25, híbrido e híbrido + rerank
+
+As cinco consultas da decisão 014, top 3, `structure-200-40` (inspeção, não métrica):
+
+- **Termo exato** (`X-Frame-Options`, `JWT alg none`): todas as configurações acertam; o
+  reranking pôs em 1º a seção que define o header.
+- **Paráfrase** (senhas): híbrido corrigiu o erro do BM25 (Password Storage em 1º e 2º).
+- **Paráfrase difícil** (iframe): só o **híbrido + rerank** acertou: Clickjacking › Introduction
+  e Defending with X-Frame-Options subiram de 13º e 16º para 1º e 3º. Melhor argumento a favor
+  do funil de 20 candidatos.
+- **Português**: continua falhando em todas (embedding e reranker em inglês).
+- **Latência** (M4, por consulta): BM25 ~3 ms, vetorial ~20 ms, híbrido ~20 ms,
+  híbrido + rerank ~170–225 ms. Carregar o cross-encoder custa alguns segundos, uma vez por processo.

@@ -19,9 +19,11 @@ uv sync                 # cria o ambiente e instala as dependências
 cp .env.example .env    # ajuste OLLAMA_BASE_URL
 uv run python scripts/fetch_corpus.py   # baixa o corpus (OWASP Cheat Sheets)
 uv run grounded-rag ingest              # gera os trechos e o índice vetorial (Chroma)
-uv run grounded-rag search "How do I prevent CSRF?" --mode vector   # ou --mode bm25
+uv run grounded-rag search "How do I prevent CSRF?"   # padrão: híbrido (RRF) + reranking
+uv run grounded-rag search "..." --mode bm25 --no-rerank   # modos: vector | bm25 | hybrid
 uv run pytest           # testes (offline; o Ollama é simulado)
 uv run pytest -m ollama # testes de integração com o Ollama real
+uv run pytest -m models # testes com o cross-encoder real (baixa o modelo)
 uv run grounded-rag --help
 ```
 

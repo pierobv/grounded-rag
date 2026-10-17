@@ -46,8 +46,15 @@ class Settings(BaseSettings):
     embed_batch_size: PositiveInt = 32
 
     # Busca
-    retrieval_mode: Literal["vector", "bm25"] = "vector"
+    retrieval_mode: Literal["vector", "bm25", "hybrid"] = "hybrid"
     top_k: PositiveInt = 5
+    # Quantos candidatos cada buscador fornece para a fusão e para o reranking.
+    candidates: PositiveInt = 20
+    rrf_k: PositiveInt = 60
+
+    # Reranking com cross-encoder (sentence-transformers; baixado do Hugging Face no 1º uso).
+    rerank: bool = True
+    rerank_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
     @model_validator(mode="after")
     def _check_overlap(self) -> Self:

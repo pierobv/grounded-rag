@@ -43,3 +43,20 @@ class FakeEmbedder:
 @pytest.fixture
 def fake_embedder() -> FakeEmbedder:
     return FakeEmbedder()
+
+
+class FakeReranker:
+    """Reranker offline: nota = quantas palavras da pergunta aparecem no texto."""
+
+    def __init__(self) -> None:
+        self.calls: list[tuple[str, list[str]]] = []
+
+    def score(self, query: str, texts: list[str]) -> list[float]:
+        self.calls.append((query, texts))
+        terms = set(tokenize(query))
+        return [float(len(terms & set(tokenize(t)))) for t in texts]
+
+
+@pytest.fixture
+def fake_reranker() -> FakeReranker:
+    return FakeReranker()

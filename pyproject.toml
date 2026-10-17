@@ -13,6 +13,8 @@ dependencies = [
     "pydantic-settings>=2.16.0",
     "pymupdf>=1.28.2",
     "rank-bm25>=0.2.2",
+    "sentence-transformers>=6.1.0",
+    "torch>=2.14.1",
 ]
 
 [project.scripts]
@@ -42,9 +44,23 @@ select = ["E", "F", "I", "B", "UP", "SIM"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-# Testes que usam o Ollama real ficam fora por padrão (o CI não tem modelo).
-# Para rodá-los localmente: uv run pytest -m ollama
-addopts = "-m 'not ollama'"
-markers = ["ollama: precisa de um Ollama rodando em OLLAMA_BASE_URL"]
+# Testes que usam modelos reais ficam fora por padrão (o CI não tem modelo).
+# Para rodá-los localmente: uv run pytest -m ollama  /  uv run pytest -m models
+addopts = "-m 'not ollama and not models'"
+markers = [
+    "ollama: precisa de um Ollama rodando em OLLAMA_BASE_URL",
+    "models: baixa e roda modelos locais (ex.: cross-encoder do Hugging Face)",
+]
 # Aviso interno do pymupdf (bindings SWIG), sem relação com o nosso código.
 filterwarnings = ["ignore:builtin type (SwigPy|swigvarlink).*:DeprecationWarning"]
+
+# PyTorch (dependência do sentence-transformers): no Linux, usa o índice CPU-only do PyTorch.
+# O pacote padrão do PyPI para Linux traz CUDA (vários GB) e deixaria o CI lento.
+# No macOS continua o pacote normal do PyPI, que usa a GPU do Mac (MPS).
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
