@@ -264,3 +264,139 @@ O 7B dá respostas mais completas (ex.: cita X-Frame-Options e CSP no clickjacki
 o script frame-buster), mas tende a "citar tudo" na frase de abertura ([1][2][3][4][5]).
 O 3B fica como modelo de desenvolvimento (`--dev`), o 7B como padrão. A qualidade e a
 fidelidade das citações serão medidas na avaliação.
+
+## 026 — Avaliação: dataset semi-sintético com rótulos por seção
+
+- **O quê:** 101 perguntas em `evals/dataset.jsonl`: 56 geradas pelo qwen2.5:7b a partir de
+  seções sorteadas (uma por cheat sheet) e curadas à mão, 15 traduções para português dessas
+  mesmas perguntas, 10 de múltiplas seções e 20 fora do corpus escritas à mão. Toda a curadoria
+  está em `scripts/build_dataset.py` (o que foi aprovado, reescrito e descartado, com motivo).
+- **Alternativas:** tudo escrito à mão; tudo sintético sem revisão; rótulos por ID de trecho.
+- **Por quê:** rótulos por (fonte, seção) valem para qualquer chunking. Das 80 candidatas, 24
+  foram descartadas, a maioria por **ambiguidade** (a resposta também existe em outro cheat
+  sheet, o que geraria falso "erro" de busca) ou vagueza. As traduções medem o efeito do idioma
+  com os mesmos rótulos. As fora do corpus foram conferidas com `grep`; metade é de segurança/TI
+  vizinha ao corpus (mais difícil). Viés conhecido: perguntas geradas do texto favorecem termos
+  exatos; por isso o recorte por tipo (exata vs. paráfrase).
+- **Tamanho:** com ~80 respondíveis, intervalos de confiança de ±8 pontos são normais. Diferenças
+  menores que isso não são tratadas como conclusão.
+
+## 027 — Resultado: modo de busca (grupo A)
+
+| | R@5 | Paráfrase | Multi |
+|---|---|---|---|
+| BM25 | 66 | 61 | 32 |
+| Vetorial | 83 | 75 | 62 |
+| Híbrido (sem rerank) | 78 | 71 | 45 |
+| Híbrido + rerank | 85 | 82 | 60 |
+
+- O híbrido **sem** reranking é pior que o vetorial sozinho: neste corpus o BM25 é fraco e o RRF
+  dá a ele o mesmo peso. Com reranking o problema some, porque o cross-encoder reordena os
+  candidatos das duas listas. O ganho do reranking aparece mais em R@1 (51 → 58) e MRR (66 → 72).
+- Conclusão: híbrido só vale com reranking. RRF ponderado (menos peso ao BM25) fica como
+  experimento futuro.
+
+## 028 — Resultado: chunking (grupo B)
+
+- **Tamanho quase não importa:** structure 100/200/400 e fixed 100/200/400 ficam entre 82 e 85
+  (intervalos sobrepostos).
+- **Fixed vence em múltiplas seções** (92–95 vs. 55–60), porque um trecho atravessa seções
+  vizinhas, e **perde em paráfrase** (68–75 vs. 82).
+- **Contextual chunk headers ajudam:** structure-200 com títulos vai de 85 para 88 em R@5, de 58
+  para 62 em R@1 e de 60 para 83 em multi. Confirma a suspeita da etapa 1 (trechos curtos como
+  "Don't do this." ficam encontráveis com o título).
+
+## 029 — Resultado: modelos multilíngues (grupo C)
+
+| | R@5 | R@1 | MRR | Paráfrase | Multi | PT | Busca p50 |
+|---|---|---|---|---|---|---|---|
+| nomic + MiniLM (linha de base) | 85 | 58 | 72 | 82 | 60 | 53 | 155 ms |
+| bge-m3 + MiniLM | 86 | 59 | 74 | 86 | 65 | 60 | 256 ms |
+| nomic + bge-reranker | 86 | 61 | 74 | 82 | 63 | 53 | 3,8 s |
+| bge-m3 + bge-reranker | 94 | 66 | 80 | 96 | 58 | 100 | 4,2 s |
+| **bge-m3 + bge-reranker + títulos** | **95** | **74** | **86** | 93 | 78 | 93 | 4,2 s |
+
+- Embedding e reranker multilíngues **só funcionam juntos**: cada um sozinho mal muda o PT
+  (53 → 60 / 53). Juntos, o português vai de 53 para 93–100 (n = 15, intervalo largo).
+- O bge-reranker também melhora inglês: R@5 sobe de 85 para 94.
+- **Custo:** o bge-reranker-v2-m3 tem 568M parâmetros contra 22M do MiniLM; reordenar 20
+  candidatos leva ~2–4 s no M4 (MPS), contra ~0,2 s.
+
+## 030 — Nova configuração padrão: bge-m3 + bge-reranker-v2-m3 + títulos
+
+- **O quê:** `EMBEDDING_MODEL=bge-m3` (sem prefixos), `RERANK_MODEL=BAAI/bge-reranker-v2-m3`,
+  `CHUNK_HEADINGS=true`, structure-200-40, híbrido + rerank.
+- **Alternativas:** manter nomic + MiniLM (busca 25x mais rápida, 10 pontos a menos de R@5 e
+  português quebrado).
+- **Por quê:** +10 pontos de R@5, +16 de R@1, português funcionando, e os ~4 s extras são
+  pequenos perto dos ~10 s de geração do 7B. A configuração antiga continua disponível pelo
+  `.env` para quem prefere velocidade.
+
+## 031 — Calibração do portão de confiança
+
+- Com o bge-reranker, o score do melhor trecho separa bem as perguntas: limite **0,38** mantém
+  95% das respondíveis e barra 95% das fora do corpus (o reranker devolve probabilidades 0–1;
+  fora do corpus a mediana é 0,0). Com o MiniLM a separação é pior (78% / 95%).
+- **Mantido desligado por padrão:** o limite foi escolhido no mesmo dataset em que é medido
+  (risco de sobreajuste), e o "não sei" do LLM já cobre o caso (decisão 033). Ativar com
+  `MIN_RERANK_SCORE=0.38` economiza a chamada ao LLM em perguntas fora do corpus.
+
+## 032 — Execução da avaliação de geração em uma máquina de 16 GB
+
+- **Problema:** gerador (3B), juiz (7B), bge-m3 e bge-reranker (na GPU) não cabem juntos com
+  folga em 16 GB. Alternar gerador e juiz a cada pergunta fez o Ollama falhar ao carregar um
+  modelo (`500: timed out waiting for llama-server to start`), e rodadas com o 7B foram encerradas
+  pelo sistema após 15–20 perguntas.
+- **O quê:** (1) o juiz roda numa segunda passada, depois de toda a geração (um LLM por vez);
+  (2) retry com espera em erros 5xx do Ollama, só antes do streaming começar; (3) checkpoint por
+  pergunta em `evals/results/.checkpoints/`, com escrita atômica, para retomar uma rodada
+  interrompida.
+- **Alternativas:** rodar no PC via Tailscale (previsto para avaliações longas); reranker na CPU.
+- **Por quê:** cada rodada com geração leva ~1 h; perder duas no meio mostrou que retomar é mais
+  importante que evitar toda falha.
+
+## 033 — Resultado: geração com llama3.2:3b (D1, busca C4)
+
+| Métrica | Valor (IC 95%) |
+|---|---|
+| Responde (respondíveis) | 88% (80–94) |
+| Recusa (fora do corpus) | 90% (75–100) |
+| Precisão das citações | 77% (69–85) |
+| Fatos-chave | 85% (75–92) |
+| Fidelidade (juiz) | 79% (69–88) |
+| Citação inválida | 0% |
+
+- **Todas as 10 respondíveis em que o 3B disse "não sei" tinham o trecho certo no top 5**
+  (posição 1 a 3): a falha é de geração, não de busca.
+- **2 alucinações fora do corpus, com citação:** um comando `certbot renew` atribuído a um
+  trecho e "Kubernetes 1.30 was released [2]". O juiz marcou as duas como não sustentadas — o
+  caso que a validação de existência da citação (decisão 021) não pega.
+- 17 de 60 respostas têm ao menos uma frase não sustentada; o 3B é usado como modelo de
+  desenvolvimento (`--dev`).
+- A rodada com qwen2.5:7b (D2) está incompleta (26 de 101 perguntas, salvas em checkpoint) e
+  será adicionada depois.
+
+## 034 — Mensagem de abstenção fixa
+
+- **O quê:** a frase que o modelo escreve depois de `INSUFFICIENT_CONTEXT` é ignorada (fica em
+  `raw_text`); a resposta usa `ABSTAIN_MESSAGE`, configurável, padrão em português.
+- **Alternativas:** usar a frase do modelo (versão anterior); detectar o idioma da pergunta.
+- **Por quê:** num teste manual, o qwen2.5:7b escreveu a frase em chinês para uma pergunta em
+  português, e o código ainda acrescentava "." depois do "。". Mensagem fixa é previsível e é
+  uma coisa a menos que o LLM pode estragar. O prompt não mudou (continua v1), então as métricas
+  de D1 e D2 seguem comparáveis.
+
+## 035 — Validação do juiz de fidelidade
+
+- **O quê:** 30 vereditos do D1 sorteados (semente fixa) e rotulados manualmente, lendo a frase e
+  o trecho citado completo (`evals/judge_labels.jsonl`, `scripts/judge_agreement.py`).
+- **Resultado:** concordância de **29/30 (97%)**. O único erro foi aprovar uma lista de itens que
+  o trecho citado não continha (a lista vinha de outro cheat sheet) — o tipo de erro mais grave,
+  então a fidelidade medida tende a ser levemente otimista.
+- **Ressalvas:** amostra pequena; no D2 o juiz é o mesmo modelo que gera as respostas.
+
+## 036 — Procedência dos resultados
+
+Os experimentos A–C rodaram com o código que depois virou o commit `b1f9046`, antes de ele ser
+commitado; por isso o campo `git_commit` deles termina em `-dirty`. O caminho de busca não mudou
+depois disso. O D1 rodou no commit `b1f9046` limpo.

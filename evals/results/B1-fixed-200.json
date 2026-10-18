@@ -1,0 +1,3544 @@
+{
+ "experiment": {
+  "name": "B1-fixed-200",
+  "description": "",
+  "strategy": "fixed",
+  "size": 200,
+  "overlap": 40,
+  "headings": false,
+  "mode": "hybrid",
+  "rerank": true,
+  "embedding_model": "nomic-embed-text",
+  "embed_doc_prefix": "search_document: ",
+  "embed_query_prefix": "search_query: ",
+  "rerank_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+  "llm_model": null,
+  "judge": false,
+  "k": 5
+ },
+ "index": "fixed-200-40",
+ "meta": {
+  "timestamp": "2026-10-17T20:56:55+00:00",
+  "git_commit": "38a91a2-dirty",
+  "corpus_commit": "1a78ae3e443cef156e947f87e892efbcc62876ee",
+  "prompt_version": "1",
+  "judge_model": null,
+  "n_questions": 101
+ },
+ "aggregate": {
+  "retrieval": {
+   "recall@1": {
+    "mean": 0.6090534979423868,
+    "ci95": [
+     0.5041152263374485,
+     0.7078189300411523
+    ],
+    "n": 81
+   },
+   "recall@5": {
+    "mean": 0.8292181069958848,
+    "ci95": [
+     0.742798353909465,
+     0.9012345679012346
+    ],
+    "n": 81
+   },
+   "recall@20": {
+    "mean": 0.9259259259259259,
+    "ci95": [
+     0.8641975308641975,
+     0.9753086419753086
+    ],
+    "n": 81
+   },
+   "mrr@10": {
+    "mean": 0.7155986674505193,
+    "ci95": [
+     0.6249461101312953,
+     0.8002841465804429
+    ],
+    "n": 81
+   }
+  },
+  "retrieval_by_type": {
+   "exact": {
+    "mean": 0.9069767441860465,
+    "ci95": [
+     0.813953488372093,
+     0.9767441860465116
+    ],
+    "n": 43
+   },
+   "paraphrase": {
+    "mean": 0.6785714285714286,
+    "ci95": [
+     0.5,
+     0.8571428571428571
+    ],
+    "n": 28
+   },
+   "multi": {
+    "mean": 0.9166666666666666,
+    "ci95": [
+     0.8,
+     1.0
+    ],
+    "n": 10
+   },
+   "en": {
+    "mean": 0.8813131313131313,
+    "ci95": [
+     0.803030303030303,
+     0.9494949494949495
+    ],
+    "n": 66
+   },
+   "pt": {
+    "mean": 0.6,
+    "ci95": [
+     0.3333333333333333,
+     0.8666666666666667
+    ],
+    "n": 15
+   }
+  },
+  "search_ms_p50": 260.8
+ },
+ "questions": [
+  {
+   "id": "g00",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 350.4,
+   "top_score": 3.319836378097534,
+   "top5": [
+    [
+     "owasp/Attack_Surface_Analysis_Cheat_Sheet.md",
+     "Attack Surface Analysis Cheat Sheet › What is Attack Surface Analysis and Why is it Important; Attack Surface Analysis Cheat Sheet › Defining the Attack Surface of an Application"
+    ],
+    [
+     "owasp/Attack_Surface_Analysis_Cheat_Sheet.md",
+     "Attack Surface Analysis Cheat Sheet › What is Attack Surface Analysis and Why is it Important"
+    ],
+    [
+     "owasp/Attack_Surface_Analysis_Cheat_Sheet.md",
+     "Attack Surface Analysis Cheat Sheet › Identifying and Mapping the Attack Surface; Attack Surface Analysis Cheat Sheet › Measuring and Assessing the Attack Surface"
+    ],
+    [
+     "owasp/Denial_of_Service_Cheat_Sheet.md",
+     "Denial of Service Cheat Sheet › Introduction › Analyzing DoS attack surfaces; Denial of Service Cheat Sheet › Introduction › Analyzing DoS attack surfaces › 1) Overview of potential DoS weaknesses"
+    ],
+    [
+     "owasp/Microservices_based_Security_Arch_Doc_Cheat_Sheet.md",
+     "Microservices based Security Arch Doc Cheat Sheet › Context; Microservices based Security Arch Doc Cheat Sheet › Objective; Microservices based Security Arch Doc Cheat Sheet › Proposition › Collect information on the building blocks › Identify and describe application-functionality services"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g01",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 248.5,
+   "top_score": 4.264796257019043,
+   "top5": [
+    [
+     "owasp/Symfony_Cheat_Sheet.md",
+     "Symfony Cheat Sheet › Main Sections › Cross-Site Request Forgery (CSRF)"
+    ],
+    [
+     "owasp/Django_Security_Cheat_Sheet.md",
+     "Django Security Cheat Sheet › Headers; Django Security Cheat Sheet › Content Security Policy; Django Security Cheat Sheet › Cookies"
+    ],
+    [
+     "owasp/Symfony_Cheat_Sheet.md",
+     "Symfony Cheat Sheet › Main Sections › Cross-Site Scripting (XSS); Symfony Cheat Sheet › Main Sections › Cross-Site Request Forgery (CSRF)"
+    ],
+    [
+     "owasp/Django_Security_Cheat_Sheet.md",
+     "Django Security Cheat Sheet › Django's built-in command `check --deploy`; Django Security Cheat Sheet › References"
+    ],
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Disallowing simple requests › Disallowing simple content types; Cross-Site Request Forgery Prevention Cheat Sheet › Disallowing simple requests › Employing Custom Request Headers for AJAX/API"
+    ]
+   ],
+   "first_relevant_rank": 6,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.16666666666666666
+  },
+  {
+   "id": "pt-g01",
+   "type": "paraphrase",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 279.5,
+   "top_score": -6.785571098327637,
+   "top5": [
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Disallowing simple requests › Employing Custom Request Headers for AJAX/API; Cross-Site Request Forgery Prevention Cheat Sheet › Disallowing simple requests › Employing Custom Request Headers for AJAX/API › Custom Headers and CORS"
+    ],
+    [
+     "owasp/Django_Security_Cheat_Sheet.md",
+     "Django Security Cheat Sheet › Headers; Django Security Cheat Sheet › Content Security Policy; Django Security Cheat Sheet › Cookies"
+    ],
+    [
+     "owasp/Django_Security_Cheat_Sheet.md",
+     "Django Security Cheat Sheet › Django's built-in command `check --deploy`; Django Security Cheat Sheet › References"
+    ],
+    [
+     "owasp/Django_Security_Cheat_Sheet.md",
+     "Django Security Cheat Sheet › Cookies; Django Security Cheat Sheet › Cross Site Request Forgery (CSRF); Django Security Cheat Sheet › Cross Site Scripting (XSS)"
+    ],
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Disallowing simple requests › Disallowing simple content types; Cross-Site Request Forgery Prevention Cheat Sheet › Disallowing simple requests › Employing Custom Request Headers for AJAX/API"
+    ]
+   ],
+   "first_relevant_rank": 4,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.25
+  },
+  {
+   "id": "g02",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 347.0,
+   "top_score": 3.024190664291382,
+   "top5": [
+    [
+     "owasp/HTML5_Security_Cheat_Sheet.md",
+     "HTML5 Security Cheat Sheet › Storage APIs › Local Storage"
+    ],
+    [
+     "owasp/HTML5_Security_Cheat_Sheet.md",
+     "HTML5 Security Cheat Sheet › Storage APIs › Local Storage; HTML5 Security Cheat Sheet › Storage APIs › Client-side databases"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › HTML5 Web Storage API › The localStorage API › Scope; Session Management Cheat Sheet › HTML5 Web Storage API › The localStorage API › Duration; Session Management Cheat Sheet › HTML5 Web Storage API › The localStorage API › Offline Access; Session Management Cheat Sheet › HTML5 Web Storage API › The localStorage API › Use Case; Session Management Cheat Sheet › HTML5 Web Storage API › The sessionStorage API › Scope"
+    ],
+    [
+     "owasp/HTML5_Security_Cheat_Sheet.md",
+     "HTML5 Security Cheat Sheet › Communication APIs › Cross Origin Resource Sharing; HTML5 Security Cheat Sheet › Communication APIs › WebSockets; HTML5 Security Cheat Sheet › Communication APIs › Server-Sent Events; HTML5 Security Cheat Sheet › Storage APIs › Local Storage"
+    ],
+    [
+     "owasp/Logging_Cheat_Sheet.md",
+     "Logging Cheat Sheet › Design, implementation, and testing › Event data sources; Logging Cheat Sheet › Design, implementation, and testing › Where to record event data"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g04",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 351.3,
+   "top_score": 4.140520095825195,
+   "top5": [
+    [
+     "owasp/Transport_Layer_Security_Cheat_Sheet.md",
+     "Transport Layer Security Cheat Sheet › Certificates › Use an Appropriate Certification Authority for the Application's User Base; Transport Layer Security Cheat Sheet › Certificates › Use CAA Records to Restrict Which CAs can Issue Certificates"
+    ],
+    [
+     "owasp/Transport_Layer_Security_Cheat_Sheet.md",
+     "Transport Layer Security Cheat Sheet › Certificates › Use CAA Records to Restrict Which CAs can Issue Certificates; Transport Layer Security Cheat Sheet › Certificates › Consider the Certificate’s Validation Type"
+    ],
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › How Subdomain Takeover Works › Record Types at Risk; Subdomain Takeover Prevention Cheat Sheet › Cloud Provider Vulnerability Reference; Subdomain Takeover Prevention Cheat Sheet › Cloud Provider Vulnerability Reference › High Risk: Takeover Possible When Resource Is Removed"
+    ],
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 4. Use Domain Verification Where Available; Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 5. Restrict Wildcard DNS Records"
+    ],
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Introduction; Subdomain Takeover Prevention Cheat Sheet › How Subdomain Takeover Works › The Basic Mechanism; Subdomain Takeover Prevention Cheat Sheet › How Subdomain Takeover Works › Why It Keeps Happening"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "pt-g04",
+   "type": "exact",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 310.3,
+   "top_score": -11.121316909790039,
+   "top5": [
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 5. Restrict Wildcard DNS Records; Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 6. Establish a Decommissioning Checklist; Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 7. Limit the Blast Radius with Proper Security Scoping"
+    ],
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › How Subdomain Takeover Works › Why It Keeps Happening; Subdomain Takeover Prevention Cheat Sheet › How Subdomain Takeover Works › Record Types at Risk"
+    ],
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 2. Maintain a DNS Inventory Linked to Resource Ownership; Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 3. Implement Automated Dangling Record Detection; Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 4. Use Domain Verification Where Available"
+    ],
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 4. Use Domain Verification Where Available; Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 5. Restrict Wildcard DNS Records"
+    ],
+    [
+     "owasp/Transport_Layer_Security_Cheat_Sheet.md",
+     "Transport Layer Security Cheat Sheet › Certificates › Use an Appropriate Certification Authority for the Application's User Base; Transport Layer Security Cheat Sheet › Certificates › Use CAA Records to Restrict Which CAs can Issue Certificates"
+    ]
+   ],
+   "first_relevant_rank": 5,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.2
+  },
+  {
+   "id": "g06",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 293.8,
+   "top_score": 1.791715145111084,
+   "top5": [
+    [
+     "owasp/Third_Party_Payment_Gateway_Integration_Cheat_Sheet.md",
+     "Secure Integration of Third-Party Payment Gateways Cheat Sheet › What Can Go Wrong at Each Step and How to Prevent It › 2. Redirect to webhook; Secure Integration of Third-Party Payment Gateways Cheat Sheet › Logging and Monitoring"
+    ],
+    [
+     "owasp/Third_Party_Payment_Gateway_Integration_Cheat_Sheet.md",
+     "Secure Integration of Third-Party Payment Gateways Cheat Sheet › Logging and Monitoring; Secure Integration of Third-Party Payment Gateways Cheat Sheet › References"
+    ],
+    [
+     "owasp/Third_Party_Payment_Gateway_Integration_Cheat_Sheet.md",
+     "Secure Integration of Third-Party Payment Gateways Cheat Sheet › Understanding the Payment Flow; Secure Integration of Third-Party Payment Gateways Cheat Sheet › What Can Go Wrong at Each Step and How to Prevent It › 1. Sending Order data; Secure Integration of Third-Party Payment Gateways Cheat Sheet › What Can Go Wrong at Each Step and How to Prevent It › 2. Redirect to webhook"
+    ],
+    [
+     "owasp/AI-Powered_Advertising_Systems_Security_Cheat_Sheet.md",
+     "AI-Powered Advertising Systems Security Cheat Sheet › 4. Protect Outcome Events and Agentic Actions"
+    ],
+    [
+     "owasp/Logging_Cheat_Sheet.md",
+     "Logging Cheat Sheet › Deployment and operation › Protection; Logging Cheat Sheet › Deployment and operation › Monitoring of events; Logging Cheat Sheet › Deployment and operation › Disposal of logs"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g07",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 221.5,
+   "top_score": 6.045793533325195,
+   "top5": [
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › Business Logic Bugs; Ruby on Rails Cheat Sheet › Items › Attack Surface; Ruby on Rails Cheat Sheet › Items › Sensitive Files"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › Insecure Direct Object Reference or Forceful Browsing; Ruby on Rails Cheat Sheet › Items › CSRF (Cross Site Request Forgery)"
+    ],
+    [
+     "owasp/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.md",
+     "Insecure Direct Object Reference Prevention Cheat Sheet › Verifying access controls; Insecure Direct Object Reference Prevention Cheat Sheet › Mitigation"
+    ],
+    [
+     "owasp/Authorization_Cheat_Sheet.md",
+     "Authorization Cheat Sheet › Recommendations › Validate the Permissions on Every Request; Authorization Cheat Sheet › Recommendations › Thoroughly Review the Authorization Logic of Chosen Tools and Technologies, Implementing Custom Logic if Necessary"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › CSRF (Cross Site Request Forgery); Ruby on Rails Cheat Sheet › Items › Redirects and Forwards"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "pt-g07",
+   "type": "paraphrase",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 238.4,
+   "top_score": -10.677732467651367,
+   "top5": [
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › Command Injection; Ruby on Rails Cheat Sheet › Items › SQL Injection"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › Insecure Direct Object Reference or Forceful Browsing; Ruby on Rails Cheat Sheet › Items › CSRF (Cross Site Request Forgery)"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Introduction; Ruby on Rails Cheat Sheet › Items › Command Injection"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › Business Logic Bugs; Ruby on Rails Cheat Sheet › Items › Attack Surface; Ruby on Rails Cheat Sheet › Items › Sensitive Files"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › Sessions; Ruby on Rails Cheat Sheet › Items › Authentication"
+    ]
+   ],
+   "first_relevant_rank": 4,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.25
+  },
+  {
+   "id": "g09",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 258.5,
+   "top_score": 1.390251636505127,
+   "top5": [
+    [
+     "owasp/NoSQL_Security_Cheat_Sheet.md",
+     "NoSQL Security Cheat Sheet › Introduction; NoSQL Security Cheat Sheet › Threats & Common Failure Modes; NoSQL Security Cheat Sheet › Secure-by-Design Principles"
+    ],
+    [
+     "owasp/JavaScript_and_TypeScript_Security_Cheat_Sheet.md",
+     "JavaScript and TypeScript Security Cheat Sheet › Object and Property Safety (Including Prototype Pollution); JavaScript and TypeScript Security Cheat Sheet › DOM Sinks and Output Context; JavaScript and TypeScript Security Cheat Sheet › Async Error Handling, Messaging, and Origin Checks"
+    ],
+    [
+     "owasp/GitHub_Actions_Security_Cheat_Sheet.md",
+     "GitHub Actions Security Cheat Sheet › Prevent artifact poisoning; GitHub Actions Security Cheat Sheet › Be careful with AI assistant running in CI/CD pipeline; GitHub Actions Security Cheat Sheet › Write Secure GitHub Workflows; GitHub Actions Security Cheat Sheet › Write Secure GitHub Workflows › Avoid dangerous triggers › Avoid using the `pull_request_target` trigger"
+    ],
+    [
+     "owasp/Secure_Code_Review_Cheat_Sheet.md",
+     "Secure Code Review Cheat Sheet › Common Vulnerability Patterns › Injection Vulnerabilities; Secure Code Review Cheat Sheet › Common Vulnerability Patterns › Authentication & Session Management Vulnerabilities; Secure Code Review Cheat Sheet › Common Vulnerability Patterns › Access Control Vulnerabilities; Secure Code Review Cheat Sheet › Common Vulnerability Patterns › Deserialization Vulnerabilities; Secure Code Review Cheat Sheet › Common Vulnerability Patterns › Cryptographic Implementation Flaws; Secure Code Review Cheat Sheet › Review Techniques › Code Pattern Analysis; Secure Code Review Cheat Sheet › Review Techniques › Data Flow Analysis"
+    ],
+    [
+     "owasp/Database_Security_Cheat_Sheet.md",
+     "Database Security Cheat Sheet › Introduction; Database Security Cheat Sheet › Protecting the Backend Database"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g10",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 250.1,
+   "top_score": 0.35134828090667725,
+   "top5": [
+    [
+     "owasp/DOM_Clobbering_Prevention_Cheat_Sheet.md",
+     "DOM Clobbering Prevention Cheat Sheet › Introduction; DOM Clobbering Prevention Cheat Sheet › Background"
+    ],
+    [
+     "owasp/DOM_Clobbering_Prevention_Cheat_Sheet.md",
+     "DOM Clobbering Prevention Cheat Sheet › Mitigation Techniques › \\#1: HTML Sanitization; DOM Clobbering Prevention Cheat Sheet › Mitigation Techniques › \\#1: HTML Sanitization › DOMPurify Sanitizer; DOM Clobbering Prevention Cheat Sheet › Mitigation Techniques › \\#1: HTML Sanitization › Sanitizer API; DOM Clobbering Prevention Cheat Sheet › Mitigation Techniques › \\#2: Content-Security Policy"
+    ],
+    [
+     "owasp/Nodejs_Security_Cheat_Sheet.md",
+     "NodeJS Security Cheat Sheet › Recommendations › Server Security › Use appropriate security headers"
+    ],
+    [
+     "owasp/DOM_Clobbering_Prevention_Cheat_Sheet.md",
+     "DOM Clobbering Prevention Cheat Sheet › Mitigation Techniques › \\#2: Content-Security Policy; DOM Clobbering Prevention Cheat Sheet › Mitigation Techniques › \\#3: Freezing Application Configuration Objects; DOM Clobbering Prevention Cheat Sheet › Secure Coding Guidelines; DOM Clobbering Prevention Cheat Sheet › Secure Coding Guidelines › \\#4: Validate All Inputs to DOM Tree; DOM Clobbering Prevention Cheat Sheet › Secure Coding Guidelines › \\#5: Use Explicit Variable Declarations"
+    ],
+    [
+     "owasp/Nodejs_Security_Cheat_Sheet.md",
+     "NodeJS Security Cheat Sheet › Recommendations › Server Security › Use appropriate security headers"
+    ]
+   ],
+   "first_relevant_rank": 2,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.5
+  },
+  {
+   "id": "g11",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 282.6,
+   "top_score": 4.440234661102295,
+   "top5": [
+    [
+     "owasp/Error_Handling_Cheat_Sheet.md",
+     "Error Handling Cheat Sheet › Proposition › Standard Java Web Application; Error Handling Cheat Sheet › Proposition › Java SpringMVC/SpringBoot web application; Error Handling Cheat Sheet › Proposition › ASP NET Core web application"
+    ],
+    [
+     "owasp/Error_Handling_Cheat_Sheet.md",
+     "Error Handling Cheat Sheet › Proposition › Java SpringMVC/SpringBoot web application; Error Handling Cheat Sheet › Proposition › ASP NET Core web application"
+    ],
+    [
+     "owasp/Error_Handling_Cheat_Sheet.md",
+     "Error Handling Cheat Sheet › Proposition › ASP NET Core web application; Error Handling Cheat Sheet › Proposition › ASP NET Web API web application"
+    ],
+    [
+     "owasp/NodeJS_Docker_Cheat_Sheet.md",
+     "Node.js Docker Cheat Sheet › 6) Graceful tear down for your Node.js web applications"
+    ],
+    [
+     "owasp/Error_Handling_Cheat_Sheet.md",
+     "Error Handling Cheat Sheet › Proposition › Standard Java Web Application; Error Handling Cheat Sheet › Proposition › Java SpringMVC/SpringBoot web application"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g12",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 286.8,
+   "top_score": 0.4305739998817444,
+   "top5": [
+    [
+     "owasp/Nodejs_Security_Cheat_Sheet.md",
+     "NodeJS Security Cheat Sheet › Recommendations › Application Security › Perform input validation"
+    ],
+    [
+     "owasp/Nodejs_Security_Cheat_Sheet.md",
+     "NodeJS Security Cheat Sheet › Recommendations › Application Security › Take precautions against brute-forcing; NodeJS Security Cheat Sheet › Recommendations › Application Security › Use Anti-CSRF tokens"
+    ],
+    [
+     "owasp/Nodejs_Security_Cheat_Sheet.md",
+     "NodeJS Security Cheat Sheet › Recommendations › Application Security › Take precautions against brute-forcing"
+    ],
+    [
+     "owasp/Mass_Assignment_Cheat_Sheet.md",
+     "Mass Assignment Cheat Sheet › General Solutions; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Spring MVC › Allow-listing; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Spring MVC › Block-listing; Mass Assignment Cheat Sheet › Language & Framework specific solutions › NodeJS + Mongoose › Allow-listing; Mass Assignment Cheat Sheet › Language & Framework specific solutions › NodeJS + Mongoose › Block-listing"
+    ],
+    [
+     "owasp/Mass_Assignment_Cheat_Sheet.md",
+     "Mass Assignment Cheat Sheet › Introduction › Definition; Mass Assignment Cheat Sheet › Introduction › Alternative Names; Mass Assignment Cheat Sheet › Introduction › Example"
+    ]
+   ],
+   "first_relevant_rank": 4,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.25
+  },
+  {
+   "id": "pt-g12",
+   "type": "exact",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 318.9,
+   "top_score": -2.982177734375,
+   "top5": [
+    [
+     "owasp/Mass_Assignment_Cheat_Sheet.md",
+     "Mass Assignment Cheat Sheet › General Solutions; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Spring MVC › Allow-listing; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Spring MVC › Block-listing; Mass Assignment Cheat Sheet › Language & Framework specific solutions › NodeJS + Mongoose › Allow-listing; Mass Assignment Cheat Sheet › Language & Framework specific solutions › NodeJS + Mongoose › Block-listing"
+    ],
+    [
+     "owasp/NPM_Security_Cheat_Sheet.md",
+     "NPM Security best practices › 4) Assess npm project health › npm doctor command; NPM Security best practices › 5) Audit for vulnerabilities in open source dependencies"
+    ],
+    [
+     "owasp/Laravel_Cheat_Sheet.md",
+     "Laravel Cheat Sheet › Authentication › Starter Kits; Laravel Cheat Sheet › Authentication › API Authentication Packages; Laravel Cheat Sheet › Mass Assignment"
+    ],
+    [
+     "owasp/Mass_Assignment_Cheat_Sheet.md",
+     "Mass Assignment Cheat Sheet › Language & Framework specific solutions › NodeJS + Mongoose › Block-listing; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Ruby On Rails; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Django; Mass Assignment Cheat Sheet › Language & Framework specific solutions › ASP NET; Mass Assignment Cheat Sheet › Language & Framework specific solutions › PHP Laravel + Eloquent › Allow-listing; Mass Assignment Cheat Sheet › Language & Framework specific solutions › PHP Laravel + Eloquent › Block-listing; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Grails; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Play; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Jackson (JSON Object Mapper); Mass Assignment Cheat Sheet › Language & Framework specific solutions › GSON (JSON Object Mapper); Mass Assignment Cheat Sheet › Language & Framework specific solutions › JSON-Lib (JSON Object Mapper); Mass Assignment Cheat Sheet › Language & Framework specific solutions › Flexjson (JSON Object Mapper); Mass Assignment Cheat Sheet › References"
+    ],
+    [
+     "owasp/Nodejs_Security_Cheat_Sheet.md",
+     "NodeJS Security Cheat Sheet › Recommendations › Application Security › Use access control lists; NodeJS Security Cheat Sheet › Recommendations › Permissions; NodeJS Security Cheat Sheet › Recommendations › Permissions › Usage; NodeJS Security Cheat Sheet › Recommendations › Permissions › Examples"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g13",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 229.7,
+   "top_score": -0.549979567527771,
+   "top5": [
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Possible CSRF Vulnerabilities in Login Forms; Cross-Site Request Forgery Prevention Cheat Sheet › REFERENCE: Sample JEE Filter Demonstrating CSRF Protection"
+    ],
+    [
+     "owasp/Cookie_Theft_Mitigation_Cheat_Sheet.md",
+     "Cookie Theft Mitigation Cheat Sheet › Introduction; Cookie Theft Mitigation Cheat Sheet › Cookie Theft Mitigation"
+    ],
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Issuer and audience confusion"
+    ],
+    [
+     "owasp/Forgot_Password_Cheat_Sheet.md",
+     "Forgot Password Cheat Sheet › Forgot Password Service › User Resets Password; Forgot Password Cheat Sheet › Forgot Password Service › Account Recovery After Suspected Compromise"
+    ],
+    [
+     "owasp/Forgot_Password_Cheat_Sheet.md",
+     "Forgot Password Cheat Sheet › Methods › Security Questions; Forgot Password Cheat Sheet › Account Lockout; Forgot Password Cheat Sheet › References"
+    ]
+   ],
+   "first_relevant_rank": 12,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.0
+  },
+  {
+   "id": "pt-g13",
+   "type": "paraphrase",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 303.9,
+   "top_score": -10.86657428741455,
+   "top5": [
+    [
+     "owasp/AI_Agent_Security_Cheat_Sheet.md",
+     "AI Agent Security Cheat Sheet › Best Practices › 5. Output Validation & Guardrails › Output Validation Pipeline; AI Agent Security Cheat Sheet › Best Practices › 6. Monitoring & Observability"
+    ],
+    [
+     "owasp/Bean_Validation_Cheat_Sheet.md",
+     "Bean Validation Cheat Sheet › Setup; Bean Validation Cheat Sheet › Basics; Bean Validation Cheat Sheet › Predefined Constraints › @Pattern"
+    ],
+    [
+     "owasp/Bean_Validation_Cheat_Sheet.md",
+     "Bean Validation Cheat Sheet › Predefined Constraints › Cascading Constraints; Bean Validation Cheat Sheet › Predefined Constraints › Additional Constraints; Bean Validation Cheat Sheet › Custom Constraints; Bean Validation Cheat Sheet › Error Messages; Bean Validation Cheat Sheet › References"
+    ],
+    [
+     "owasp/Authorization_Regression_Testing_Cheat_Sheet.md",
+     "Authorization Regression Testing Cheat Sheet › Introduction; Authorization Regression Testing Cheat Sheet › Authorization Test Matrix Design"
+    ],
+    [
+     "owasp/Secure_Code_Review_Cheat_Sheet.md",
+     "Secure Code Review Cheat Sheet › Review Techniques › Business Logic Review; Secure Code Review Cheat Sheet › Review Checklists › Input Validation; Secure Code Review Cheat Sheet › Review Checklists › Authentication & Session Management"
+    ]
+   ],
+   "first_relevant_rank": null,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 0.0,
+   "mrr@10": 0.0
+  },
+  {
+   "id": "g14",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 269.2,
+   "top_score": 6.9080891609191895,
+   "top5": [
+    [
+     "owasp/OS_Command_Injection_Defense_Cheat_Sheet.md",
+     "OS Command Injection Defense Cheat Sheet › Primary Defenses › Defense option 3: Parameterization in conjunction with Input Validation › Layer 2; OS Command Injection Defense Cheat Sheet › Additional Defenses"
+    ],
+    [
+     "owasp/Injection_Prevention_Cheat_Sheet.md",
+     "Injection Prevention Cheat Sheet › Forms of Injection › Operating System Commands › Remediation; Injection Prevention Cheat Sheet › Forms of Injection › Operating System Commands › Example code - Java › Incorrect Usage; Injection Prevention Cheat Sheet › Forms of Injection › Operating System Commands › Example code - Java › Correct Usage"
+    ],
+    [
+     "owasp/OS_Command_Injection_Defense_Cheat_Sheet.md",
+     "OS Command Injection Defense Cheat Sheet › Primary Defenses › Defense option 2: Escape values added to OS commands specific to each OS; OS Command Injection Defense Cheat Sheet › Primary Defenses › Defense option 3: Parameterization in conjunction with Input Validation; OS Command Injection Defense Cheat Sheet › Primary Defenses › Defense option 3: Parameterization in conjunction with Input Validation › Layer 1; OS Command Injection Defense Cheat Sheet › Primary Defenses › Defense option 3: Parameterization in conjunction with Input Validation › Layer 2"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › Redirects and Forwards"
+    ],
+    [
+     "owasp/DotNet_Security_Cheat_Sheet.md",
+     "DotNet Security Cheat Sheet › .NET General Guidance › A03 Injection › SQL Injection; DotNet Security Cheat Sheet › .NET General Guidance › A03 Injection › OS Injection"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g16",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 267.4,
+   "top_score": 6.7304511070251465,
+   "top5": [
+    [
+     "owasp/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md",
+     "Unvalidated Redirects and Forwards Cheat Sheet › Introduction; Unvalidated Redirects and Forwards Cheat Sheet › Safe URL Redirects"
+    ],
+    [
+     "owasp/Symfony_Cheat_Sheet.md",
+     "Symfony Cheat Sheet › Main Sections › Command Injection; Symfony Cheat Sheet › Main Sections › Open Redirection; Symfony Cheat Sheet › Main Sections › File Upload Vulnerabilities; Symfony Cheat Sheet › Main Sections › File Upload Vulnerabilities › Validate file type and size"
+    ],
+    [
+     "owasp/Laravel_Cheat_Sheet.md",
+     "Laravel Cheat Sheet › Open Redirection; Laravel Cheat Sheet › Cross Site Request Forgery (CSRF)"
+    ],
+    [
+     "owasp/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md",
+     "Unvalidated Redirects and Forwards Cheat Sheet › Preventing Unvalidated Redirects and Forwards; Unvalidated Redirects and Forwards Cheat Sheet › Preventing Unvalidated Redirects and Forwards › Validating URLs"
+    ],
+    [
+     "owasp/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md",
+     "Unvalidated Redirects and Forwards Cheat Sheet › Dangerous URL Redirects › Dangerous URL Redirect Example 1; Unvalidated Redirects and Forwards Cheat Sheet › Dangerous URL Redirects › Dangerous URL Redirect Example 2"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g18",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 236.5,
+   "top_score": 0.6226159930229187,
+   "top5": [
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Introduction › Built-In Or Existing CSRF Implementations; Cross-Site Request Forgery Prevention Cheat Sheet › Token-Based Mitigation; Cross-Site Request Forgery Prevention Cheat Sheet › Token-Based Mitigation › Synchronizer Token Pattern"
+    ],
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 6 Implementation Guidance › 6.5 Usability and Ease of Onboarding; Secrets Management Cheat Sheet › 7 Encryption; Secrets Management Cheat Sheet › 7 Encryption › 7.1 Encryption Types to Use"
+    ],
+    [
+     "owasp/Web_Frontend_Security_Cheat_Sheet.md",
+     "Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Don't rely on client business logic; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Avoid writing serialization code; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Avoid building XML or JSON dynamically; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Never transmit secrets to the client; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Choose encryption for the threat model; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Don't perform security impacting logic on client-side"
+    ],
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 7 Encryption › 7.4 Encryption as a Service (EaaS); Secrets Management Cheat Sheet › 8 Detection; Secrets Management Cheat Sheet › 8 Detection › 8.1 General detection approaches"
+    ],
+    [
+     "owasp/Authorization_Cheat_Sheet.md",
+     "Authorization Cheat Sheet › Recommendations › Thoroughly Review the Authorization Logic of Chosen Tools and Technologies, Implementing Custom Logic if Necessary"
+    ]
+   ],
+   "first_relevant_rank": 7,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.14285714285714285
+  },
+  {
+   "id": "g19",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 176.9,
+   "top_score": 5.144397735595703,
+   "top5": [
+    [
+     "owasp/Forgot_Password_Cheat_Sheet.md",
+     "Forgot Password Cheat Sheet › Forgot Password Service › User Resets Password; Forgot Password Cheat Sheet › Forgot Password Service › Account Recovery After Suspected Compromise"
+    ],
+    [
+     "owasp/Multifactor_Authentication_Cheat_Sheet.md",
+     "Multifactor Authentication Cheat Sheet › Implementing MFA › Improving User Experience › Passkeys; Multifactor Authentication Cheat Sheet › Implementing MFA › Failed Login Attempts; Multifactor Authentication Cheat Sheet › Implementing MFA › Resetting MFA"
+    ],
+    [
+     "owasp/Forgot_Password_Cheat_Sheet.md",
+     "Forgot Password Cheat Sheet › Forgot Password Service › Account Recovery After Suspected Compromise; Forgot Password Cheat Sheet › Methods; Forgot Password Cheat Sheet › Methods › General Security Practices"
+    ],
+    [
+     "owasp/Key_Management_Cheat_Sheet.md",
+     "Key Management Cheat Sheet › Key Management Lifecycle Best Practices › Key Compromise and Recovery"
+    ],
+    [
+     "owasp/Credential_Stuffing_Prevention_Cheat_Sheet.md",
+     "Credential Stuffing Prevention Cheat Sheet › Defense in Depth & Metrics › Notify users about unusual security events; Credential Stuffing Prevention Cheat Sheet › References"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "pt-g19",
+   "type": "exact",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 215.3,
+   "top_score": -11.212675094604492,
+   "top5": [
+    [
+     "owasp/Authorization_Decisions_And_Output_Handling_Cheat_Sheet.md",
+     "Authorization Decisions and Output Handling Cheat Sheet › Single and Batch Decisions; Authorization Decisions and Output Handling Cheat Sheet › Enforcing Access to Collections; Authorization Decisions and Output Handling Cheat Sheet › Enforcing Access to Collections › Check Each Candidate; Authorization Decisions and Output Handling Cheat Sheet › Enforcing Access to Collections › Retrieve Authorized Resource Identifiers"
+    ],
+    [
+     "owasp/Drone_Security_Cheat_Sheet.md",
+     "Drone Security Cheat Sheet › Introduction; Drone Security Cheat Sheet › Drone System Components; Drone Security Cheat Sheet › Vulnerable Endpoints & Security Risks › 1. Communication Security"
+    ],
+    [
+     "owasp/JavaScript_and_TypeScript_Security_Cheat_Sheet.md",
+     "JavaScript and TypeScript Security Cheat Sheet › Dangerous Language Surface › Strict Mode; JavaScript and TypeScript Security Cheat Sheet › Object and Property Safety (Including Prototype Pollution); JavaScript and TypeScript Security Cheat Sheet › DOM Sinks and Output Context"
+    ],
+    [
+     "owasp/Virtual_Patching_Cheat_Sheet.md",
+     "Virtual Patching Cheat Sheet › Value of Virtual Patching; Virtual Patching Cheat Sheet › Virtual Patching Tools; Virtual Patching Cheat Sheet › A Virtual Patching Methodology; Virtual Patching Cheat Sheet › Example Public Vulnerability"
+    ],
+    [
+     "owasp/Multi_Tenant_Security_Cheat_Sheet.md",
+     "Multi-Tenant Application Security Cheat Sheet › Best Practices › 7. Tenant Onboarding & Offboarding Security; Multi-Tenant Application Security Cheat Sheet › Best Practices › 7. Tenant Onboarding & Offboarding Security › Tenant Backup Restore"
+    ]
+   ],
+   "first_relevant_rank": null,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 0.0,
+   "mrr@10": 0.0
+  },
+  {
+   "id": "g20",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 264.1,
+   "top_score": 0.3466510772705078,
+   "top5": [
+    [
+     "owasp/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.md",
+     "Insecure Direct Object Reference Prevention Cheat Sheet › Java and Spring Boot example; Insecure Direct Object Reference Prevention Cheat Sheet › Java and Spring Boot example › Fixing the code; Insecure Direct Object Reference Prevention Cheat Sheet › References"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › Business Logic Bugs; Ruby on Rails Cheat Sheet › Items › Attack Surface; Ruby on Rails Cheat Sheet › Items › Sensitive Files"
+    ],
+    [
+     "owasp/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.md",
+     "Insecure Direct Object Reference Prevention Cheat Sheet › Mitigation; Insecure Direct Object Reference Prevention Cheat Sheet › Java and Spring Boot example; Insecure Direct Object Reference Prevention Cheat Sheet › Java and Spring Boot example › Fixing the code"
+    ],
+    [
+     "owasp/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.md",
+     "Insecure Direct Object Reference Prevention Cheat Sheet › Verifying access controls; Insecure Direct Object Reference Prevention Cheat Sheet › Mitigation"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Updating Rails and Having a Process for Updating Dependencies; Ruby on Rails Cheat Sheet › Tools"
+    ]
+   ],
+   "first_relevant_rank": 3,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.3333333333333333
+  },
+  {
+   "id": "g23",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 271.6,
+   "top_score": 4.3886871337890625,
+   "top5": [
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Key type confusion; JSON Web Token Cheat Sheet › Threats on JWTs › Trusting key material named in the token header"
+    ],
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Trusting key material named in the token header"
+    ],
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Issuer and audience confusion"
+    ],
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Unsecured JWTs; JSON Web Token Cheat Sheet › Threats on JWTs › Key type confusion"
+    ],
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Trusting key material named in the token header; JSON Web Token Cheat Sheet › Threats on JWTs › Issuer and audience confusion"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g24",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 290.3,
+   "top_score": 2.091693639755249,
+   "top5": [
+    [
+     "owasp/Authentication_Cheat_Sheet.md",
+     "Authentication Cheat Sheet › Authentication General Guidelines › Protect Against Automated Attacks › Login Throttling › Account Lockout"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session Attacks Detection › Logging Sessions Life Cycle: Monitoring Creation, Usage, and Destruction of Session IDs; Session Management Cheat Sheet › Session Attacks Detection › Simultaneous Session Logons; Session Management Cheat Sheet › Session Management WAF Protections"
+    ],
+    [
+     "owasp/Authentication_Cheat_Sheet.md",
+     "Authentication Cheat Sheet › Authentication General Guidelines › Protect Against Automated Attacks › Login Throttling › Account Lockout; Authentication Cheat Sheet › Authentication General Guidelines › Protect Against Automated Attacks › CAPTCHA; Authentication Cheat Sheet › Authentication General Guidelines › Protect Against Automated Attacks › Security Questions and Memorable Words; Authentication Cheat Sheet › Logging and Monitoring"
+    ],
+    [
+     "owasp/Logging_Vocabulary_Cheat_Sheet.md",
+     "Application Logging Vocabulary Cheat Sheet › Authentication [AUTHN] › authn_login_lock[:userid,reason]; Application Logging Vocabulary Cheat Sheet › Authentication [AUTHN] › authn_password_change[:userid]; Application Logging Vocabulary Cheat Sheet › Authentication [AUTHN] › authn_password_change_fail[:userid]; Application Logging Vocabulary Cheat Sheet › Authentication [AUTHN] › authn_impossible_travel[:userid,region1,region2]"
+    ],
+    [
+     "owasp/Credential_Stuffing_Prevention_Cheat_Sheet.md",
+     "Credential Stuffing Prevention Cheat Sheet › Defense in Depth & Metrics › Notify users about unusual security events; Credential Stuffing Prevention Cheat Sheet › References"
+    ]
+   ],
+   "first_relevant_rank": 4,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.25
+  },
+  {
+   "id": "pt-g24",
+   "type": "paraphrase",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 263.0,
+   "top_score": -11.40095329284668,
+   "top5": [
+    [
+     "owasp/NPM_Security_Cheat_Sheet.md",
+     "NPM Security best practices › 6) Artifact governance and supply chain protections › Use a local npm proxy; NPM Security best practices › 6) Artifact governance and supply chain protections › Governance & Verification Steps"
+    ],
+    [
+     "owasp/Credential_Stuffing_Prevention_Cheat_Sheet.md",
+     "Credential Stuffing Prevention Cheat Sheet › Defense in Depth & Metrics › Multi-Step Login Processes; Credential Stuffing Prevention Cheat Sheet › Defense in Depth & Metrics › Require JavaScript and Block Headless Browsers"
+    ],
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 9 Incident Response › 9.1 Documentation; Secrets Management Cheat Sheet › 9 Incident Response › 9.2 Remediation"
+    ],
+    [
+     "owasp/Logging_Cheat_Sheet.md",
+     "Logging Cheat Sheet › Design, implementation, and testing › Data to exclude; Logging Cheat Sheet › Design, implementation, and testing › Customizable logging; Logging Cheat Sheet › Design, implementation, and testing › Event collection"
+    ],
+    [
+     "owasp/Forgot_Password_Cheat_Sheet.md",
+     "Forgot Password Cheat Sheet › Methods › PINs; Forgot Password Cheat Sheet › Methods › Offline Methods; Forgot Password Cheat Sheet › Methods › Security Questions"
+    ]
+   ],
+   "first_relevant_rank": null,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 0.0,
+   "mrr@10": 0.0
+  },
+  {
+   "id": "g25",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 215.0,
+   "top_score": 5.730221748352051,
+   "top5": [
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 6. Establish a Decommissioning Checklist; Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 7. Limit the Blast Radius with Proper Security Scoping; Subdomain Takeover Prevention Cheat Sheet › Monitoring and Detection › Continuous DNS Monitoring"
+    ],
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Introduction"
+    ],
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Incident Response; Subdomain Takeover Prevention Cheat Sheet › References"
+    ],
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Defense In Depth Techniques › SameSite (Cookie Attribute) › Limitations of SameSite"
+    ],
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Monitoring and Detection › Continuous DNS Monitoring; Subdomain Takeover Prevention Cheat Sheet › Monitoring and Detection › Indicators of Compromise; Subdomain Takeover Prevention Cheat Sheet › Incident Response"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g27",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 247.0,
+   "top_score": 2.5949487686157227,
+   "top5": [
+    [
+     "owasp/GraphQL_Cheat_Sheet.md",
+     "GraphQL Cheat Sheet › Best Practices and Recommendations › Input Validation › Injection Prevention; GraphQL Cheat Sheet › Best Practices and Recommendations › Input Validation › Process Validation; GraphQL Cheat Sheet › Best Practices and Recommendations › DoS Prevention"
+    ],
+    [
+     "owasp/GraphQL_Cheat_Sheet.md",
+     "GraphQL Cheat Sheet › Common Attacks; GraphQL Cheat Sheet › Best Practices and Recommendations; GraphQL Cheat Sheet › Best Practices and Recommendations › Input Validation; GraphQL Cheat Sheet › Best Practices and Recommendations › Input Validation › General Practices"
+    ],
+    [
+     "owasp/NoSQL_Security_Cheat_Sheet.md",
+     "NoSQL Security Cheat Sheet › Threats & Common Failure Modes; NoSQL Security Cheat Sheet › Secure-by-Design Principles; NoSQL Security Cheat Sheet › Practical Defenses & Examples › Prevent NoSQL Injection"
+    ],
+    [
+     "owasp/NoSQL_Security_Cheat_Sheet.md",
+     "NoSQL Security Cheat Sheet › Introduction; NoSQL Security Cheat Sheet › Threats & Common Failure Modes; NoSQL Security Cheat Sheet › Secure-by-Design Principles"
+    ],
+    [
+     "owasp/SQL_Injection_Prevention_Cheat_Sheet.md",
+     "SQL Injection Prevention Cheat Sheet › Introduction; SQL Injection Prevention Cheat Sheet › What Is a SQL Injection Attack?; SQL Injection Prevention Cheat Sheet › Anatomy of a Typical SQL Injection Vulnerability"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g30",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 217.7,
+   "top_score": 8.361530303955078,
+   "top5": [
+    [
+     "owasp/LDAP_Injection_Prevention_Cheat_Sheet.md",
+     "LDAP Injection Prevention Cheat Sheet › Primary Defenses › Defense Option 1: Escape all variables using the right LDAP encoding function › Search Filter Escaping; LDAP Injection Prevention Cheat Sheet › Primary Defenses › Defense Option 1: Escape all variables using the right LDAP encoding function › Safe Java Escaping Example"
+    ],
+    [
+     "owasp/Injection_Prevention_Cheat_Sheet.md",
+     "Injection Prevention Cheat Sheet › Forms of Injection › Query languages › LDAP Injection › How to test for the issue › During code review; Injection Prevention Cheat Sheet › Forms of Injection › Query languages › LDAP Injection › How to test for the issue › Automated Exploitation; Injection Prevention Cheat Sheet › Forms of Injection › Query languages › LDAP Injection › Remediation › Use the right LDAP encoding function; Injection Prevention Cheat Sheet › Forms of Injection › Query languages › XPath Injection; Injection Prevention Cheat Sheet › Forms of Injection › Scripting languages; Injection Prevention Cheat Sheet › Forms of Injection › Operating System Commands"
+    ],
+    [
+     "owasp/DotNet_Security_Cheat_Sheet.md",
+     "DotNet Security Cheat Sheet › .NET General Guidance › A03 Injection › OS Injection; DotNet Security Cheat Sheet › .NET General Guidance › A03 Injection › LDAP injection; DotNet Security Cheat Sheet › .NET General Guidance › A04 Insecure Design; DotNet Security Cheat Sheet › .NET General Guidance › A05 Security Misconfiguration › Debug and Stack Trace"
+    ],
+    [
+     "owasp/Injection_Prevention_Cheat_Sheet.md",
+     "Injection Prevention Cheat Sheet › Injection Prevention Rules › Rule \\#2 (Use a safe API); Injection Prevention Cheat Sheet › Injection Prevention Rules › Rule \\#3 (Contextually escape user data); Injection Prevention Cheat Sheet › Other Injection Cheatsheets; Injection Prevention Cheat Sheet › References"
+    ],
+    [
+     "owasp/LDAP_Injection_Prevention_Cheat_Sheet.md",
+     "LDAP Injection Prevention Cheat Sheet › Primary Defenses › Defense Option 1: Escape all variables using the right LDAP encoding function › Distinguished Name Escaping; LDAP Injection Prevention Cheat Sheet › Primary Defenses › Defense Option 1: Escape all variables using the right LDAP encoding function › Search Filter Escaping"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g31",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 291.6,
+   "top_score": 4.000756740570068,
+   "top5": [
+    [
+     "owasp/Logging_Cheat_Sheet.md",
+     "Logging Cheat Sheet › Attacks on Logs › Integrity; Logging Cheat Sheet › Attacks on Logs › Availability; Logging Cheat Sheet › Attacks on Logs › Accountability; Logging Cheat Sheet › References"
+    ],
+    [
+     "owasp/Logging_Cheat_Sheet.md",
+     "Logging Cheat Sheet › Deployment and operation › Monitoring of events; Logging Cheat Sheet › Deployment and operation › Disposal of logs; Logging Cheat Sheet › Attacks on Logs; Logging Cheat Sheet › Attacks on Logs › Confidentiality; Logging Cheat Sheet › Attacks on Logs › Integrity; Logging Cheat Sheet › Attacks on Logs › Availability"
+    ],
+    [
+     "owasp/Abuse_Case_Cheat_Sheet.md",
+     "Abuse Case Cheat Sheet (Historical) › Introduction › Example of derivation of Abuse Cases as User Stories › A5:2017-Broken Access Control; Abuse Case Cheat Sheet (Historical) › Introduction › Example of derivation of Abuse Cases as User Stories › A6:2017-Security Misconfiguration"
+    ],
+    [
+     "owasp/File_Upload_Cheat_Sheet.md",
+     "File Upload Cheat Sheet › File Upload Protection › File Storage Location; File Upload Cheat Sheet › File Upload Protection › User Permissions"
+    ],
+    [
+     "owasp/Credential_Stuffing_Prevention_Cheat_Sheet.md",
+     "Credential Stuffing Prevention Cheat Sheet › Defense in Depth & Metrics › Multi-Step Login Processes; Credential Stuffing Prevention Cheat Sheet › Defense in Depth & Metrics › Require JavaScript and Block Headless Browsers"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "pt-g31",
+   "type": "paraphrase",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 245.4,
+   "top_score": -11.010833740234375,
+   "top5": [
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › SECTION 5: Kubernetes Security Best Practices: Runtime Phase › Logging › Understanding Logging › Container logging"
+    ],
+    [
+     "owasp/Logging_Cheat_Sheet.md",
+     "Logging Cheat Sheet › Design, implementation, and testing › Network architecture; Logging Cheat Sheet › Deployment and operation › Release; Logging Cheat Sheet › Deployment and operation › Operation; Logging Cheat Sheet › Deployment and operation › Protection"
+    ],
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › SECTION 5: Kubernetes Security Best Practices: Runtime Phase › Logging › Understanding Logging › Node logging; Kubernetes Security Cheat Sheet › SECTION 5: Kubernetes Security Best Practices: Runtime Phase › Logging › Understanding Logging › Cluster logging; Kubernetes Security Cheat Sheet › SECTION 5: Kubernetes Security Best Practices: Runtime Phase › Logging › Events"
+    ],
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › SECTION 5: Kubernetes Security Best Practices: Runtime Phase › Logging › Understanding Logging › Container logging; Kubernetes Security Cheat Sheet › SECTION 5: Kubernetes Security Best Practices: Runtime Phase › Logging › Understanding Logging › Node logging"
+    ],
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 9 Incident Response › 9.1 Documentation; Secrets Management Cheat Sheet › 9 Incident Response › 9.2 Remediation"
+    ]
+   ],
+   "first_relevant_rank": null,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 0.0,
+   "mrr@10": 0.0
+  },
+  {
+   "id": "g32",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 179.0,
+   "top_score": 4.137151718139648,
+   "top5": [
+    [
+     "owasp/Infrastructure_as_Code_Security_Cheat_Sheet.md",
+     "Infrastructure as Code Security Cheatsheet › Introduction › Deploy; Infrastructure as Code Security Cheatsheet › Introduction › Runtime"
+    ],
+    [
+     "owasp/Infrastructure_as_Code_Security_Cheat_Sheet.md",
+     "Infrastructure as Code Security Cheatsheet › Introduction › Develop and Distribute"
+    ],
+    [
+     "owasp/C-Based_Toolchain_Hardening_Cheat_Sheet.md",
+     "C-Based Toolchain Hardening Cheat Sheet › Compiler and Linker › Clang/Xcode; C-Based Toolchain Hardening Cheat Sheet › Compiler and Linker › Visual Studio"
+    ],
+    [
+     "owasp/Injection_Prevention_Cheat_Sheet.md",
+     "Injection Prevention Cheat Sheet › Forms of Injection › Operating System Commands › How to test for the issue › During code review; Injection Prevention Cheat Sheet › Forms of Injection › Operating System Commands › Remediation"
+    ],
+    [
+     "owasp/Legacy_Application_Management_Cheat_Sheet.md",
+     "Legacy Application Management Cheat Sheet › Vulnerability Management; Legacy Application Management Cheat Sheet › Data Storage"
+    ]
+   ],
+   "first_relevant_rank": 2,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.5
+  },
+  {
+   "id": "g34",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 230.6,
+   "top_score": 5.5165510177612305,
+   "top5": [
+    [
+     "owasp/Vulnerability_Disclosure_Cheat_Sheet.md",
+     "Vulnerability Disclosure Cheat Sheet › Reporting Vulnerabilities › When to Give Up; Vulnerability Disclosure Cheat Sheet › Reporting Vulnerabilities › Publishing"
+    ],
+    [
+     "owasp/Vulnerability_Disclosure_Cheat_Sheet.md",
+     "Vulnerability Disclosure Cheat Sheet › Receiving Vulnerability Reports › Disclosure › Commercial and Open Source Software; Vulnerability Disclosure Cheat Sheet › Receiving Vulnerability Reports › Disclosure › Private Systems"
+    ],
+    [
+     "owasp/Vulnerability_Disclosure_Cheat_Sheet.md",
+     "Vulnerability Disclosure Cheat Sheet › Methods of Disclosure › Full Disclosure; Vulnerability Disclosure Cheat Sheet › Methods of Disclosure › Responsible or Coordinated Disclosure"
+    ],
+    [
+     "owasp/Vulnerability_Disclosure_Cheat_Sheet.md",
+     "Vulnerability Disclosure Cheat Sheet › Receiving Vulnerability Reports › Communicating With Researchers › Researchers Demanding Payment; Vulnerability Disclosure Cheat Sheet › Receiving Vulnerability Reports › Disclosure › Commercial and Open Source Software"
+    ],
+    [
+     "owasp/Virtual_Patching_Cheat_Sheet.md",
+     "Virtual Patching Cheat Sheet › Analysis Phase; Virtual Patching Cheat Sheet › Virtual Patch Creation Phase"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g36",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 224.1,
+   "top_score": 3.109658718109131,
+   "top5": [
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session Expiration"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session Expiration › Automatic Session Expiration › Absolute Timeout; Session Management Cheat Sheet › Session Expiration › Automatic Session Expiration › Renewal Timeout"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session Expiration › Automatic Session Expiration › Idle Timeout; Session Management Cheat Sheet › Session Expiration › Automatic Session Expiration › Absolute Timeout"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session Expiration › Automatic Session Expiration › Renewal Timeout"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session ID Life Cycle › Considerations When Using Multiple Cookies; Session Management Cheat Sheet › Session Expiration"
+    ]
+   ],
+   "first_relevant_rank": 2,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.5
+  },
+  {
+   "id": "g38",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 214.1,
+   "top_score": 1.4952099323272705,
+   "top5": [
+    [
+     "owasp/File_Upload_Cheat_Sheet.md",
+     "File Upload Cheat Sheet › File Upload Threats › Malicious Files; File Upload Cheat Sheet › File Upload Threats › Public File Retrieval; File Upload Cheat Sheet › File Upload Protection; File Upload Cheat Sheet › File Upload Protection › Extension Validation"
+    ],
+    [
+     "owasp/File_Upload_Cheat_Sheet.md",
+     "File Upload Cheat Sheet › File Upload Protection › Extension Validation; File Upload Cheat Sheet › File Upload Protection › Extension Validation › List Allowed Extensions; File Upload Cheat Sheet › File Upload Protection › Extension Validation › Block Extensions; File Upload Cheat Sheet › File Upload Protection › Content-Type Validation"
+    ],
+    [
+     "owasp/Logging_Cheat_Sheet.md",
+     "Logging Cheat Sheet › Attacks on Logs › Integrity; Logging Cheat Sheet › Attacks on Logs › Availability; Logging Cheat Sheet › Attacks on Logs › Accountability; Logging Cheat Sheet › References"
+    ],
+    [
+     "owasp/Abuse_Case_Cheat_Sheet.md",
+     "Abuse Case Cheat Sheet (Historical) › Introduction › Example of derivation of Abuse Cases as User Stories › A3:2017-Sensitive Data Exposure; Abuse Case Cheat Sheet (Historical) › Introduction › Example of derivation of Abuse Cases as User Stories › A4:2017-XML External Entities (XXE)"
+    ],
+    [
+     "owasp/File_Upload_Cheat_Sheet.md",
+     "File Upload Cheat Sheet › Introduction; File Upload Cheat Sheet › File Upload Threats; File Upload Cheat Sheet › File Upload Threats › Malicious Files"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "pt-g38",
+   "type": "paraphrase",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 260.7,
+   "top_score": -10.917882919311523,
+   "top5": [
+    [
+     "owasp/File_Upload_Cheat_Sheet.md",
+     "File Upload Cheat Sheet › File Upload Protection › File Storage Location; File Upload Cheat Sheet › File Upload Protection › User Permissions; File Upload Cheat Sheet › File Upload Protection › Filesystem Permissions; File Upload Cheat Sheet › File Upload Protection › Upload and Download Limits"
+    ],
+    [
+     "owasp/FastAPI_Security_Cheat_Sheet.md",
+     "FastAPI Security Cheat Sheet › Exception Handling and Information Leakage › Validation Error Leakage; FastAPI Security Cheat Sheet › File Upload Security; FastAPI Security Cheat Sheet › File Upload Security › Upload Protections; FastAPI Security Cheat Sheet › Rate Limiting; FastAPI Security Cheat Sheet › Rate Limiting › Mitigation Options; FastAPI Security Cheat Sheet › ASGI Server Hardening; FastAPI Security Cheat Sheet › ASGI Server Hardening › Deployment Configuration"
+    ],
+    [
+     "owasp/Injection_Prevention_Cheat_Sheet.md",
+     "Injection Prevention Cheat Sheet › Forms of Injection › Scripting languages; Injection Prevention Cheat Sheet › Forms of Injection › Operating System Commands; Injection Prevention Cheat Sheet › Forms of Injection › Operating System Commands › How to test for the issue › During code review"
+    ],
+    [
+     "owasp/File_Upload_Cheat_Sheet.md",
+     "File Upload Cheat Sheet › Introduction"
+    ],
+    [
+     "owasp/Logging_Vocabulary_Cheat_Sheet.md",
+     "Application Logging Vocabulary Cheat Sheet › Excessive Use [EXCESS] › excess_rate_limit_exceeded[userid,max]; Application Logging Vocabulary Cheat Sheet › Excessive Use [EXCESS] › excess_sessions_exceeded[userid,max]; Application Logging Vocabulary Cheat Sheet › File Upload [UPLOAD] › upload_complete[userid,filename,type]; Application Logging Vocabulary Cheat Sheet › File Upload [UPLOAD] › upload_stored[filename,from,to]; Application Logging Vocabulary Cheat Sheet › File Upload [UPLOAD] › upload_validation[filename,(virusscan|imagemagick|...):(FAILED|incomplete|passed)]"
+    ]
+   ],
+   "first_relevant_rank": null,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 0.0,
+   "mrr@10": 0.0
+  },
+  {
+   "id": "g39",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 260.8,
+   "top_score": 4.103299140930176,
+   "top5": [
+    [
+     "owasp/Server_Side_Template_Injection_Prevention_Cheat_Sheet.md",
+     "Server-Side Template Injection Prevention Cheat Sheet › Introduction"
+    ],
+    [
+     "owasp/Server_Side_Template_Injection_Prevention_Cheat_Sheet.md",
+     "Server-Side Template Injection Prevention Cheat Sheet › Prevention › Keep the render context minimal; Server-Side Template Injection Prevention Cheat Sheet › Prevention › Prefer the least powerful engine; Server-Side Template Injection Prevention Cheat Sheet › Prevention › Keep output escaping on; Server-Side Template Injection Prevention Cheat Sheet › Prevention › Find vulnerable template code"
+    ],
+    [
+     "owasp/Server_Side_Template_Injection_Prevention_Cheat_Sheet.md",
+     "Server-Side Template Injection Prevention Cheat Sheet › Introduction; Server-Side Template Injection Prevention Cheat Sheet › Prevention › Treat templates as code; Server-Side Template Injection Prevention Cheat Sheet › Prevention › Pass untrusted input only as data; Server-Side Template Injection Prevention Cheat Sheet › Prevention › Keep the render context minimal"
+    ],
+    [
+     "owasp/Java_Security_Cheat_Sheet.md",
+     "Java Security Cheat Sheet › Specific Injection types › Log Injection › Symptom; Java Security Cheat Sheet › Specific Injection types › Log Injection › How to prevent; Java Security Cheat Sheet › Specific Injection types › Log Injection › Example using Log4j Core 2"
+    ],
+    [
+     "owasp/Web_Frontend_Security_Cheat_Sheet.md",
+     "Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Don't rely on client business logic; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Avoid writing serialization code; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Avoid building XML or JSON dynamically; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Never transmit secrets to the client; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Choose encryption for the threat model; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Don't perform security impacting logic on client-side"
+    ]
+   ],
+   "first_relevant_rank": 9,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.1111111111111111
+  },
+  {
+   "id": "g41",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 221.4,
+   "top_score": 6.477090835571289,
+   "top5": [
+    [
+     "owasp/Threat_Modeling_Cheat_Sheet.md",
+     "Threat Modeling Cheat Sheet › Addressing Each Question › Threat Identification; Threat Modeling Cheat Sheet › Addressing Each Question › Threat Identification › Choosing a Threat Modeling Technique"
+    ],
+    [
+     "owasp/Threat_Modeling_Cheat_Sheet.md",
+     "Threat Modeling Cheat Sheet › Addressing Each Question › Threat Identification; Threat Modeling Cheat Sheet › Addressing Each Question › Threat Identification › Choosing a Threat Modeling Technique"
+    ],
+    [
+     "owasp/Threat_Modeling_Cheat_Sheet.md",
+     "Threat Modeling Cheat Sheet › Advantages › Identify Risks Early On; Threat Modeling Cheat Sheet › Advantages › Increased Security Awareness; Threat Modeling Cheat Sheet › Advantages › Improved Visibility of Target of Evaluation (TOE); Threat Modeling Cheat Sheet › Addressing Each Question"
+    ],
+    [
+     "owasp/Threat_Modeling_Cheat_Sheet.md",
+     "Threat Modeling Cheat Sheet › Addressing Each Question; Threat Modeling Cheat Sheet › Addressing Each Question › System Modeling"
+    ],
+    [
+     "owasp/Threat_Modeling_Cheat_Sheet.md",
+     "Threat Modeling Cheat Sheet › Addressing Each Question › Threat Identification"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "pt-g41",
+   "type": "exact",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 240.8,
+   "top_score": -10.661016464233398,
+   "top5": [
+    [
+     "owasp/AI-Powered_Advertising_Systems_Security_Cheat_Sheet.md",
+     "AI-Powered Advertising Systems Security Cheat Sheet › 5. Protect the AI Supply Chain and Generative Provenance"
+    ],
+    [
+     "owasp/Mass_Assignment_Cheat_Sheet.md",
+     "Mass Assignment Cheat Sheet › Introduction › GitHub case study; Mass Assignment Cheat Sheet › Introduction › Solutions; Mass Assignment Cheat Sheet › General Solutions; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Spring MVC › Allow-listing; Mass Assignment Cheat Sheet › Language & Framework specific solutions › Spring MVC › Block-listing"
+    ],
+    [
+     "owasp/Threat_Modeling_Cheat_Sheet.md",
+     "Threat Modeling Cheat Sheet › Addressing Each Question › System Modeling; Threat Modeling Cheat Sheet › Addressing Each Question › Cloud Threat Modeling"
+    ],
+    [
+     "owasp/Secure_AI_Model_Ops_Cheat_Sheet.md",
+     "Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 1. Model Development & Training; Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 2. Secrets & Configurations; Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 3. Model Storage & Artifacts; Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 4. Inference API Security; Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 5. Deployment & Infrastructure"
+    ],
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › INTRODUCTION: What Is Kubernetes?; Kubernetes Security Cheat Sheet › INTRODUCTION: What Is Kubernetes? › Control Plane Components; Kubernetes Security Cheat Sheet › INTRODUCTION: What Is Kubernetes? › Node Components"
+    ]
+   ],
+   "first_relevant_rank": null,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 0.0,
+   "mrr@10": 0.0
+  },
+  {
+   "id": "g42",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 251.3,
+   "top_score": 5.102762222290039,
+   "top5": [
+    [
+     "owasp/DOM_based_XSS_Prevention_Cheat_Sheet.md",
+     "DOM based XSS Prevention Cheat Sheet › RULE \\#7 - Fixing DOM Cross-site Scripting Vulnerabilities; DOM based XSS Prevention Cheat Sheet › Guidelines for Developing Secure Applications Utilizing JavaScript; DOM based XSS Prevention Cheat Sheet › Guidelines for Developing Secure Applications Utilizing JavaScript › GUIDELINE \\#1 - Untrusted data should only be treated as displayable text"
+    ],
+    [
+     "owasp/Web_Frontend_Security_Cheat_Sheet.md",
+     "Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use `innerHTML` with extreme caution › What is `innerHTML`?; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use `innerHTML` with extreme caution › Why does `innerHTML` require extreme caution?; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use `innerHTML` with extreme caution › Why does `innerHTML` require extreme caution? › Vulnerable Example; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use `innerHTML` with extreme caution › When is `innerHTML` acceptable?"
+    ],
+    [
+     "owasp/Web_Frontend_Security_Cheat_Sheet.md",
+     "Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use `innerHTML` with extreme caution › When is `innerHTML` acceptable?; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use `innerHTML` with extreme caution › Alternatives; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use of `textContent` or `innerText` for DOM updates (for text-only content); Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use of `textContent` or `innerText` for DOM updates (for text-only content) › What is `textContent`?; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use of `textContent` or `innerText` for DOM updates (for text-only content) › What is `innerText`?"
+    ],
+    [
+     "owasp/Browser_Extension_Vulnerabilities_Cheat_Sheet.md",
+     "Browser Extension Security Vulnerabilities Cheat Sheet › 2. Data Leakage › Mitigation: Data Leakage; Browser Extension Security Vulnerabilities Cheat Sheet › 3. Cross-Site Scripting (XSS) › Vulnerability: Cross-Site Scripting (XSS); Browser Extension Security Vulnerabilities Cheat Sheet › 3. Cross-Site Scripting (XSS) › Example: Cross-Site Scripting (XSS); Browser Extension Security Vulnerabilities Cheat Sheet › 3. Cross-Site Scripting (XSS) › Mitigation: Cross-Site Scripting (XSS); Browser Extension Security Vulnerabilities Cheat Sheet › 4. Insecure Communication › Vulnerability: Insecure Communication; Browser Extension Security Vulnerabilities Cheat Sheet › 4. Insecure Communication › Example: Insecure Communication; Browser Extension Security Vulnerabilities Cheat Sheet › 4. Insecure Communication › Mitigation: Insecure Communication; Browser Extension Security Vulnerabilities Cheat Sheet › 5. Code Injection › Vulnerability: Code Injection; Browser Extension Security Vulnerabilities Cheat Sheet › 5. Code Injection › Example: Code Injection; Browser Extension Security Vulnerabilities Cheat Sheet › 5. Code Injection › Mitigation: Code Injection"
+    ],
+    [
+     "owasp/Web_Frontend_Security_Cheat_Sheet.md",
+     "Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use of `textContent` or `innerText` for DOM updates (for text-only content) › What is `textContent`?; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use of `textContent` or `innerText` for DOM updates (for text-only content) › What is `innerText`?; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use of `textContent` or `innerText` for DOM updates (for text-only content) › When to Use `textContent` vs. `innerText`; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Use of `textContent` or `innerText` for DOM updates (for text-only content) › Note; Web Frontend Security Cheat Sheet › Introduction › Client-Side (JavaScript) › Don't use `eval()`, `new Function()` or other code evaluation tools"
+    ]
+   ],
+   "first_relevant_rank": 2,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.5
+  },
+  {
+   "id": "g43",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 255.0,
+   "top_score": -2.7061519622802734,
+   "top5": [
+    [
+     "owasp/Secure_AI_Model_Ops_Cheat_Sheet.md",
+     "Secure AI/ML Model Ops Cheat Sheet › Introduction; Secure AI/ML Model Ops Cheat Sheet › Common Security Issues"
+    ],
+    [
+     "owasp/REST_Security_Cheat_Sheet.md",
+     "REST Security Cheat Sheet › JWT; REST Security Cheat Sheet › API Keys; REST Security Cheat Sheet › Restrict HTTP methods"
+    ],
+    [
+     "owasp/Secure_Coding_with_AI_Cheat_Sheet.md",
+     "Secure Coding with AI Cheat Sheet › Section 8: Test Fabrication and Test Deletion › Do; Secure Coding with AI Cheat Sheet › Section 8: Test Fabrication and Test Deletion › Don't; Secure Coding with AI Cheat Sheet › Section 9: Prompt Context Leakage and Sensitive Code Exposure; Secure Coding with AI Cheat Sheet › Section 9: Prompt Context Leakage and Sensitive Code Exposure › Do"
+    ],
+    [
+     "owasp/GitHub_Actions_Security_Cheat_Sheet.md",
+     "GitHub Actions Security Cheat Sheet › Prevent artifact poisoning; GitHub Actions Security Cheat Sheet › Be careful with AI assistant running in CI/CD pipeline; GitHub Actions Security Cheat Sheet › Write Secure GitHub Workflows; GitHub Actions Security Cheat Sheet › Write Secure GitHub Workflows › Avoid dangerous triggers › Avoid using the `pull_request_target` trigger"
+    ],
+    [
+     "owasp/Browser_Extension_Vulnerabilities_Cheat_Sheet.md",
+     "Browser Extension Security Vulnerabilities Cheat Sheet › 9. Insecure Storage › Mitigation: Insecure Storage; Browser Extension Security Vulnerabilities Cheat Sheet › 10. Insufficient Privacy Controls › Vulnerability: Insufficient Privacy Controls; Browser Extension Security Vulnerabilities Cheat Sheet › 10. Insufficient Privacy Controls › Example: Insufficient Privacy Controls; Browser Extension Security Vulnerabilities Cheat Sheet › 10. Insufficient Privacy Controls › Mitigation: Insufficient Privacy Controls; Browser Extension Security Vulnerabilities Cheat Sheet › 11. DOM-based Data Skimming › Vulnerability: DOM-based Data Skimming; Browser Extension Security Vulnerabilities Cheat Sheet › 11. DOM-based Data Skimming › Example: DOM-based Data Skimming"
+    ]
+   ],
+   "first_relevant_rank": 14,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.0
+  },
+  {
+   "id": "g44",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 227.0,
+   "top_score": 4.497827053070068,
+   "top5": [
+    [
+     "owasp/LLM_Prompt_Injection_Prevention_Cheat_Sheet.md",
+     "LLM Prompt Injection Prevention Cheat Sheet › Additional Defenses › Model-Based Guardrails"
+    ],
+    [
+     "owasp/LLM_Prompt_Injection_Prevention_Cheat_Sheet.md",
+     "LLM Prompt Injection Prevention Cheat Sheet › Introduction; LLM Prompt Injection Prevention Cheat Sheet › Anatomy of Prompt Injection Vulnerabilities; LLM Prompt Injection Prevention Cheat Sheet › Common Attack Types › Direct Prompt Injection; LLM Prompt Injection Prevention Cheat Sheet › Common Attack Types › Remote/Indirect Prompt Injection"
+    ],
+    [
+     "owasp/Nodejs_Security_Cheat_Sheet.md",
+     "NodeJS Security Cheat Sheet › Recommendations › Application Security › Perform input validation"
+    ],
+    [
+     "owasp/Secure_AI_Model_Ops_Cheat_Sheet.md",
+     "Secure AI/ML Model Ops Cheat Sheet › Introduction; Secure AI/ML Model Ops Cheat Sheet › Common Security Issues"
+    ],
+    [
+     "owasp/RAG_Security_Cheat_Sheet.md",
+     "Retrieval-Augmented Generation (RAG) Security Cheat Sheet › Section 1: Document Poisoning › Attack Vectors; Retrieval-Augmented Generation (RAG) Security Cheat Sheet › Section 1: Document Poisoning › Do; Retrieval-Augmented Generation (RAG) Security Cheat Sheet › Section 1: Document Poisoning › Don't"
+    ]
+   ],
+   "first_relevant_rank": 15,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.0
+  },
+  {
+   "id": "g45",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 258.3,
+   "top_score": 6.620662212371826,
+   "top5": [
+    [
+     "owasp/Clickjacking_Defense_Cheat_Sheet.md",
+     "Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › The onBeforeUnload Event; Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › No-Content Flushing; Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › Restricted zones"
+    ],
+    [
+     "owasp/Clickjacking_Defense_Cheat_Sheet.md",
+     "Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › Double Framing; Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › The onBeforeUnload Event; Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › No-Content Flushing"
+    ],
+    [
+     "owasp/NodeJS_Docker_Cheat_Sheet.md",
+     "Node.js Docker Cheat Sheet › 6) Graceful tear down for your Node.js web applications; Node.js Docker Cheat Sheet › 7) Find and fix security vulnerabilities in your Node.js docker image; Node.js Docker Cheat Sheet › 8) Use multi-stage builds; Node.js Docker Cheat Sheet › 8) Use multi-stage builds › Prevent sensitive information leak"
+    ],
+    [
+     "owasp/NodeJS_Docker_Cheat_Sheet.md",
+     "Node.js Docker Cheat Sheet › 6) Graceful tear down for your Node.js web applications"
+    ],
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Fetch Metadata headers › Requirements; Cross-Site Request Forgery Prevention Cheat Sheet › Fetch Metadata headers › Concerns; Cross-Site Request Forgery Prevention Cheat Sheet › Fetch Metadata headers › Rollout & testing recommendations"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "pt-g45",
+   "type": "exact",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 264.7,
+   "top_score": -8.95063304901123,
+   "top5": [
+    [
+     "owasp/Clickjacking_Defense_Cheat_Sheet.md",
+     "Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › The onBeforeUnload Event; Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › No-Content Flushing; Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › Restricted zones"
+    ],
+    [
+     "owasp/Clickjacking_Defense_Cheat_Sheet.md",
+     "Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › Double Framing; Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › The onBeforeUnload Event; Clickjacking Defense Cheat Sheet › Insecure Non-Working Scripts DO NOT USE › No-Content Flushing"
+    ],
+    [
+     "owasp/NodeJS_Docker_Cheat_Sheet.md",
+     "Node.js Docker Cheat Sheet › 6) Graceful tear down for your Node.js web applications; Node.js Docker Cheat Sheet › 7) Find and fix security vulnerabilities in your Node.js docker image; Node.js Docker Cheat Sheet › 8) Use multi-stage builds; Node.js Docker Cheat Sheet › 8) Use multi-stage builds › Prevent sensitive information leak"
+    ],
+    [
+     "owasp/NodeJS_Docker_Cheat_Sheet.md",
+     "Node.js Docker Cheat Sheet › 6) Graceful tear down for your Node.js web applications"
+    ],
+    [
+     "owasp/HTTP_Headers_Cheat_Sheet.md",
+     "HTTP Security Response Headers Cheat Sheet › Adding HTTP Headers in Different Technologies › Apache; HTTP Security Response Headers Cheat Sheet › Adding HTTP Headers in Different Technologies › IIS; HTTP Security Response Headers Cheat Sheet › Adding HTTP Headers in Different Technologies › HAProxy; HTTP Security Response Headers Cheat Sheet › Adding HTTP Headers in Different Technologies › Nginx; HTTP Security Response Headers Cheat Sheet › Adding HTTP Headers in Different Technologies › Express; HTTP Security Response Headers Cheat Sheet › Testing Proper Implementation of Security Headers › Mozilla Observatory; HTTP Security Response Headers Cheat Sheet › Testing Proper Implementation of Security Headers › SmartScanner"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g46",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 248.0,
+   "top_score": 8.233122825622559,
+   "top5": [
+    [
+     "owasp/NPM_Security_Cheat_Sheet.md",
+     "NPM Security best practices › 8) Enable 2FA"
+    ],
+    [
+     "owasp/NPM_Security_Cheat_Sheet.md",
+     "NPM Security best practices › 8) Enable 2FA; NPM Security best practices › Additional Security Resources; NPM Security best practices › 9) Minimize npm Access Token Use; NPM Security best practices › 10) Understanding typosquatting and slopsquatting attacks › Typosquatting attacks"
+    ],
+    [
+     "owasp/NPM_Security_Cheat_Sheet.md",
+     "NPM Security best practices › 6) Artifact governance and supply chain protections › Governance & Verification Steps; NPM Security best practices › 7) Responsibly disclose security vulnerabilities; NPM Security best practices › 8) Enable 2FA"
+    ],
+    [
+     "owasp/NPM_Security_Cheat_Sheet.md",
+     "NPM Security best practices › 10) Understanding typosquatting and slopsquatting attacks › Slopsquatting attacks; NPM Security best practices › 11) Use trusted publishers for secure package publishing; NPM Security best practices › 11) Use trusted publishers for secure package publishing › How trusted publishing works"
+    ],
+    [
+     "owasp/NPM_Security_Cheat_Sheet.md",
+     "NPM Security best practices › 4) Assess npm project health › npm doctor command; NPM Security best practices › 5) Audit for vulnerabilities in open source dependencies"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g47",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 282.1,
+   "top_score": 2.863788604736328,
+   "top5": [
+    [
+     "owasp/XML_Security_Cheat_Sheet.md",
+     "XML Security Cheat Sheet › Dealing with malformed XML documents › Applications Processing Malformed Data › Well-Formed Document to Well-Formed Document Normalized; XML Security Cheat Sheet › Dealing with malformed XML documents › Handling coercive parsing; XML Security Cheat Sheet › Violation of XML Specification Rules"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › .NET; XML External Entity Prevention Cheat Sheet › .NET › Overview of .NET Parser Safety Levels; XML External Entity Prevention Cheat Sheet › .NET › Overview of .NET Parser Safety Levels › XDocument (LINQ to XML) default safety levels; XML External Entity Prevention Cheat Sheet › .NET › Overview of .NET Parser Safety Levels › XmlDocument, XmlTextReader, XPathNavigator default safety levels"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › .NET › XmlDictionaryReader; XML External Entity Prevention Cheat Sheet › .NET › XmlDocument; XML External Entity Prevention Cheat Sheet › .NET › XmlNodeReader"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › .NET › ASP.NET; XML External Entity Prevention Cheat Sheet › .NET › LINQ to XML; XML External Entity Prevention Cheat Sheet › .NET › XmlDictionaryReader"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › General Guidance; XML External Entity Prevention Cheat Sheet › C/C++ › libxml2; XML External Entity Prevention Cheat Sheet › C/C++ › libxerces-c; XML External Entity Prevention Cheat Sheet › ColdFusion; XML External Entity Prevention Cheat Sheet › ColdFusion › Adobe ColdFusion"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "pt-g47",
+   "type": "exact",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 290.9,
+   "top_score": -6.917009353637695,
+   "top5": [
+    [
+     "owasp/XML_Security_Cheat_Sheet.md",
+     "XML Security Cheat Sheet › Dealing with malformed XML documents › Applications Processing Malformed Data › Well-Formed Document to Well-Formed Document Normalized; XML Security Cheat Sheet › Dealing with malformed XML documents › Handling coercive parsing; XML Security Cheat Sheet › Violation of XML Specification Rules"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › General Guidance; XML External Entity Prevention Cheat Sheet › C/C++ › libxml2; XML External Entity Prevention Cheat Sheet › C/C++ › libxerces-c; XML External Entity Prevention Cheat Sheet › ColdFusion; XML External Entity Prevention Cheat Sheet › ColdFusion › Adobe ColdFusion"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › .NET; XML External Entity Prevention Cheat Sheet › .NET › Overview of .NET Parser Safety Levels; XML External Entity Prevention Cheat Sheet › .NET › Overview of .NET Parser Safety Levels › XDocument (LINQ to XML) default safety levels; XML External Entity Prevention Cheat Sheet › .NET › Overview of .NET Parser Safety Levels › XmlDocument, XmlTextReader, XPathNavigator default safety levels"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › Introduction; XML External Entity Prevention Cheat Sheet › General Guidance; XML External Entity Prevention Cheat Sheet › C/C++ › libxml2"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › PHP; XML External Entity Prevention Cheat Sheet › Python"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g48",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 242.7,
+   "top_score": 1.4823135137557983,
+   "top5": [
+    [
+     "owasp/Authentication_Cheat_Sheet.md",
+     "Authentication Cheat Sheet › Use of authentication protocols that require no password › FIDO; Authentication Cheat Sheet › Use of authentication protocols that require no password › FIDO › Hardware-backed Key Storage; Authentication Cheat Sheet › Password Managers"
+    ],
+    [
+     "owasp/Zero_Trust_Architecture_Cheat_Sheet.md",
+     "Zero Trust Architecture Cheat Sheet › How Zero Trust Addresses Modern Security Challenges › ZTA Decision-Making in Action › What These Cases Show; Zero Trust Architecture Cheat Sheet › Identity and Access Management › Multi-Factor Authentication (MFA); Zero Trust Architecture Cheat Sheet › Identity and Access Management › Managing User Accounts"
+    ],
+    [
+     "owasp/Key_Management_Cheat_Sheet.md",
+     "Key Management Cheat Sheet › Key Selection; Key Management Cheat Sheet › Key Selection › Algorithms and Protocols"
+    ],
+    [
+     "owasp/Credential_Stuffing_Prevention_Cheat_Sheet.md",
+     "Credential Stuffing Prevention Cheat Sheet › Multi-Factor Authentication"
+    ],
+    [
+     "owasp/Key_Management_Cheat_Sheet.md",
+     "Key Management Cheat Sheet › Key Management Lifecycle Best Practices › Key Compromise and Recovery"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g49",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 219.7,
+   "top_score": 7.253289222717285,
+   "top5": [
+    [
+     "owasp/Mobile_Application_Security_Cheat_Sheet.md",
+     "Mobile Application Security Cheat Sheet › Platform-Specific Guidance › iOS and iPadOS › Shortcuts Permissions; Mobile Application Security Cheat Sheet › Platform-Specific Guidance › iOS and iPadOS › Siri Permissions"
+    ],
+    [
+     "owasp/Mobile_Application_Security_Cheat_Sheet.md",
+     "Mobile Application Security Cheat Sheet › Platform-Specific Guidance › iOS and iPadOS › Siri Permissions; Mobile Application Security Cheat Sheet › Platform-Specific Guidance › iOS and iPadOS › Deep Link Security"
+    ],
+    [
+     "owasp/Mobile_Application_Security_Cheat_Sheet.md",
+     "Mobile Application Security Cheat Sheet › Platform-Specific Guidance › iOS and iPadOS › Deep Link Security; Mobile Application Security Cheat Sheet › Platform-Specific Guidance › iOS and iPadOS › WidgetKit Security; Mobile Application Security Cheat Sheet › Platform-Specific Guidance › iOS and iPadOS › Additional Security Considerations"
+    ],
+    [
+     "owasp/Mobile_Application_Security_Cheat_Sheet.md",
+     "Mobile Application Security Cheat Sheet › Platform-Specific Guidance › Android; Mobile Application Security Cheat Sheet › Platform-Specific Guidance › iOS and iPadOS › Shortcuts Permissions"
+    ],
+    [
+     "owasp/Mobile_Application_Security_Cheat_Sheet.md",
+     "Mobile Application Security Cheat Sheet › Post-Deployment › 2. Updates; Mobile Application Security Cheat Sheet › Post-Deployment › 3. Monitoring and Analytics; Mobile Application Security Cheat Sheet › Platform-Specific Guidance › Android; Mobile Application Security Cheat Sheet › Platform-Specific Guidance › iOS and iPadOS › Shortcuts Permissions"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g50",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 229.6,
+   "top_score": 1.9348558187484741,
+   "top5": [
+    [
+     "owasp/Passkey_Security_Cheat_Sheet.md",
+     "Passkey Security Cheat Sheet › Understand the Security Model › Choose the RP ID Carefully; Passkey Security Cheat Sheet › Understand the Security Model › Use a Maintained Library; Passkey Security Cheat Sheet › Secure Passkey Registration › Establish an Authorized Account Context"
+    ],
+    [
+     "owasp/Bot_Management_and_Anti-Automation_Cheat_Sheet.md",
+     "Bot Management and Anti-Automation Cheat Sheet › CAPTCHA and Its Modern Alternatives; Bot Management and Anti-Automation Cheat Sheet › Honeypots and Tarpits"
+    ],
+    [
+     "owasp/Authentication_Cheat_Sheet.md",
+     "Authentication Cheat Sheet › Use of authentication protocols that require no password › FIDO; Authentication Cheat Sheet › Use of authentication protocols that require no password › FIDO › Hardware-backed Key Storage; Authentication Cheat Sheet › Password Managers"
+    ],
+    [
+     "owasp/Passkey_Security_Cheat_Sheet.md",
+     "Passkey Security Cheat Sheet › Introduction; Passkey Security Cheat Sheet › Understand the Security Model › Components and Terms"
+    ],
+    [
+     "owasp/Passkey_Security_Cheat_Sheet.md",
+     "Passkey Security Cheat Sheet › Secure Passkey Registration › Establish an Authorized Account Context; Passkey Security Cheat Sheet › Secure Passkey Registration › Generate and Bind Registration Options"
+    ]
+   ],
+   "first_relevant_rank": 7,
+   "recall@1": 0.0,
+   "recall@5": 0.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.14285714285714285
+  },
+  {
+   "id": "g51",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 278.9,
+   "top_score": 8.062664985656738,
+   "top5": [
+    [
+     "owasp/NodeJS_Docker_Cheat_Sheet.md",
+     "Node.js Docker Cheat Sheet › 9) Keeping unnecessary files out of your Node.js Docker images; Node.js Docker Cheat Sheet › 10) Mounting secrets into the Docker build image"
+    ],
+    [
+     "owasp/NodeJS_Docker_Cheat_Sheet.md",
+     "Node.js Docker Cheat Sheet › 8) Use multi-stage builds › Prevent sensitive information leak; Node.js Docker Cheat Sheet › 8) Use multi-stage builds › Introducing multi-stage builds for Node.js Docker images"
+    ],
+    [
+     "owasp/NodeJS_Docker_Cheat_Sheet.md",
+     "Node.js Docker Cheat Sheet › 9) Keeping unnecessary files out of your Node.js Docker images"
+    ],
+    [
+     "owasp/NodeJS_Docker_Cheat_Sheet.md",
+     "Node.js Docker Cheat Sheet › 8) Use multi-stage builds › Introducing multi-stage builds for Node.js Docker images; Node.js Docker Cheat Sheet › 9) Keeping unnecessary files out of your Node.js Docker images"
+    ],
+    [
+     "owasp/NodeJS_Docker_Cheat_Sheet.md",
+     "Node.js Docker Cheat Sheet › 1) Use explicit and deterministic Docker base image tags › FROM node"
+    ]
+   ],
+   "first_relevant_rank": 2,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.5
+  },
+  {
+   "id": "g52",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 271.0,
+   "top_score": 7.473507881164551,
+   "top5": [
+    [
+     "owasp/Virtual_Patching_Cheat_Sheet.md",
+     "Virtual Patching Cheat Sheet › Preparation Phase"
+    ],
+    [
+     "owasp/Virtual_Patching_Cheat_Sheet.md",
+     "Virtual Patching Cheat Sheet › Virtual Patch Creation Phase › Manual Virtual Patch Creation › Positive Security (Allow List) Virtual Patches (**Recommended Solution**); Virtual Patching Cheat Sheet › Virtual Patch Creation Phase › Manual Virtual Patch Creation › Positive Security (Allow List) Virtual Patches (**Recommended Solution**) › Example Allow List ModSecurity Virtual Patch"
+    ],
+    [
+     "owasp/Virtual_Patching_Cheat_Sheet.md",
+     "Virtual Patching Cheat Sheet › Identification Phase › Reactive Identification; Virtual Patching Cheat Sheet › Analysis Phase"
+    ],
+    [
+     "owasp/Virtual_Patching_Cheat_Sheet.md",
+     "Virtual Patching Cheat Sheet › Analysis Phase; Virtual Patching Cheat Sheet › Virtual Patch Creation Phase; Virtual Patching Cheat Sheet › Virtual Patch Creation Phase › Manual Virtual Patch Creation › Positive Security (Allow List) Virtual Patches (**Recommended Solution**); Virtual Patching Cheat Sheet › Virtual Patch Creation Phase › Manual Virtual Patch Creation › Positive Security (Allow List) Virtual Patches (**Recommended Solution**) › Example Allow List ModSecurity Virtual Patch"
+    ],
+    [
+     "owasp/Virtual_Patching_Cheat_Sheet.md",
+     "Virtual Patching Cheat Sheet › Virtual Patch Creation Phase › Manual Virtual Patch Creation › Positive Security (Allow List) Virtual Patches (**Recommended Solution**) › Example Allow List ModSecurity Virtual Patch; Virtual Patching Cheat Sheet › Virtual Patch Creation Phase › Manual Virtual Patch Creation › Negative Security (Block List) Virtual Patches; Virtual Patching Cheat Sheet › Virtual Patch Creation Phase › Manual Virtual Patch Creation › Negative Security (Block List) Virtual Patches › Example Block List ModSecurity Virtual Patch; Virtual Patching Cheat Sheet › Virtual Patch Creation Phase › Manual Virtual Patch Creation › Which Method is Better for Virtual Patching – Positive or Negative Security"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g53",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 201.7,
+   "top_score": 7.111054420471191,
+   "top5": [
+    [
+     "owasp/Denial_of_Service_Cheat_Sheet.md",
+     "Denial of Service Cheat Sheet › Introduction › Analyzing DoS attack surfaces; Denial of Service Cheat Sheet › Introduction › Analyzing DoS attack surfaces › 1) Overview of potential DoS weaknesses"
+    ],
+    [
+     "owasp/Denial_of_Service_Cheat_Sheet.md",
+     "Denial of Service Cheat Sheet › Application attacks; Denial of Service Cheat Sheet › Application attacks › Software Design Concepts"
+    ],
+    [
+     "owasp/Denial_of_Service_Cheat_Sheet.md",
+     "Denial of Service Cheat Sheet › Introduction; Denial of Service Cheat Sheet › Introduction › Fundamentals"
+    ],
+    [
+     "owasp/Denial_of_Service_Cheat_Sheet.md",
+     "Denial of Service Cheat Sheet › Application attacks › Software Design Concepts; Denial of Service Cheat Sheet › Application attacks › Session"
+    ],
+    [
+     "owasp/Denial_of_Service_Cheat_Sheet.md",
+     "Denial of Service Cheat Sheet › Introduction › Fundamentals; Denial of Service Cheat Sheet › Introduction › Analyzing DoS attack surfaces; Denial of Service Cheat Sheet › Introduction › Analyzing DoS attack surfaces › 1) Overview of potential DoS weaknesses"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g55",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 223.5,
+   "top_score": 5.708009719848633,
+   "top5": [
+    [
+     "owasp/Threat_Modeling_Cheat_Sheet.md",
+     "Threat Modeling Cheat Sheet › Addressing Each Question › Cloud Threat Modeling; Threat Modeling Cheat Sheet › Addressing Each Question › Threat Identification"
+    ],
+    [
+     "owasp/Secure_Cloud_Architecture_Cheat_Sheet.md",
+     "Cloud Architecture Security Cheat Sheet › Security Tooling › Logging & Monitoring › Monitoring; Cloud Architecture Security Cheat Sheet › Security Tooling › DDoS Protection; Cloud Architecture Security Cheat Sheet › Shared Responsibility Model"
+    ],
+    [
+     "owasp/Secure_Cloud_Architecture_Cheat_Sheet.md",
+     "Cloud Architecture Security Cheat Sheet › Shared Responsibility Model; Cloud Architecture Security Cheat Sheet › Shared Responsibility Model › IaaS"
+    ],
+    [
+     "owasp/Secure_Cloud_Architecture_Cheat_Sheet.md",
+     "Cloud Architecture Security Cheat Sheet › Shared Responsibility Model › Self-managed tooling › Avoid Gaps in Managed Service Security; Cloud Architecture Security Cheat Sheet › References"
+    ],
+    [
+     "owasp/Secure_Cloud_Architecture_Cheat_Sheet.md",
+     "Cloud Architecture Security Cheat Sheet › Shared Responsibility Model › SaaS; Cloud Architecture Security Cheat Sheet › Shared Responsibility Model › Self-managed tooling; Cloud Architecture Security Cheat Sheet › Shared Responsibility Model › Self-managed tooling › Update Strategy for Self-managed Services"
+    ]
+   ],
+   "first_relevant_rank": 2,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.5
+  },
+  {
+   "id": "pt-g55",
+   "type": "exact",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 243.4,
+   "top_score": -11.319009780883789,
+   "top5": [
+    [
+     "owasp/Secure_AI_Model_Ops_Cheat_Sheet.md",
+     "Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 6. Runtime & Hardware Isolation; Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 7. Monitoring & Logging; Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 8. Adversarial Robustness; Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 9. Incident Response & Governance; Secure AI/ML Model Ops Cheat Sheet › References"
+    ],
+    [
+     "owasp/Threat_Modeling_Cheat_Sheet.md",
+     "Threat Modeling Cheat Sheet › Addressing Each Question › Cloud Threat Modeling; Threat Modeling Cheat Sheet › Addressing Each Question › Threat Identification"
+    ],
+    [
+     "owasp/Secure_Cloud_Architecture_Cheat_Sheet.md",
+     "Cloud Architecture Security Cheat Sheet › Security Tooling › Logging & Monitoring › Monitoring; Cloud Architecture Security Cheat Sheet › Security Tooling › DDoS Protection; Cloud Architecture Security Cheat Sheet › Shared Responsibility Model"
+    ],
+    [
+     "owasp/Secure_AI_Model_Ops_Cheat_Sheet.md",
+     "Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 8. Adversarial Robustness; Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 9. Incident Response & Governance; Secure AI/ML Model Ops Cheat Sheet › References"
+    ],
+    [
+     "owasp/Secure_Cloud_Architecture_Cheat_Sheet.md",
+     "Cloud Architecture Security Cheat Sheet › Shared Responsibility Model; Cloud Architecture Security Cheat Sheet › Shared Responsibility Model › IaaS"
+    ]
+   ],
+   "first_relevant_rank": 3,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.3333333333333333
+  },
+  {
+   "id": "g56",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 262.4,
+   "top_score": 4.728125095367432,
+   "top5": [
+    [
+     "owasp/Database_Security_Cheat_Sheet.md",
+     "Database Security Cheat Sheet › Introduction; Database Security Cheat Sheet › Protecting the Backend Database"
+    ],
+    [
+     "owasp/Database_Security_Cheat_Sheet.md",
+     "Database Security Cheat Sheet › Creating Secure Permissions; Database Security Cheat Sheet › Database Configuration and Hardening; Database Security Cheat Sheet › Database Configuration and Hardening › Hardening a Microsoft SQL Server; Database Security Cheat Sheet › Database Configuration and Hardening › Hardening a MySQL or a MariaDB Server"
+    ],
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › SECTION 2: Securing Kubernetes Components › Restricting Access To etcd (IMPORTANT); Kubernetes Security Cheat Sheet › SECTION 2: Securing Kubernetes Components › Restricting Access To etcd (IMPORTANT) › Limiting access to the primary etcd instance; Kubernetes Security Cheat Sheet › SECTION 2: Securing Kubernetes Components › Controlling Network Access to Sensitive Ports"
+    ],
+    [
+     "owasp/Database_Security_Cheat_Sheet.md",
+     "Database Security Cheat Sheet › Creating Secure Permissions; Database Security Cheat Sheet › Database Configuration and Hardening"
+    ],
+    [
+     "owasp/Micro_Frontend_Security_Cheat_Sheet.md",
+     "Micro-Frontend Security Cheat Sheet › Enforce Backend Authorization and Limit Shared Data › Keep Sensitive State Out of Shared Runtimes; Micro-Frontend Security Cheat Sheet › References"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g57",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 278.8,
+   "top_score": 3.2023730278015137,
+   "top5": [
+    [
+     "owasp/gRPC_Security_Cheat_Sheet.md",
+     "gRPC Security Cheat Sheet › Input Validation and Data Security › Validate All Protocol Buffer Messages; gRPC Security Cheat Sheet › Input Validation and Data Security › Prevent Injection Attacks; gRPC Security Cheat Sheet › Input Validation and Data Security › Implement Message Size Limits; gRPC Security Cheat Sheet › Rate Limiting and Resource Protection › Implement Request Rate Limiting"
+    ],
+    [
+     "owasp/gRPC_Security_Cheat_Sheet.md",
+     "gRPC Security Cheat Sheet › Input Validation and Data Security › Implement Message Size Limits; gRPC Security Cheat Sheet › Rate Limiting and Resource Protection › Implement Request Rate Limiting"
+    ],
+    [
+     "owasp/gRPC_Security_Cheat_Sheet.md",
+     "gRPC Security Cheat Sheet › Testing and Validation › Perform gRPC Security Testing; gRPC Security Cheat Sheet › Testing and Validation › Security Assessment Guidelines; gRPC Security Cheat Sheet › Language-Specific Considerations › Go; gRPC Security Cheat Sheet › Language-Specific Considerations › Java; gRPC Security Cheat Sheet › Language-Specific Considerations › Python; gRPC Security Cheat Sheet › Language-Specific Considerations › C# (.NET)"
+    ],
+    [
+     "owasp/gRPC_Security_Cheat_Sheet.md",
+     "gRPC Security Cheat Sheet › Service Discovery and Reflection › Secure Service Discovery; gRPC Security Cheat Sheet › Monitoring and Incident Response › Implement Security Monitoring; gRPC Security Cheat Sheet › Monitoring and Incident Response › Enable Distributed Tracing; gRPC Security Cheat Sheet › Testing and Validation › Perform gRPC Security Testing"
+    ],
+    [
+     "owasp/gRPC_Security_Cheat_Sheet.md",
+     "gRPC Security Cheat Sheet › Introduction; gRPC Security Cheat Sheet › Transport Security › Always Use TLS in Production; gRPC Security Cheat Sheet › Transport Security › Implement Mutual TLS (mTLS) for Service-to-Service Communication; gRPC Security Cheat Sheet › Authentication and Authorization › Implement Strong Authentication; gRPC Security Cheat Sheet › Authentication and Authorization › Implement Strong Authentication › Token-Based Authentication"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "pt-g57",
+   "type": "exact",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 277.1,
+   "top_score": -8.630680084228516,
+   "top5": [
+    [
+     "owasp/gRPC_Security_Cheat_Sheet.md",
+     "gRPC Security Cheat Sheet › Introduction; gRPC Security Cheat Sheet › Transport Security › Always Use TLS in Production; gRPC Security Cheat Sheet › Transport Security › Implement Mutual TLS (mTLS) for Service-to-Service Communication; gRPC Security Cheat Sheet › Authentication and Authorization › Implement Strong Authentication; gRPC Security Cheat Sheet › Authentication and Authorization › Implement Strong Authentication › Token-Based Authentication"
+    ],
+    [
+     "owasp/gRPC_Security_Cheat_Sheet.md",
+     "gRPC Security Cheat Sheet › Transport Security › Implement Mutual TLS (mTLS) for Service-to-Service Communication; gRPC Security Cheat Sheet › Authentication and Authorization › Implement Strong Authentication; gRPC Security Cheat Sheet › Authentication and Authorization › Implement Strong Authentication › Token-Based Authentication; gRPC Security Cheat Sheet › Authentication and Authorization › Implement Strong Authentication › API Key Authentication"
+    ],
+    [
+     "owasp/gRPC_Security_Cheat_Sheet.md",
+     "gRPC Security Cheat Sheet › Error Handling and Information Disclosure › Secure Error Responses; gRPC Security Cheat Sheet › Error Handling and Information Disclosure › Implement Structured Logging; gRPC Security Cheat Sheet › Service Discovery and Reflection › Disable gRPC Reflection in Production; gRPC Security Cheat Sheet › Service Discovery and Reflection › Secure Service Discovery"
+    ],
+    [
+     "owasp/gRPC_Security_Cheat_Sheet.md",
+     "gRPC Security Cheat Sheet › Service Discovery and Reflection › Secure Service Discovery; gRPC Security Cheat Sheet › Monitoring and Incident Response › Implement Security Monitoring; gRPC Security Cheat Sheet › Monitoring and Incident Response › Enable Distributed Tracing; gRPC Security Cheat Sheet › Testing and Validation › Perform gRPC Security Testing"
+    ],
+    [
+     "owasp/gRPC_Security_Cheat_Sheet.md",
+     "gRPC Security Cheat Sheet › Input Validation and Data Security › Implement Message Size Limits; gRPC Security Cheat Sheet › Rate Limiting and Resource Protection › Implement Request Rate Limiting"
+    ]
+   ],
+   "first_relevant_rank": 5,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.2
+  },
+  {
+   "id": "g58",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 221.8,
+   "top_score": 6.5073418617248535,
+   "top5": [
+    [
+     "owasp/Drone_Security_Cheat_Sheet.md",
+     "Drone Security Cheat Sheet › Vulnerable Endpoints & Security Risks › 1. Communication Security; Drone Security Cheat Sheet › Vulnerable Endpoints & Security Risks › 2. Authentication & Access Control"
+    ],
+    [
+     "owasp/Drone_Security_Cheat_Sheet.md",
+     "Drone Security Cheat Sheet › Secure Communication Protocols"
+    ],
+    [
+     "owasp/Drone_Security_Cheat_Sheet.md",
+     "Drone Security Cheat Sheet › Summary"
+    ],
+    [
+     "owasp/Drone_Security_Cheat_Sheet.md",
+     "Drone Security Cheat Sheet › Secure Communication Protocols; Drone Security Cheat Sheet › Summary"
+    ],
+    [
+     "owasp/Drone_Security_Cheat_Sheet.md",
+     "Drone Security Cheat Sheet › Summary"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g59",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 235.4,
+   "top_score": 3.6752028465270996,
+   "top5": [
+    [
+     "owasp/Web_Cache_Security_Cheat_Sheet.md",
+     "Web Cache Security Cheat Sheet › Best Practices › 1. Classify Responses Before Caching; Web Cache Security Cheat Sheet › Best Practices › 2. Design a Complete Cache Key"
+    ],
+    [
+     "owasp/Web_Cache_Security_Cheat_Sheet.md",
+     "Web Cache Security Cheat Sheet › Key Risks; Web Cache Security Cheat Sheet › Best Practices; Web Cache Security Cheat Sheet › Best Practices › 1. Classify Responses Before Caching"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session Expiration › Web Content Caching and Clear-Site-Data"
+    ],
+    [
+     "owasp/REST_Security_Cheat_Sheet.md",
+     "REST Security Cheat Sheet › Audit logs; REST Security Cheat Sheet › Security Headers"
+    ],
+    [
+     "owasp/Web_Cache_Security_Cheat_Sheet.md",
+     "Web Cache Security Cheat Sheet › Introduction; Web Cache Security Cheat Sheet › Key Risks"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g60",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 248.4,
+   "top_score": 6.89120626449585,
+   "top5": [
+    [
+     "owasp/Security_Terminology_Cheat_Sheet.md",
+     "Security Terminology Cheat Sheet › Identity: Authentication and Authorization › Authorization (AuthZ); Security Terminology Cheat Sheet › Federated Identity Terms; Security Terminology Cheat Sheet › References"
+    ],
+    [
+     "owasp/Authentication_Patterns_Cheat_Sheet.md",
+     "Authentication Patterns Cheat Sheet › Edge-Level Authentication; Authentication Patterns Cheat Sheet › Edge-Level Authentication › Pros; Authentication Patterns Cheat Sheet › Edge-Level Authentication › Cons"
+    ],
+    [
+     "owasp/Authentication_Cheat_Sheet.md",
+     "Authentication Cheat Sheet › Use of authentication protocols that require no password › OpenID Connect (OIDC) › Secure Federated Account Linking; Authentication Cheat Sheet › Use of authentication protocols that require no password › SAML"
+    ],
+    [
+     "owasp/Authentication_Cheat_Sheet.md",
+     "Authentication Cheat Sheet › Use of authentication protocols that require no password; Authentication Cheat Sheet › Use of authentication protocols that require no password › OAuth 2.0 and 2.1; Authentication Cheat Sheet › Use of authentication protocols that require no password › OpenID Connect (OIDC); Authentication Cheat Sheet › Use of authentication protocols that require no password › OpenID Connect (OIDC) › OIDC implementation guidance"
+    ],
+    [
+     "owasp/Authentication_Patterns_Cheat_Sheet.md",
+     "Authentication Patterns Cheat Sheet › Service-Level Code-Mediated Authentication; Authentication Patterns Cheat Sheet › Service-Level Code-Mediated Authentication › Pros; Authentication Patterns Cheat Sheet › Service-Level Code-Mediated Authentication › Cons; Authentication Patterns Cheat Sheet › Service-Level Proxy-Mediated Authentication"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g63",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 279.3,
+   "top_score": 7.28652286529541,
+   "top5": [
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › C/C++ › libxerces-c; XML External Entity Prevention Cheat Sheet › ColdFusion; XML External Entity Prevention Cheat Sheet › ColdFusion › Adobe ColdFusion; XML External Entity Prevention Cheat Sheet › ColdFusion › Lucee; XML External Entity Prevention Cheat Sheet › Java"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › ColdFusion › Lucee; XML External Entity Prevention Cheat Sheet › Java; XML External Entity Prevention Cheat Sheet › Java › Secure configuration by API"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › Introduction; XML External Entity Prevention Cheat Sheet › General Guidance; XML External Entity Prevention Cheat Sheet › C/C++ › libxml2"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › General Guidance; XML External Entity Prevention Cheat Sheet › C/C++ › libxml2; XML External Entity Prevention Cheat Sheet › C/C++ › libxerces-c; XML External Entity Prevention Cheat Sheet › ColdFusion; XML External Entity Prevention Cheat Sheet › ColdFusion › Adobe ColdFusion"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › Java › Secure configuration by API › SAXParserFactory and XMLReader; XML External Entity Prevention Cheat Sheet › Java › Secure configuration by API › XMLInputFactory (StAX); XML External Entity Prevention Cheat Sheet › Java › Secure configuration by API › TransformerFactory (XSLT); XML External Entity Prevention Cheat Sheet › Java › Secure configuration by API › SchemaFactory and Validator"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g64",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 285.2,
+   "top_score": 4.722136497497559,
+   "top5": [
+    [
+     "owasp/Serverless_FaaS_Security_Cheat_Sheet.md",
+     "Serverless / FaaS Security Cheat Sheet › Best Practices › 6. Secrets Management; Serverless / FaaS Security Cheat Sheet › Best Practices › 7. Monitoring & Logging"
+    ],
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 2 General Secrets Management › 2.4 Automate Secrets Management › 2.4.1 Architectural Patterns for Automated Rotation › Example 2: Serverless Function for Database Credential Rotation"
+    ],
+    [
+     "owasp/Serverless_FaaS_Security_Cheat_Sheet.md",
+     "Serverless / FaaS Security Cheat Sheet › Do’s and Don’ts; Serverless / FaaS Security Cheat Sheet › References"
+    ],
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 4 Cloud Providers › 4.1 Services to Use; Secrets Management Cheat Sheet › 4 Cloud Providers › 4.1 Services to Use › 4.1.1 AWS; Secrets Management Cheat Sheet › 4 Cloud Providers › 4.1 Services to Use › 4.1.1 AWS › 4.1.1.1 AWS Nitro Enclaves"
+    ],
+    [
+     "owasp/Serverless_FaaS_Security_Cheat_Sheet.md",
+     "Serverless / FaaS Security Cheat Sheet › Best Practices › 4. Event Data Validation; Serverless / FaaS Security Cheat Sheet › Best Practices › 5. Cold Start & Execution Context Security; Serverless / FaaS Security Cheat Sheet › Best Practices › 6. Secrets Management"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g67",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 224.7,
+   "top_score": 1.998369812965393,
+   "top5": [
+    [
+     "owasp/HTTP_Headers_Cheat_Sheet.md",
+     "HTTP Security Response Headers Cheat Sheet › Security Headers › X-Robots-Tag; HTTP Security Response Headers Cheat Sheet › Security Headers › X-Robots-Tag › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › X-DNS-Prefetch-Control"
+    ],
+    [
+     "owasp/HTTP_Headers_Cheat_Sheet.md",
+     "HTTP Security Response Headers Cheat Sheet › Security Headers › X-Content-Type-Options › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Referrer-Policy; HTTP Security Response Headers Cheat Sheet › Security Headers › Referrer-Policy › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Content-Type; HTTP Security Response Headers Cheat Sheet › Security Headers › Content-Type › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Cache-Control"
+    ],
+    [
+     "owasp/HTTP_Headers_Cheat_Sheet.md",
+     "HTTP Security Response Headers Cheat Sheet › Security Headers › X-Robots-Tag › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › X-DNS-Prefetch-Control; HTTP Security Response Headers Cheat Sheet › Security Headers › X-DNS-Prefetch-Control › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Public-Key-Pins (HPKP) ❌; HTTP Security Response Headers Cheat Sheet › Security Headers › Public-Key-Pins (HPKP) ❌ › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Secure File Download Headers"
+    ],
+    [
+     "owasp/HTTP_Headers_Cheat_Sheet.md",
+     "HTTP Security Response Headers Cheat Sheet › Security Headers › Server › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › X-Powered-By; HTTP Security Response Headers Cheat Sheet › Security Headers › X-Powered-By › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › X-AspNet-Version; HTTP Security Response Headers Cheat Sheet › Security Headers › X-AspNet-Version › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › X-AspNetMvc-Version; HTTP Security Response Headers Cheat Sheet › Security Headers › X-AspNetMvc-Version › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › X-Robots-Tag"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › Cross Origin Resource Sharing; Ruby on Rails Cheat Sheet › Items › Security-related headers"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "pt-g67",
+   "type": "exact",
+   "lang": "pt",
+   "answerable": true,
+   "search_ms": 286.1,
+   "top_score": -6.009027481079102,
+   "top5": [
+    [
+     "owasp/HTTP_Headers_Cheat_Sheet.md",
+     "HTTP Security Response Headers Cheat Sheet › Security Headers › X-Robots-Tag › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › X-DNS-Prefetch-Control; HTTP Security Response Headers Cheat Sheet › Security Headers › X-DNS-Prefetch-Control › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Public-Key-Pins (HPKP) ❌; HTTP Security Response Headers Cheat Sheet › Security Headers › Public-Key-Pins (HPKP) ❌ › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Secure File Download Headers"
+    ],
+    [
+     "owasp/HTTP_Headers_Cheat_Sheet.md",
+     "HTTP Security Response Headers Cheat Sheet › Security Headers › X-Robots-Tag; HTTP Security Response Headers Cheat Sheet › Security Headers › X-Robots-Tag › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › X-DNS-Prefetch-Control"
+    ],
+    [
+     "owasp/HTTP_Headers_Cheat_Sheet.md",
+     "HTTP Security Response Headers Cheat Sheet › Security Headers › X-Content-Type-Options › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Referrer-Policy; HTTP Security Response Headers Cheat Sheet › Security Headers › Referrer-Policy › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Content-Type; HTTP Security Response Headers Cheat Sheet › Security Headers › Content-Type › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Cache-Control"
+    ],
+    [
+     "owasp/Ruby_on_Rails_Cheat_Sheet.md",
+     "Ruby on Rails Cheat Sheet › Items › Cross Origin Resource Sharing; Ruby on Rails Cheat Sheet › Items › Security-related headers"
+    ],
+    [
+     "owasp/HTTP_Headers_Cheat_Sheet.md",
+     "HTTP Security Response Headers Cheat Sheet › Introduction; HTTP Security Response Headers Cheat Sheet › Security Headers › X-Frame-Options; HTTP Security Response Headers Cheat Sheet › Security Headers › X-Frame-Options › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › X-XSS-Protection"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g70",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 270.3,
+   "top_score": 3.1848340034484863,
+   "top5": [
+    [
+     "owasp/WebSocket_Security_Cheat_Sheet.md",
+     "WebSocket Security Cheat Sheet › Primary Defenses › Testing WebSocket Security; WebSocket Security Cheat Sheet › Primary Defenses › Framework-Specific Best Practices; WebSocket Security Cheat Sheet › Primary Defenses › Framework-Specific Best Practices › Keep Dependencies Updated; WebSocket Security Cheat Sheet › References"
+    ],
+    [
+     "owasp/WebSocket_Security_Cheat_Sheet.md",
+     "WebSocket Security Cheat Sheet › Primary Defenses › Authentication and Authorization › Session Management; WebSocket Security Cheat Sheet › Primary Defenses › Authentication and Authorization › Message-Level Authorization; WebSocket Security Cheat Sheet › Primary Defenses › Input Validation"
+    ],
+    [
+     "owasp/WebSocket_Security_Cheat_Sheet.md",
+     "WebSocket Security Cheat Sheet › Primary Defenses › Transport Security › Always Use WSS (WebSocket Secure); WebSocket Security Cheat Sheet › Primary Defenses › Transport Security › WebSocket Protocol Configuration; WebSocket Security Cheat Sheet › Primary Defenses › Transport Security › Infrastructure Configuration; WebSocket Security Cheat Sheet › Primary Defenses › Authentication and Authorization"
+    ],
+    [
+     "owasp/WebSocket_Security_Cheat_Sheet.md",
+     "WebSocket Security Cheat Sheet › Primary Defenses › Denial-of-Service Protection; WebSocket Security Cheat Sheet › Primary Defenses › Security Monitoring and Logging; WebSocket Security Cheat Sheet › Primary Defenses › Testing WebSocket Security; WebSocket Security Cheat Sheet › Primary Defenses › Framework-Specific Best Practices"
+    ],
+    [
+     "owasp/WebSocket_Security_Cheat_Sheet.md",
+     "WebSocket Security Cheat Sheet › Primary Defenses › Transport Security › Infrastructure Configuration; WebSocket Security Cheat Sheet › Primary Defenses › Authentication and Authorization; WebSocket Security Cheat Sheet › Primary Defenses › Authentication and Authorization › Origin Header Validation; WebSocket Security Cheat Sheet › Primary Defenses › Authentication and Authorization › Additional CSWSH Protections; WebSocket Security Cheat Sheet › Primary Defenses › Authentication and Authorization › Session Management"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g71",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 218.8,
+   "top_score": 7.724658966064453,
+   "top5": [
+    [
+     "owasp/Third_Party_Javascript_Management_Cheat_Sheet.md",
+     "Third Party JavaScript Management Cheat Sheet › Introduction"
+    ],
+    [
+     "owasp/Third_Party_Javascript_Management_Cheat_Sheet.md",
+     "Third Party JavaScript Management Cheat Sheet › Third-party JavaScript Deployment Architectures › Vendor JavaScript on page; Third Party JavaScript Management Cheat Sheet › Third-party JavaScript Deployment Architectures › JavaScript Request to Vendor; Third Party JavaScript Management Cheat Sheet › Third-party JavaScript Deployment Architectures › Indirect request to Vendor through Tag Manager"
+    ],
+    [
+     "owasp/Third_Party_Javascript_Management_Cheat_Sheet.md",
+     "Third Party JavaScript Management Cheat Sheet › Security Defense Considerations › Server Direct Data Layer; Third Party JavaScript Management Cheat Sheet › Security Defense Considerations › Indirect Requests"
+    ],
+    [
+     "owasp/Third_Party_Javascript_Management_Cheat_Sheet.md",
+     "Third Party JavaScript Management Cheat Sheet › Introduction; Third Party JavaScript Management Cheat Sheet › Major risks; Third Party JavaScript Management Cheat Sheet › Major risks › Risk 1: Loss of control over changes to the client application"
+    ],
+    [
+     "owasp/Third_Party_Javascript_Management_Cheat_Sheet.md",
+     "Third Party JavaScript Management Cheat Sheet › Major risks › Risk 3: Disclosure of sensitive information to 3rd parties; Third Party JavaScript Management Cheat Sheet › Third-party JavaScript Deployment Architectures; Third Party JavaScript Management Cheat Sheet › Third-party JavaScript Deployment Architectures › Vendor JavaScript on page; Third Party JavaScript Management Cheat Sheet › Third-party JavaScript Deployment Architectures › JavaScript Request to Vendor"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g73",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 242.8,
+   "top_score": 4.849335670471191,
+   "top5": [
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 2 General Secrets Management › 2.4 Automate Secrets Management › 2.4.1 Architectural Patterns for Automated Rotation › Example 1: Kubernetes with a Sidecar Container; Secrets Management Cheat Sheet › 2 General Secrets Management › 2.4 Automate Secrets Management › 2.4.1 Architectural Patterns for Automated Rotation › Example 2: Serverless Function for Database Credential Rotation"
+    ],
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 5 Containers & Orchestrators › 5.1 Injection of Secrets (file, in-memory)"
+    ],
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 5 Containers & Orchestrators › 5.2 Short-Lived Sidecar Containers; Secrets Management Cheat Sheet › 5 Containers & Orchestrators › 5.3 Internal vs External Access; Secrets Management Cheat Sheet › 6 Implementation Guidance; Secrets Management Cheat Sheet › 6 Implementation Guidance › 6.1 Key Material Management Policies; Secrets Management Cheat Sheet › 6 Implementation Guidance › 6.2 Dynamic vs Static Use Cases"
+    ],
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › SECTION 4: Kubernetes Security Best Practices: Deploy Phase › Securing data › Encrypt secrets at rest; Kubernetes Security Cheat Sheet › SECTION 4: Kubernetes Security Best Practices: Deploy Phase › Securing data › Alternatives to Kubernetes Secret resources; Kubernetes Security Cheat Sheet › SECTION 4: Kubernetes Security Best Practices: Deploy Phase › Securing data › Finding exposed secrets; Kubernetes Security Cheat Sheet › SECTION 5: Kubernetes Security Best Practices: Runtime Phase"
+    ],
+    [
+     "owasp/Docker_Security_Cheat_Sheet.md",
+     "Docker Security Cheat Sheet › Rules › RULE \\#12 - Utilize Docker Secrets for Sensitive Data Management; Docker Security Cheat Sheet › Rules › RULE \\#13 - Enhance Supply Chain Security; Docker Security Cheat Sheet › Podman as an alternative to Docker"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g74",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 171.0,
+   "top_score": 5.616654396057129,
+   "top5": [
+    [
+     "owasp/GitHub_Actions_Security_Cheat_Sheet.md",
+     "GitHub Actions Security Cheat Sheet › Segregate runners using runner groups and labels; GitHub Actions Security Cheat Sheet › Maintain curated shared workflows and actions; GitHub Actions Security Cheat Sheet › Prevent artifact poisoning"
+    ],
+    [
+     "owasp/GitHub_Actions_Security_Cheat_Sheet.md",
+     "GitHub Actions Security Cheat Sheet › Use self-hosted runners with extra caution; GitHub Actions Security Cheat Sheet › Segregate runners using runner groups and labels"
+    ],
+    [
+     "owasp/Workload_Identity_Federation_Cheat_Sheet.md",
+     "Workload Identity Federation Cheat Sheet › Introduction; Workload Identity Federation Cheat Sheet › Understand the Trust Boundary"
+    ],
+    [
+     "owasp/GitHub_Actions_Security_Cheat_Sheet.md",
+     "GitHub Actions Security Cheat Sheet › Harden repository settings; GitHub Actions Security Cheat Sheet › Restrict egress traffic from GitHub-hosted runners; GitHub Actions Security Cheat Sheet › Use self-hosted runners with extra caution"
+    ],
+    [
+     "owasp/GitHub_Actions_Security_Cheat_Sheet.md",
+     "GitHub Actions Security Cheat Sheet › Write Secure GitHub Workflows › Avoid dangerous triggers › Use `issue_comment` trigger with extra care; GitHub Actions Security Cheat Sheet › Write Secure GitHub Workflows › Use third-party GitHub Actions and reusable workflows securely › Use third-party actions with caution"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g75",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 274.9,
+   "top_score": 2.4623608589172363,
+   "top5": [
+    [
+     "owasp/Bean_Validation_Cheat_Sheet.md",
+     "Bean Validation Cheat Sheet › Predefined Constraints › @Digits; Bean Validation Cheat Sheet › Predefined Constraints › @Size"
+    ],
+    [
+     "owasp/Bean_Validation_Cheat_Sheet.md",
+     "Bean Validation Cheat Sheet › Predefined Constraints › @Pattern; Bean Validation Cheat Sheet › Predefined Constraints › @Digits"
+    ],
+    [
+     "owasp/Bean_Validation_Cheat_Sheet.md",
+     "Bean Validation Cheat Sheet › Setup; Bean Validation Cheat Sheet › Basics; Bean Validation Cheat Sheet › Predefined Constraints › @Pattern"
+    ],
+    [
+     "owasp/Bean_Validation_Cheat_Sheet.md",
+     "Bean Validation Cheat Sheet › Predefined Constraints › Combining Constraints; Bean Validation Cheat Sheet › Predefined Constraints › Cascading Constraints; Bean Validation Cheat Sheet › Predefined Constraints › Additional Constraints"
+    ],
+    [
+     "owasp/Bean_Validation_Cheat_Sheet.md",
+     "Bean Validation Cheat Sheet › Introduction; Bean Validation Cheat Sheet › Setup; Bean Validation Cheat Sheet › Basics"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g76",
+   "type": "exact",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 315.2,
+   "top_score": 6.819255352020264,
+   "top5": [
+    [
+     "owasp/Choosing_and_Using_Security_Questions_Cheat_Sheet.md",
+     "Choosing and Using Security Questions Cheat Sheet › Introduction; Choosing and Using Security Questions Cheat Sheet › Choosing Security Questions › Desired Characteristics"
+    ],
+    [
+     "owasp/Choosing_and_Using_Security_Questions_Cheat_Sheet.md",
+     "Choosing and Using Security Questions Cheat Sheet › Using Security Questions › How to Use Security Questions › Multiple Security Questions; Choosing and Using Security Questions Cheat Sheet › References"
+    ],
+    [
+     "owasp/Forgot_Password_Cheat_Sheet.md",
+     "Forgot Password Cheat Sheet › Methods › Security Questions; Forgot Password Cheat Sheet › Account Lockout; Forgot Password Cheat Sheet › References"
+    ],
+    [
+     "owasp/Multifactor_Authentication_Cheat_Sheet.md",
+     "Multifactor Authentication Cheat Sheet › Something You Have › Smart Cards › Cons; Multifactor Authentication Cheat Sheet › Something You Have › SMS Messages and Phone Calls; Multifactor Authentication Cheat Sheet › Something You Have › SMS Messages and Phone Calls › Pros; Multifactor Authentication Cheat Sheet › Something You Have › SMS Messages and Phone Calls › Cons"
+    ],
+    [
+     "owasp/Passkey_Security_Cheat_Sheet.md",
+     "Passkey Security Cheat Sheet › Deployment and Review Checklist › Account Workflows; Passkey Security Cheat Sheet › Deployment and Review Checklist › Privacy and Operations; Passkey Security Cheat Sheet › References"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "g78",
+   "type": "paraphrase",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 311.1,
+   "top_score": 5.405625820159912,
+   "top5": [
+    [
+     "owasp/Cross_Site_Scripting_Prevention_Cheat_Sheet.md",
+     "Cross Site Scripting Prevention Cheat Sheet › Common Anti-patterns: Ineffective Approaches to Avoid › Reliance on HTTP Interceptors › Problem 3 - Interceptors not effective against DOM-based XSS; Cross Site Scripting Prevention Cheat Sheet › Common Anti-patterns: Ineffective Approaches to Avoid › Reliance on HTTP Interceptors › Problem 4 - Interceptors not effective where data from responses originates outside your application"
+    ],
+    [
+     "owasp/Cross_Site_Scripting_Prevention_Cheat_Sheet.md",
+     "Cross Site Scripting Prevention Cheat Sheet › Common Anti-patterns: Ineffective Approaches to Avoid › Reliance on HTTP Interceptors › Problem 4 - Interceptors not effective where data from responses originates outside your application"
+    ],
+    [
+     "owasp/Cross_Site_Scripting_Prevention_Cheat_Sheet.md",
+     "Cross Site Scripting Prevention Cheat Sheet › Common Anti-patterns: Ineffective Approaches to Avoid › Reliance on HTTP Interceptors › Problem 4 - Interceptors not effective where data from responses originates outside your application; Cross Site Scripting Prevention Cheat Sheet › Common Anti-patterns: Ineffective Approaches to Avoid › Summary; Cross Site Scripting Prevention Cheat Sheet › Related Articles; Cross Site Scripting Prevention Cheat Sheet › References"
+    ],
+    [
+     "owasp/Cross_Site_Scripting_Prevention_Cheat_Sheet.md",
+     "Cross Site Scripting Prevention Cheat Sheet › Common Anti-patterns: Ineffective Approaches to Avoid › Reliance on HTTP Interceptors; Cross Site Scripting Prevention Cheat Sheet › Common Anti-patterns: Ineffective Approaches to Avoid › Reliance on HTTP Interceptors › Problem 1 - Encoding for specific context not satisfactory for all URI paths; Cross Site Scripting Prevention Cheat Sheet › Common Anti-patterns: Ineffective Approaches to Avoid › Reliance on HTTP Interceptors › Problem 2 - Interceptor approach can lead to broken rendering caused by improper or double encoding"
+    ],
+    [
+     "owasp/XSS_Filter_Evasion_Cheat_Sheet.md",
+     "XSS Filter Evasion Cheat Sheet › Tests › Assisting XSS with HTTP Parameter Pollution › Share Page Output; XSS Filter Evasion Cheat Sheet › Character Escape Sequences"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "m01",
+   "type": "multi",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 294.6,
+   "top_score": 4.846263885498047,
+   "top5": [
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Methods for Enhancing Password Storage › Salting; Password Storage Cheat Sheet › Methods for Enhancing Password Storage › Peppering; Password Storage Cheat Sheet › Methods for Enhancing Password Storage › Peppering › Common requirements for peppering strategies"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Background › When Password Hashes Can Be Cracked; Password Storage Cheat Sheet › Methods for Enhancing Password Storage › Salting; Password Storage Cheat Sheet › Methods for Enhancing Password Storage › Peppering"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Methods for Enhancing Password Storage › Peppering › Common requirements for peppering strategies; Password Storage Cheat Sheet › Methods for Enhancing Password Storage › Peppering › Pre-hashing peppers; Password Storage Cheat Sheet › Methods for Enhancing Password Storage › Peppering › Post-hashing peppers; Password Storage Cheat Sheet › Methods for Enhancing Password Storage › Using Work Factors"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Password Hashing Algorithms › bcrypt › Pre-Hashing Passwords with bcrypt; Password Storage Cheat Sheet › Password Hashing Algorithms › PBKDF2; Password Storage Cheat Sheet › Password Hashing Algorithms › Parallel PBKDF2; Password Storage Cheat Sheet › Password Hashing Algorithms › Parallel PBKDF2 › PBKDF2 Pre-Hashing"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Password Hashing Algorithms › bcrypt › Pre-Hashing Passwords with bcrypt; Password Storage Cheat Sheet › Password Hashing Algorithms › PBKDF2"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "m02",
+   "type": "multi",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 241.5,
+   "top_score": 7.549313545227051,
+   "top5": [
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Cookies › Domain and Path Attributes"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Cookies; Session Management Cheat Sheet › Cookies › Secure Attribute; Session Management Cheat Sheet › Cookies › HttpOnly Attribute"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Cookies › SameSite Attribute; Session Management Cheat Sheet › Cookies › Cookie Name Prefixes; Session Management Cheat Sheet › Cookies › Domain and Path Attributes"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Cookies › HttpOnly Attribute; Session Management Cheat Sheet › Cookies › SameSite Attribute; Session Management Cheat Sheet › Cookies › Cookie Name Prefixes"
+    ],
+    [
+     "owasp/Laravel_Cheat_Sheet.md",
+     "Laravel Cheat Sheet › Cookie Security and Session Management; Laravel Cheat Sheet › Authentication › Guards and Providers"
+    ]
+   ],
+   "first_relevant_rank": 2,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.5
+  },
+  {
+   "id": "m03",
+   "type": "multi",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 335.1,
+   "top_score": 3.096554756164551,
+   "top5": [
+    [
+     "owasp/Clickjacking_Defense_Cheat_Sheet.md",
+     "Clickjacking Defense Cheat Sheet › Introduction; Clickjacking Defense Cheat Sheet › Defending with Content Security Policy (CSP) frame-ancestors directive"
+    ],
+    [
+     "owasp/Clickjacking_Defense_Cheat_Sheet.md",
+     "Clickjacking Defense Cheat Sheet › Defending with SameSite Cookies › Limitations; Clickjacking Defense Cheat Sheet › Defending against DoubleClickjacking"
+    ],
+    [
+     "owasp/Clickjacking_Defense_Cheat_Sheet.md",
+     "Clickjacking Defense Cheat Sheet › Defending against DoubleClickjacking; Clickjacking Defense Cheat Sheet › Best-for-now Legacy Browser Frame Breaking Script"
+    ],
+    [
+     "owasp/Content_Security_Policy_Cheat_Sheet.md",
+     "Content Security Policy Cheat Sheet › Introduction; Content Security Policy Cheat Sheet › Context; Content Security Policy Cheat Sheet › Context › Defense against XSS; Content Security Policy Cheat Sheet › Context › Defense against XSS › 1. Restricting Inline Scripts; Content Security Policy Cheat Sheet › Context › Defense against XSS › 2. Restricting Remote Scripts; Content Security Policy Cheat Sheet › Context › Defense against XSS › 3. Restricting Unsafe JavaScript; Content Security Policy Cheat Sheet › Context › Defense against XSS › 4. Restricting Form submissions"
+    ],
+    [
+     "owasp/Clickjacking_Defense_Cheat_Sheet.md",
+     "Clickjacking Defense Cheat Sheet › Defending with X-Frame-Options Response Headers › Limitations; Clickjacking Defense Cheat Sheet › Defending with SameSite Cookies; Clickjacking Defense Cheat Sheet › Defending with SameSite Cookies › Limitations"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 0.5,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "m04",
+   "type": "multi",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 333.1,
+   "top_score": 4.955813884735107,
+   "top5": [
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Token-Based Mitigation › ALTERNATIVE: Using A Double-Submit Cookie Pattern › Signed Double-Submit Cookie (RECOMMENDED) › Pseudo-Code For Implementing HMAC CSRF Tokens; Cross-Site Request Forgery Prevention Cheat Sheet › Token-Based Mitigation › Naive Double-Submit Cookie Pattern (DISCOURAGED)"
+    ],
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Disallowing simple requests › Disallowing simple content types; Cross-Site Request Forgery Prevention Cheat Sheet › Disallowing simple requests › Employing Custom Request Headers for AJAX/API"
+    ],
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Introduction; Cross-Site Request Forgery Prevention Cheat Sheet › Introduction › Built-In Or Existing CSRF Implementations"
+    ],
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Token-Based Mitigation › Synchronizer Token Pattern › Transmitting CSRF Tokens in Synchronized Patterns; Cross-Site Request Forgery Prevention Cheat Sheet › Token-Based Mitigation › ALTERNATIVE: Using A Double-Submit Cookie Pattern; Cross-Site Request Forgery Prevention Cheat Sheet › Token-Based Mitigation › ALTERNATIVE: Using A Double-Submit Cookie Pattern › Signed Double-Submit Cookie (RECOMMENDED)"
+    ],
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › REFERENCE: Sample JEE Filter Demonstrating CSRF Protection; Cross-Site Request Forgery Prevention Cheat Sheet › JavaScript: Automatically Including CSRF Tokens as an AJAX Request Header; Cross-Site Request Forgery Prevention Cheat Sheet › JavaScript: Automatically Including CSRF Tokens as an AJAX Request Header › Storing the CSRF Token Value in the DOM; Cross-Site Request Forgery Prevention Cheat Sheet › JavaScript: Automatically Including CSRF Tokens as an AJAX Request Header › Overriding Defaults to Set Custom Header"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 0.5,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "m05",
+   "type": "multi",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 323.0,
+   "top_score": 6.209275722503662,
+   "top5": [
+    [
+     "owasp/Content_Security_Policy_Cheat_Sheet.md",
+     "Content Security Policy Cheat Sheet › Strict CSP; Content Security Policy Cheat Sheet › Strict CSP › Nonce based; Content Security Policy Cheat Sheet › Strict CSP › Nonce based › Warning; Content Security Policy Cheat Sheet › Strict CSP › Hashes"
+    ],
+    [
+     "owasp/Content_Security_Policy_Cheat_Sheet.md",
+     "Content Security Policy Cheat Sheet › CSP Sample Policies › Strict Policy; Content Security Policy Cheat Sheet › CSP Sample Policies › Strict Policy › Nonce-based Strict Policy; Content Security Policy Cheat Sheet › CSP Sample Policies › Strict Policy › Hash-based Strict Policy; Content Security Policy Cheat Sheet › CSP Sample Policies › Basic non-Strict CSP Policy"
+    ],
+    [
+     "owasp/Content_Security_Policy_Cheat_Sheet.md",
+     "Content Security Policy Cheat Sheet › Strict CSP › Nonce based › Warning; Content Security Policy Cheat Sheet › Strict CSP › Hashes; Content Security Policy Cheat Sheet › Strict CSP › Hashes › Note; Content Security Policy Cheat Sheet › Strict CSP › strict-dynamic"
+    ],
+    [
+     "owasp/Content_Security_Policy_Cheat_Sheet.md",
+     "Content Security Policy Cheat Sheet › Policy Delivery › 3. Content-Security-Policy Meta Tag; Content Security Policy Cheat Sheet › Policy Delivery › WARNING; Content Security Policy Cheat Sheet › CSP Types (granular/allowlist based or strict); Content Security Policy Cheat Sheet › Strict CSP"
+    ],
+    [
+     "owasp/Content_Security_Policy_Cheat_Sheet.md",
+     "Content Security Policy Cheat Sheet › Strict CSP › strict-dynamic; Content Security Policy Cheat Sheet › Detailed CSP Directives; Content Security Policy Cheat Sheet › Detailed CSP Directives › Fetch Directives"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "m06",
+   "type": "multi",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 334.2,
+   "top_score": 6.043926239013672,
+   "top5": [
+    [
+     "owasp/File_Upload_Cheat_Sheet.md",
+     "File Upload Cheat Sheet › File Upload Protection › Content-Type Validation; File Upload Cheat Sheet › File Upload Protection › File Signature Validation; File Upload Cheat Sheet › File Upload Protection › Filename Safety"
+    ],
+    [
+     "owasp/File_Upload_Cheat_Sheet.md",
+     "File Upload Cheat Sheet › Introduction"
+    ],
+    [
+     "owasp/File_Upload_Cheat_Sheet.md",
+     "File Upload Cheat Sheet › File Upload Protection › Extension Validation; File Upload Cheat Sheet › File Upload Protection › Extension Validation › List Allowed Extensions; File Upload Cheat Sheet › File Upload Protection › Extension Validation › Block Extensions; File Upload Cheat Sheet › File Upload Protection › Content-Type Validation"
+    ],
+    [
+     "owasp/Input_Validation_Cheat_Sheet.md",
+     "Input Validation Cheat Sheet › Implementing Input Validation › File Upload Validation; Input Validation Cheat Sheet › Implementing Input Validation › Email Address Validation; Input Validation Cheat Sheet › Common Pitfalls"
+    ],
+    [
+     "owasp/Symfony_Cheat_Sheet.md",
+     "Symfony Cheat Sheet › Main Sections › File Upload Vulnerabilities; Symfony Cheat Sheet › Main Sections › File Upload Vulnerabilities › Validate file type and size; Symfony Cheat Sheet › Main Sections › File Upload Vulnerabilities › Use unique filenames; Symfony Cheat Sheet › Main Sections › File Upload Vulnerabilities › Store uploaded files securely"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 0.6666666666666666,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "m07",
+   "type": "multi",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 296.6,
+   "top_score": 5.8283371925354,
+   "top5": [
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Key type confusion; JSON Web Token Cheat Sheet › Threats on JWTs › Trusting key material named in the token header"
+    ],
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Issuer and audience confusion"
+    ],
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Unsecured JWTs; JSON Web Token Cheat Sheet › Threats on JWTs › Key type confusion"
+    ],
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Issuer and audience confusion; JSON Web Token Cheat Sheet › Threats on JWTs › Cross-JWT and token type confusion"
+    ],
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Considerations about using JWTs › Header fields; JSON Web Token Cheat Sheet › Considerations about using JWTs › Claims"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 1.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "m08",
+   "type": "multi",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 292.8,
+   "top_score": 5.468840599060059,
+   "top5": [
+    [
+     "owasp/Logging_Vocabulary_Cheat_Sheet.md",
+     "Application Logging Vocabulary Cheat Sheet › Session Management [SESSION] › session_expired:[userid,reason]; Application Logging Vocabulary Cheat Sheet › Session Management [SESSION] › session_logout:[userid]; Application Logging Vocabulary Cheat Sheet › Session Management [SESSION] › session_use_after_expire:[userid]"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Additional Client-Side Defenses for Session Management › Disable Web Browser Cross-Tab Sessions; Session Management Cheat Sheet › Additional Client-Side Defenses for Session Management › Automatic Client Logout; Session Management Cheat Sheet › Session Attacks Detection › Session ID Guessing and Brute Force Detection"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session Expiration › Automatic Session Expiration › Renewal Timeout; Session Management Cheat Sheet › Session Expiration › Manual Session Expiration; Session Management Cheat Sheet › Session Expiration › Manual Session Expiration › Logout Button; Session Management Cheat Sheet › Session Expiration › Web Content Caching and Clear-Site-Data"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Additional Client-Side Defenses for Session Management › Initial Login Timeout; Session Management Cheat Sheet › Additional Client-Side Defenses for Session Management › Limits of Logout on Browser Close; Session Management Cheat Sheet › Additional Client-Side Defenses for Session Management › Disable Web Browser Cross-Tab Sessions; Session Management Cheat Sheet › Additional Client-Side Defenses for Session Management › Automatic Client Logout"
+    ],
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session Expiration; Session Management Cheat Sheet › Session Expiration › Automatic Session Expiration › Idle Timeout"
+    ]
+   ],
+   "first_relevant_rank": 3,
+   "recall@1": 0.0,
+   "recall@5": 1.0,
+   "recall@20": 1.0,
+   "mrr@10": 0.3333333333333333
+  },
+  {
+   "id": "m09",
+   "type": "multi",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 257.7,
+   "top_score": 5.005169868469238,
+   "top5": [
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Password Hashing Algorithms › Argon2id; Password Storage Cheat Sheet › Password Hashing Algorithms › scrypt; Password Storage Cheat Sheet › Password Hashing Algorithms › bcrypt; Password Storage Cheat Sheet › Password Hashing Algorithms › bcrypt › Input Limits of bcrypt"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Password Hashing Algorithms › Argon2id; Password Storage Cheat Sheet › Password Hashing Algorithms › scrypt"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Password Hashing Algorithms; Password Storage Cheat Sheet › Password Hashing Algorithms › Argon2id"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Upgrading Legacy Hashes › International Characters; Password Storage Cheat Sheet › References"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Introduction"
+    ]
+   ],
+   "first_relevant_rank": 1,
+   "recall@1": 0.6666666666666666,
+   "recall@5": 0.6666666666666666,
+   "recall@20": 1.0,
+   "mrr@10": 1.0
+  },
+  {
+   "id": "m10",
+   "type": "multi",
+   "lang": "en",
+   "answerable": true,
+   "search_ms": 215.9,
+   "top_score": 5.818593978881836,
+   "top5": [
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session Attacks Detection › Logging Sessions Life Cycle: Monitoring Creation, Usage, and Destruction of Session IDs; Session Management Cheat Sheet › Session Attacks Detection › Simultaneous Session Logons"
+    ],
+    [
+     "owasp/Logging_Cheat_Sheet.md",
+     "Logging Cheat Sheet › Deployment and operation › Operation; Logging Cheat Sheet › Deployment and operation › Protection"
+    ],
+    [
+     "owasp/Logging_Cheat_Sheet.md",
+     "Logging Cheat Sheet › Design, implementation, and testing › Where to record event data; Logging Cheat Sheet › Design, implementation, and testing › Which events to log"
+    ],
+    [
+     "owasp/Logging_Cheat_Sheet.md",
+     "Logging Cheat Sheet › Design, implementation, and testing › Event data sources; Logging Cheat Sheet › Design, implementation, and testing › Where to record event data"
+    ],
+    [
+     "owasp/Logging_Vocabulary_Cheat_Sheet.md",
+     "Application Logging Vocabulary Cheat Sheet › Exclusions; Application Logging Vocabulary Cheat Sheet › References"
+    ]
+   ],
+   "first_relevant_rank": 2,
+   "recall@1": 0.0,
+   "recall@5": 0.5,
+   "recall@20": 1.0,
+   "mrr@10": 0.5
+  },
+  {
+   "id": "u01",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 230.4,
+   "top_score": 0.1562734991312027,
+   "top5": [
+    [
+     "owasp/LLM_Prompt_Injection_Prevention_Cheat_Sheet.md",
+     "LLM Prompt Injection Prevention Cheat Sheet › Smoke-Testing Your Defenses; LLM Prompt Injection Prevention Cheat Sheet › Smoke-Testing Your Defenses › Grade the intended outcome"
+    ],
+    [
+     "owasp/LLM_Prompt_Injection_Prevention_Cheat_Sheet.md",
+     "LLM Prompt Injection Prevention Cheat Sheet › Smoke-Testing Your Defenses"
+    ],
+    [
+     "owasp/CI_CD_Security_Cheat_Sheet.md",
+     "CI/CD Security Cheat Sheet › Introduction › Definition and Background; CI/CD Security Cheat Sheet › Introduction › Understanding CI/CD Risk"
+    ],
+    [
+     "owasp/Attack_Surface_Analysis_Cheat_Sheet.md",
+     "Attack Surface Analysis Cheat Sheet › What is Attack Surface Analysis and Why is it Important"
+    ],
+    [
+     "owasp/Attack_Surface_Analysis_Cheat_Sheet.md",
+     "Attack Surface Analysis Cheat Sheet › What is Attack Surface Analysis and Why is it Important; Attack Surface Analysis Cheat Sheet › Defining the Attack Surface of an Application"
+    ]
+   ]
+  },
+  {
+   "id": "u02",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 263.8,
+   "top_score": -9.512242317199707,
+   "top5": [
+    [
+     "owasp/REST_Security_Cheat_Sheet.md",
+     "REST Security Cheat Sheet › Introduction"
+    ],
+    [
+     "owasp/Business_Logic_Security_Cheat_Sheet.md",
+     "Business Logic Security Cheat Sheet › Observability and Anomaly Detection › Close the Loop; Business Logic Security Cheat Sheet › Testing Business Logic; Business Logic Security Cheat Sheet › Testing Business Logic › Test the Rules, Not the Implementation; Business Logic Security Cheat Sheet › Testing Business Logic › Test Concurrency; Business Logic Security Cheat Sheet › Testing Business Logic › Test Ordering; Business Logic Security Cheat Sheet › Testing Business Logic › Test with an Adversarial Mindset"
+    ],
+    [
+     "owasp/Secure_Coding_with_AI_Cheat_Sheet.md",
+     "Secure Coding with AI Cheat Sheet › Section 14: Human Accountability; Secure Coding with AI Cheat Sheet › Section 14: Human Accountability › Do; Secure Coding with AI Cheat Sheet › Section 14: Human Accountability › Don't; Secure Coding with AI Cheat Sheet › OWASP Top 10 Mapping"
+    ],
+    [
+     "owasp/RAG_Security_Cheat_Sheet.md",
+     "Retrieval-Augmented Generation (RAG) Security Cheat Sheet › Section 1: Document Poisoning › Attack Vectors; Retrieval-Augmented Generation (RAG) Security Cheat Sheet › Section 1: Document Poisoning › Do; Retrieval-Augmented Generation (RAG) Security Cheat Sheet › Section 1: Document Poisoning › Don't"
+    ],
+    [
+     "owasp/Multi_Tenant_Security_Cheat_Sheet.md",
+     "Multi-Tenant Application Security Cheat Sheet › Best Practices › 3. Preventing Cross-Tenant Data Access (IDOR Prevention)"
+    ]
+   ]
+  },
+  {
+   "id": "u03",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 253.4,
+   "top_score": -11.263172149658203,
+   "top5": [
+    [
+     "owasp/Vulnerability_Disclosure_Cheat_Sheet.md",
+     "Vulnerability Disclosure Cheat Sheet › Reporting Vulnerabilities › Initial Report"
+    ],
+    [
+     "owasp/Vulnerability_Disclosure_Cheat_Sheet.md",
+     "Vulnerability Disclosure Cheat Sheet › Reporting Vulnerabilities › Initial Report; Vulnerability Disclosure Cheat Sheet › Reporting Vulnerabilities › Ongoing Communication"
+    ],
+    [
+     "owasp/SAML_Security_Cheat_Sheet.md",
+     "SAML Security Cheat Sheet › Unsolicited Response (ie. IdP Initiated SSO) Considerations for Service Providers; SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations; SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations"
+    ],
+    [
+     "owasp/XML_Security_Cheat_Sheet.md",
+     "XML Security Cheat Sheet › Dealing with invalid XML documents › Improper Data Validation › Numeric Data Types › Divide by Zero; XML Security Cheat Sheet › Dealing with invalid XML documents › Improper Data Validation › Numeric Data Types › Special Values: Infinity and Not a Number (NaN); XML Security Cheat Sheet › Dealing with invalid XML documents › Improper Data Validation › General Data Restrictions"
+    ],
+    [
+     "owasp/GraphQL_Cheat_Sheet.md",
+     "GraphQL Cheat Sheet › Best Practices and Recommendations › Batching Attacks; GraphQL Cheat Sheet › Best Practices and Recommendations › Batching Attacks › Mitigating Batching Attacks"
+    ]
+   ]
+  },
+  {
+   "id": "u04",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 223.8,
+   "top_score": -10.936952590942383,
+   "top5": [
+    [
+     "owasp/REST_Security_Cheat_Sheet.md",
+     "REST Security Cheat Sheet › JWT"
+    ],
+    [
+     "owasp/Passkey_Security_Cheat_Sheet.md",
+     "Passkey Security Cheat Sheet › Secure Passkey Authentication › Generate and Bind Authentication Options; Passkey Security Cheat Sheet › Secure Passkey Authentication › Verify the Authentication Response"
+    ],
+    [
+     "owasp/Multifactor_Authentication_Cheat_Sheet.md",
+     "Multifactor Authentication Cheat Sheet › Implementing MFA › Resetting MFA"
+    ],
+    [
+     "owasp/User_Privacy_Protection_Cheat_Sheet.md",
+     "User Privacy Protection Cheat Sheet › Guidelines › Panic Modes; User Privacy Protection Cheat Sheet › Guidelines › Remote Session Invalidation; User Privacy Protection Cheat Sheet › Guidelines › Allow Connections from Anonymity Networks"
+    ],
+    [
+     "owasp/Browser_Extension_Vulnerabilities_Cheat_Sheet.md",
+     "Browser Extension Security Vulnerabilities Cheat Sheet › 11. DOM-based Data Skimming › Mitigation: DOM-based Data Skimming; Browser Extension Security Vulnerabilities Cheat Sheet › 12. Prototype-based Data Skimming › Vulnerability: Prototype-based Data Skimming"
+    ]
+   ]
+  },
+  {
+   "id": "u05",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 282.8,
+   "top_score": -11.089864730834961,
+   "top5": [
+    [
+     "owasp/Threat_Modeling_Cheat_Sheet.md",
+     "Threat Modeling Cheat Sheet › Addressing Each Question › System Modeling"
+    ],
+    [
+     "owasp/Attack_Surface_Analysis_Cheat_Sheet.md",
+     "Attack Surface Analysis Cheat Sheet › What is Attack Surface Analysis and Why is it Important"
+    ],
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 8 Detection › 8.4 Documentation for how to detect secrets; Secrets Management Cheat Sheet › 9 Incident Response; Secrets Management Cheat Sheet › 9 Incident Response › 9.1 Documentation; Secrets Management Cheat Sheet › 9 Incident Response › 9.2 Remediation"
+    ],
+    [
+     "owasp/Pinning_Cheat_Sheet.md",
+     "Pinning Cheat Sheet › What Is Pinning › When to Add a Pin; Pinning Cheat Sheet › What Is Pinning › When Do You Perform Pinning; Pinning Cheat Sheet › What Is Pinning › When Do You Not Pin?"
+    ],
+    [
+     "owasp/Authentication_Cheat_Sheet.md",
+     "Authentication Cheat Sheet › Authentication General Guidelines › Implement Proper Password Strength Controls"
+    ]
+   ]
+  },
+  {
+   "id": "u06",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 253.0,
+   "top_score": -11.014073371887207,
+   "top5": [
+    [
+     "owasp/Dependency_Graph_SBOM_Cheat_Sheet.md",
+     "Dependency Graph & SBOM Best Practices Cheat Sheet › Generate for each release; Dependency Graph & SBOM Best Practices Cheat Sheet › Bind and verify release evidence"
+    ],
+    [
+     "owasp/Nextjs_Security_Cheat_Sheet.md",
+     "Next.js Security Cheat Sheet › Classify and Protect Server Entry Points › Protect Draft Mode as a privileged state change; Next.js Security Cheat Sheet › Control Data Crossing into the Browser"
+    ],
+    [
+     "owasp/RAG_Security_Cheat_Sheet.md",
+     "Retrieval-Augmented Generation (RAG) Security Cheat Sheet › Section 1: Document Poisoning › Attack Vectors; Retrieval-Augmented Generation (RAG) Security Cheat Sheet › Section 1: Document Poisoning › Do; Retrieval-Augmented Generation (RAG) Security Cheat Sheet › Section 1: Document Poisoning › Don't"
+    ],
+    [
+     "owasp/Business_Logic_Security_Cheat_Sheet.md",
+     "Business Logic Security Cheat Sheet › Enforce Workflows as Explicit State Machines › Model State on the Server; Business Logic Security Cheat Sheet › Enforce Workflows as Explicit State Machines › Don't Use Hidden Form Fields as State; Business Logic Security Cheat Sheet › Enforce Workflows as Explicit State Machines › Reject Replays of Completed Steps; Business Logic Security Cheat Sheet › Enforce Workflows as Explicit State Machines › Expire Partial States"
+    ],
+    [
+     "owasp/Input_Validation_Cheat_Sheet.md",
+     "Input Validation Cheat Sheet › Implementing Input Validation › Parse Safely, Then Validate; Input Validation Cheat Sheet › Implementing Input Validation › Validate Structured Data; Input Validation Cheat Sheet › Implementing Input Validation › Validating Free-form Unicode Text"
+    ]
+   ]
+  },
+  {
+   "id": "u07",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 183.1,
+   "top_score": -9.332942962646484,
+   "top5": [
+    [
+     "owasp/Session_Management_Cheat_Sheet.md",
+     "Session Management Cheat Sheet › Session Expiration"
+    ],
+    [
+     "owasp/XML_Security_Cheat_Sheet.md",
+     "XML Security Cheat Sheet › Dealing with invalid XML documents › XML Entity Expansion › Server Side Request Forgery › Port Scanning"
+    ],
+    [
+     "owasp/XML_Security_Cheat_Sheet.md",
+     "XML Security Cheat Sheet › Dealing with invalid XML documents › XML Entity Expansion › Server Side Request Forgery › Port Scanning; XML Security Cheat Sheet › Dealing with invalid XML documents › XML Entity Expansion › Server Side Request Forgery › Brute Forcing; XML Security Cheat Sheet › References"
+    ],
+    [
+     "owasp/GraphQL_Cheat_Sheet.md",
+     "GraphQL Cheat Sheet › Best Practices and Recommendations › DoS Prevention › Query Cost Analysis; GraphQL Cheat Sheet › Best Practices and Recommendations › DoS Prevention › Rate Limiting; GraphQL Cheat Sheet › Best Practices and Recommendations › DoS Prevention › Server-side Batching and Caching"
+    ],
+    [
+     "owasp/XS_Leaks_Cheat_Sheet.md",
+     "Cross-site leaks Cheat Sheet › Attacks using browser cache; Cross-site leaks Cheat Sheet › Attacks using browser cache › Defense › Unpredictable tokens for images"
+    ]
+   ]
+  },
+  {
+   "id": "u08",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 258.9,
+   "top_score": -2.674119472503662,
+   "top5": [
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Replay protection › JWT denylist"
+    ],
+    [
+     "owasp/JSON_Web_Token_Cheat_Sheet.md",
+     "JSON Web Token Cheat Sheet › Threats on JWTs › Cross-JWT and token type confusion; JSON Web Token Cheat Sheet › JWT revocation › Token Status List; JSON Web Token Cheat Sheet › Replay protection › JWT denylist"
+    ],
+    [
+     "owasp/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Server-Side Request Forgery Prevention Cheat Sheet › Cases › Case 2 - Application can send requests to ANY external IP address or domain name › Available protections › Application layer"
+    ],
+    [
+     "owasp/XSS_Filter_Evasion_Cheat_Sheet.md",
+     "XSS Filter Evasion Cheat Sheet › Tests › OBJECT Tag; XSS Filter Evasion Cheat Sheet › Tests › EMBED SVG Which Contains XSS Vector; XSS Filter Evasion Cheat Sheet › Tests › XML Data Island with CDATA Obfuscation; XSS Filter Evasion Cheat Sheet › Tests › Locally hosted XML with embedded JavaScript that is generated using an XML data island; XSS Filter Evasion Cheat Sheet › Tests › HTML+TIME in XML; XSS Filter Evasion Cheat Sheet › Tests › Assuming you can only fit in a few characters and it filters against `.js`; XSS Filter Evasion Cheat Sheet › Tests › SSI (Server Side Includes)"
+    ],
+    [
+     "owasp/XML_External_Entity_Prevention_Cheat_Sheet.md",
+     "XML External Entity Prevention Cheat Sheet › PHP; XML External Entity Prevention Cheat Sheet › Python"
+    ]
+   ]
+  },
+  {
+   "id": "u09",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 280.5,
+   "top_score": -0.6777923107147217,
+   "top5": [
+    [
+     "owasp/Drone_Security_Cheat_Sheet.md",
+     "Drone Security Cheat Sheet › Secure Communication Protocols"
+    ],
+    [
+     "owasp/Vulnerable_Dependency_Management_Cheat_Sheet.md",
+     "Vulnerable Dependency Management Cheat Sheet › Remark about the security issue handling decision; Vulnerable Dependency Management Cheat Sheet › Cases; Vulnerable Dependency Management Cheat Sheet › Cases › Case 1 › Context; Vulnerable Dependency Management Cheat Sheet › Cases › Case 1 › Ideal condition of application of the approach; Vulnerable Dependency Management Cheat Sheet › Cases › Case 1 › Approach"
+    ],
+    [
+     "owasp/Nextjs_Security_Cheat_Sheet.md",
+     "Next.js Security Cheat Sheet › Verify the Boundaries; Next.js Security Cheat Sheet › References"
+    ],
+    [
+     "owasp/Abuse_Case_Cheat_Sheet.md",
+     "Abuse Case Cheat Sheet (Historical) › Introduction › Proposal › Step 1: Preparation of the workshop; Abuse Case Cheat Sheet (Historical) › Introduction › Proposal › Step 2: During the workshop"
+    ],
+    [
+     "owasp/Vulnerable_Dependency_Management_Cheat_Sheet.md",
+     "Vulnerable Dependency Management Cheat Sheet › Remark about the detection › 1. Responsible disclosure; Vulnerable Dependency Management Cheat Sheet › Remark about the detection › 2. Full disclosure; Vulnerable Dependency Management Cheat Sheet › Remark about the security issue handling decision; Vulnerable Dependency Management Cheat Sheet › Cases"
+    ]
+   ]
+  },
+  {
+   "id": "u10",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 207.9,
+   "top_score": -1.0575225353240967,
+   "top5": [
+    [
+     "owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md",
+     "Cross-Site Request Forgery Prevention Cheat Sheet › Disallowing simple requests › Employing Custom Request Headers for AJAX/API › Custom Headers and CORS; Cross-Site Request Forgery Prevention Cheat Sheet › Dealing with Client-Side CSRF Attacks (IMPORTANT)"
+    ],
+    [
+     "owasp/Symfony_Cheat_Sheet.md",
+     "Symfony Cheat Sheet › Main Sections › Authentication; Symfony Cheat Sheet › Main Sections › Error Handling Disclosure"
+    ],
+    [
+     "owasp/Zero_Trust_Architecture_Cheat_Sheet.md",
+     "Zero Trust Architecture Cheat Sheet › Network Architecture › Network Controls; Zero Trust Architecture Cheat Sheet › Application and Data Protection › Securing Applications; Zero Trust Architecture Cheat Sheet › Application and Data Protection › Protecting Data; Zero Trust Architecture Cheat Sheet › Monitoring and Analytics › Security Operations; Zero Trust Architecture Cheat Sheet › Monitoring and Analytics › Key Metrics to Track"
+    ],
+    [
+     "owasp/Symfony_Cheat_Sheet.md",
+     "Symfony Cheat Sheet › Main Sections › Session & Cookies Management; Symfony Cheat Sheet › Main Sections › Authentication"
+    ],
+    [
+     "owasp/Docker_Security_Cheat_Sheet.md",
+     "Docker Security Cheat Sheet › Rules › RULE \\#4 - Prevent in-container privilege escalation; Docker Security Cheat Sheet › Rules › RULE \\#5 - Be mindful of Inter-Container Connectivity; Docker Security Cheat Sheet › Rules › RULE \\#5a - Be careful when mapping container ports to the host with firewalls like UFW"
+    ]
+   ]
+  },
+  {
+   "id": "u11",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 244.3,
+   "top_score": -0.09234859049320221,
+   "top5": [
+    [
+     "owasp/Database_Security_Cheat_Sheet.md",
+     "Database Security Cheat Sheet › Database Configuration and Hardening › Hardening a Microsoft SQL Server; Database Security Cheat Sheet › Database Configuration and Hardening › Hardening a MySQL or a MariaDB Server; Database Security Cheat Sheet › Database Configuration and Hardening › Hardening a PostgreSQL Server; Database Security Cheat Sheet › Database Configuration and Hardening › MongoDB; Database Security Cheat Sheet › Database Configuration and Hardening › Redis; Database Security Cheat Sheet › References"
+    ],
+    [
+     "owasp/Multi_Tenant_Security_Cheat_Sheet.md",
+     "Multi-Tenant Application Security Cheat Sheet › Best Practices › 2. Database Isolation Strategies › Do Not Use an RLS-Bypassing Role for Tenant-Scoped Request Paths; Multi-Tenant Application Security Cheat Sheet › Best Practices › 2. Database Isolation Strategies › Scope Tenant Context to the Transaction"
+    ],
+    [
+     "owasp/Business_Logic_Security_Cheat_Sheet.md",
+     "Business Logic Security Cheat Sheet › Prevent Race Conditions on Sensitive Operations › Identify the Critical Sections; Business Logic Security Cheat Sheet › Prevent Race Conditions on Sensitive Operations › Use Database Transactions and Locks"
+    ],
+    [
+     "owasp/Multi_Tenant_Security_Cheat_Sheet.md",
+     "Multi-Tenant Application Security Cheat Sheet › Do's and Don'ts; Multi-Tenant Application Security Cheat Sheet › References"
+    ],
+    [
+     "owasp/Database_Security_Cheat_Sheet.md",
+     "Database Security Cheat Sheet › Introduction; Database Security Cheat Sheet › Protecting the Backend Database"
+    ]
+   ]
+  },
+  {
+   "id": "u12",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 200.3,
+   "top_score": -9.010588645935059,
+   "top5": [
+    [
+     "owasp/Deserialization_Cheat_Sheet.md",
+     "Deserialization Cheat Sheet › Detection Tools; Deserialization Cheat Sheet › References"
+    ],
+    [
+     "owasp/Deserialization_Cheat_Sheet.md",
+     "Deserialization Cheat Sheet › Guidance on Deserializing Objects Safely › .Net CSharp › Known .NET RCE Gadgets; Deserialization Cheat Sheet › Language-Agnostic Methods for Deserializing Safely › Using Alternative Data Formats; Deserialization Cheat Sheet › Language-Agnostic Methods for Deserializing Safely › Only Deserialize Signed Data; Deserialization Cheat Sheet › Mitigation Tools/Libraries; Deserialization Cheat Sheet › Detection Tools"
+    ],
+    [
+     "owasp/XSS_Filter_Evasion_Cheat_Sheet.md",
+     "XSS Filter Evasion Cheat Sheet › Tests › Embedded Newline to Break Up XSS › Example 1: Break Up XSS Attack with Embedded Carriage Return; XSS Filter Evasion Cheat Sheet › Tests › Embedded Newline to Break Up XSS › Example 2: Break Up JavaScript Directive with Null; XSS Filter Evasion Cheat Sheet › Tests › Embedded Newline to Break Up XSS › Example 3: Spaces and Meta Chars Before the JavaScript in Images for XSS; XSS Filter Evasion Cheat Sheet › Tests › Embedded Newline to Break Up XSS › Example 4: Non-alpha-non-digit XSS"
+    ],
+    [
+     "owasp/SAML_Security_Cheat_Sheet.md",
+     "SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations › Certificate Hierarchy › Public Certificate Authority (CA) Signed; SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations › Certificate Hierarchy › Private CA Signed"
+    ],
+    [
+     "owasp/SAML_Security_Cheat_Sheet.md",
+     "SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations › Certificate Hierarchy › Public Certificate Authority (CA) Signed; SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations › Certificate Hierarchy › Private CA Signed; SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations › Certificate Hierarchy › Self-Signed"
+    ]
+   ]
+  },
+  {
+   "id": "u13",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 282.7,
+   "top_score": -5.528220176696777,
+   "top5": [
+    [
+     "owasp/Secure_AI_Model_Ops_Cheat_Sheet.md",
+     "Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 8. Adversarial Robustness; Secure AI/ML Model Ops Cheat Sheet › Security Recommendations › 9. Incident Response & Governance; Secure AI/ML Model Ops Cheat Sheet › References"
+    ],
+    [
+     "owasp/Mobile_Application_Security_Cheat_Sheet.md",
+     "Mobile Application Security Cheat Sheet › Advanced Hardware Security & Monitoring; Mobile Application Security Cheat Sheet › References"
+    ],
+    [
+     "owasp/User_Privacy_Protection_Cheat_Sheet.md",
+     "User Privacy Protection Cheat Sheet › Introduction; User Privacy Protection Cheat Sheet › Guidelines › Strong Cryptography"
+    ],
+    [
+     "owasp/Secure_Coding_with_AI_Cheat_Sheet.md",
+     "Secure Coding with AI Cheat Sheet › OWASP Top 10 Mapping; Secure Coding with AI Cheat Sheet › References"
+    ],
+    [
+     "owasp/Secure_Code_Review_Cheat_Sheet.md",
+     "Secure Code Review Cheat Sheet › Advanced Techniques › Business Logic Analysis; Secure Code Review Cheat Sheet › Advanced Techniques › Security Architecture Review; Secure Code Review Cheat Sheet › Advanced Techniques › Memory Safety; Secure Code Review Cheat Sheet › References"
+    ]
+   ]
+  },
+  {
+   "id": "u14",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 320.8,
+   "top_score": 0.025579921901226044,
+   "top5": [
+    [
+     "owasp/DotNet_Security_Cheat_Sheet.md",
+     "DotNet Security Cheat Sheet › .NET General Guidance › A02 Cryptographic Failures › Encryption; DotNet Security Cheat Sheet › .NET General Guidance › A02 Cryptographic Failures › Encryption for storage"
+    ],
+    [
+     "owasp/Key_Management_Cheat_Sheet.md",
+     "Key Management Cheat Sheet › Key Management Lifecycle Best Practices › Cryptoperiods and Rotation"
+    ],
+    [
+     "owasp/Key_Management_Cheat_Sheet.md",
+     "Key Management Cheat Sheet › Key Management Lifecycle Best Practices › Cryptoperiods and Rotation; Key Management Cheat Sheet › Key Management Lifecycle Best Practices › Escrow and Backup"
+    ],
+    [
+     "owasp/Secrets_Management_Cheat_Sheet.md",
+     "Secrets Management Cheat Sheet › 2 General Secrets Management › 2.7 Secret Lifecycle › 2.7.2 Rotation; Secrets Management Cheat Sheet › 2 General Secrets Management › 2.7 Secret Lifecycle › 2.7.3 Revocation; Secrets Management Cheat Sheet › 2 General Secrets Management › 2.7 Secret Lifecycle › 2.7.4 Expiration; Secrets Management Cheat Sheet › 2 General Secrets Management › 2.8 Transport Layer Security (TLS) Everywhere; Secrets Management Cheat Sheet › 2 General Secrets Management › 2.9 Downtime, Break-glass, Backup and Restore"
+    ],
+    [
+     "owasp/Webhook_Security_Cheat_Sheet.md",
+     "Webhook Security Cheat Sheet › Authenticating Deliveries › Transport Security; Webhook Security Cheat Sheet › Authenticating Deliveries › Signature Verification"
+    ]
+   ]
+  },
+  {
+   "id": "u15",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 361.3,
+   "top_score": 1.3880295753479004,
+   "top5": [
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › SECTION 4: Kubernetes Security Best Practices: Deploy Phase › Providing extra security with a service mesh › Disadvantages of the security mesh; Kubernetes Security Cheat Sheet › SECTION 4: Kubernetes Security Best Practices: Deploy Phase › Implementing centralized policy management"
+    ],
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › SECTION 1: Securing Kubernetes Hosts › Updating Kubernetes › Release schedule for Kubernetes; Kubernetes Security Cheat Sheet › SECTION 2: Securing Kubernetes Components; Kubernetes Security Cheat Sheet › SECTION 2: Securing Kubernetes Components › Securing the Kubernetes Dashboard"
+    ],
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › SECTION 1: Securing Kubernetes Hosts; Kubernetes Security Cheat Sheet › SECTION 1: Securing Kubernetes Hosts › Updating Kubernetes; Kubernetes Security Cheat Sheet › SECTION 1: Securing Kubernetes Hosts › Updating Kubernetes › Release schedule for Kubernetes"
+    ],
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › Overview; Kubernetes Security Cheat Sheet › Receive Alerts for Security Updates and Reporting Vulnerabilities; Kubernetes Security Cheat Sheet › INTRODUCTION: What Is Kubernetes?; Kubernetes Security Cheat Sheet › INTRODUCTION: What Is Kubernetes? › Control Plane Components"
+    ],
+    [
+     "owasp/Kubernetes_Security_Cheat_Sheet.md",
+     "Kubernetes Security Cheat Sheet › SECTION 4: Kubernetes Security Best Practices: Deploy Phase › Continuously assess the privileges used by containers › Utilize Pod Security Standards and the Built-in Pod Security Admission Controller to enforce container privilege levels; Kubernetes Security Cheat Sheet › SECTION 4: Kubernetes Security Best Practices: Deploy Phase › Continuously assess the privileges used by containers › Use Pod security policies to control the security-related attributes of pods, which includes container privilege levels"
+    ]
+   ]
+  },
+  {
+   "id": "u16",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 334.3,
+   "top_score": -7.212421417236328,
+   "top5": [
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Incident Response; Subdomain Takeover Prevention Cheat Sheet › References"
+    ],
+    [
+     "owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md",
+     "Subdomain Takeover Prevention Cheat Sheet › Prevention Strategies › 7. Limit the Blast Radius with Proper Security Scoping; Subdomain Takeover Prevention Cheat Sheet › Monitoring and Detection › Continuous DNS Monitoring; Subdomain Takeover Prevention Cheat Sheet › Monitoring and Detection › Indicators of Compromise"
+    ],
+    [
+     "owasp/Abuse_Case_Cheat_Sheet.md",
+     "Abuse Case Cheat Sheet (Historical) › Introduction › Example of derivation of Abuse Cases as User Stories › A9:2017-Using Components with Known Vulnerabilities; Abuse Case Cheat Sheet (Historical) › Introduction › Example of derivation of Abuse Cases as User Stories › A10:2017-Insufficient Logging & Monitoring; Abuse Case Cheat Sheet (Historical) › Sources of the schemas; Abuse Case Cheat Sheet (Historical) › References"
+    ],
+    [
+     "owasp/Logging_Vocabulary_Cheat_Sheet.md",
+     "Application Logging Vocabulary Cheat Sheet; Application Logging Vocabulary Cheat Sheet › Overview; Application Logging Vocabulary Cheat Sheet › Assumptions"
+    ],
+    [
+     "owasp/Transport_Layer_Security_Cheat_Sheet.md",
+     "Transport Layer Security Cheat Sheet › Certificates › Use an Appropriate Certification Authority for the Application's User Base; Transport Layer Security Cheat Sheet › Certificates › Use CAA Records to Restrict Which CAs can Issue Certificates"
+    ]
+   ]
+  },
+  {
+   "id": "u17",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 349.5,
+   "top_score": -2.88682222366333,
+   "top5": [
+    [
+     "owasp/Cryptographic_Storage_Cheat_Sheet.md",
+     "Cryptographic Storage Cheat Sheet › Algorithms › Random Padding; Cryptographic Storage Cheat Sheet › Algorithms › Secure Random Number Generation"
+    ],
+    [
+     "owasp/SAML_Security_Cheat_Sheet.md",
+     "SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations › Certificate Contents › Keys and Signing Algorithms; SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations › Certificate Contents › Keys and Signing Algorithms › Keys; SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations › Certificate Contents › Keys and Signing Algorithms › Signing Algorithms"
+    ],
+    [
+     "owasp/SAML_Security_Cheat_Sheet.md",
+     "SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › Service Provider (SP) Considerations; SAML Security Cheat Sheet › Input Validation; SAML Security Cheat Sheet › Cryptography"
+    ],
+    [
+     "owasp/Cryptographic_Storage_Cheat_Sheet.md",
+     "Cryptographic Storage Cheat Sheet › Architectural Design › Minimize the Storage of Sensitive Information; Cryptographic Storage Cheat Sheet › Algorithms; Cryptographic Storage Cheat Sheet › Algorithms › Post-Quantum Consideration"
+    ],
+    [
+     "owasp/SAML_Security_Cheat_Sheet.md",
+     "SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations; SAML Security Cheat Sheet › Identity Provider and Service Provider Considerations › X.509 Certificate Considerations › SAML Parties vs Organizations"
+    ]
+   ]
+  },
+  {
+   "id": "u18",
+   "type": "unanswerable",
+   "lang": "en",
+   "answerable": false,
+   "search_ms": 310.8,
+   "top_score": -7.171927452087402,
+   "top5": [
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Introduction; Password Storage Cheat Sheet › Background › Hashing vs Encryption"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Password Hashing Algorithms › Argon2id; Password Storage Cheat Sheet › Password Hashing Algorithms › scrypt; Password Storage Cheat Sheet › Password Hashing Algorithms › bcrypt; Password Storage Cheat Sheet › Password Hashing Algorithms › bcrypt › Input Limits of bcrypt"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Password Hashing Algorithms › Argon2id; Password Storage Cheat Sheet › Password Hashing Algorithms › scrypt"
+    ],
+    [
+     "owasp/Password_Storage_Cheat_Sheet.md",
+     "Password Storage Cheat Sheet › Password Hashing Algorithms › bcrypt; Password Storage Cheat Sheet › Password Hashing Algorithms › bcrypt › Input Limits of bcrypt; Password Storage Cheat Sheet › Password Hashing Algorithms › bcrypt › Pre-Hashing Passwords with bcrypt"
+    ],
+    [
+     "owasp/Docker_Security_Cheat_Sheet.md",
+     "Docker Security Cheat Sheet › Rules › RULE \\#5a - Be careful when mapping container ports to the host with firewalls like UFW › Recommended Mitigations; Docker Security Cheat Sheet › Rules › RULE \\#6 - Use Linux Security Module (seccomp, AppArmor, or SELinux) for Runtime Security"
+    ]
+   ]
+  },
+  {
+   "id": "u19",
+   "type": "unanswerable",
+   "lang": "pt",
+   "answerable": false,
+   "search_ms": 346.1,
+   "top_score": -11.226089477539062,
+   "top5": [
+    [
+     "owasp/LLM_Prompt_Injection_Prevention_Cheat_Sheet.md",
+     "LLM Prompt Injection Prevention Cheat Sheet › Smoke-Testing Your Defenses; LLM Prompt Injection Prevention Cheat Sheet › Smoke-Testing Your Defenses › Grade the intended outcome"
+    ],
+    [
+     "owasp/LLM_Prompt_Injection_Prevention_Cheat_Sheet.md",
+     "LLM Prompt Injection Prevention Cheat Sheet › Smoke-Testing Your Defenses"
+    ],
+    [
+     "owasp/Passkey_Security_Cheat_Sheet.md",
+     "Passkey Security Cheat Sheet › Secure Passkey Authentication › Generate and Bind Authentication Options; Passkey Security Cheat Sheet › Secure Passkey Authentication › Verify the Authentication Response"
+    ],
+    [
+     "owasp/Identity_Propagation_Patterns_Cheat_Sheet.md",
+     "Identity Propagation Patterns Cheat Sheet › Propagation Patterns › External Identity Propagation; Identity Propagation Patterns Cheat Sheet › Propagation Patterns › Simple Service-Level Identity Forwarding; Identity Propagation Patterns Cheat Sheet › Propagation Patterns › Token Exchange"
+    ],
+    [
+     "owasp/HTTP_Headers_Cheat_Sheet.md",
+     "HTTP Security Response Headers Cheat Sheet › Security Headers › Cross-Origin-Embedder-Policy (COEP); HTTP Security Response Headers Cheat Sheet › Security Headers › Cross-Origin-Embedder-Policy (COEP) › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Cross-Origin-Resource-Policy (CORP); HTTP Security Response Headers Cheat Sheet › Security Headers › Cross-Origin-Resource-Policy (CORP) › Recommendation; HTTP Security Response Headers Cheat Sheet › Security Headers › Permissions-Policy (formerly Feature-Policy)"
+    ]
+   ]
+  },
+  {
+   "id": "u20",
+   "type": "unanswerable",
+   "lang": "pt",
+   "answerable": false,
+   "search_ms": 346.2,
+   "top_score": -10.724040985107422,
+   "top5": [
+    [
+     "owasp/Drone_Security_Cheat_Sheet.md",
+     "Drone Security Cheat Sheet › Introduction; Drone Security Cheat Sheet › Drone System Components; Drone Security Cheat Sheet › Vulnerable Endpoints & Security Risks › 1. Communication Security"
+    ],
+    [
+     "owasp/Symfony_Cheat_Sheet.md",
+     "Symfony Cheat Sheet › Main Sections › SQL Injection"
+    ],
+    [
+     "owasp/Authentication_Cheat_Sheet.md",
+     "Authentication Cheat Sheet › Use of authentication protocols that require no password › FIDO; Authentication Cheat Sheet › Use of authentication protocols that require no password › FIDO › Hardware-backed Key Storage; Authentication Cheat Sheet › Password Managers"
+    ],
+    [
+     "owasp/DOM_Clobbering_Prevention_Cheat_Sheet.md",
+     "DOM Clobbering Prevention Cheat Sheet › Background › Example Attack 2; DOM Clobbering Prevention Cheat Sheet › Summary of Guidelines"
+    ],
+    [
+     "owasp/Transport_Layer_Security_Cheat_Sheet.md",
+     "Transport Layer Security Cheat Sheet › Certificates › Carefully Consider the use of Wildcard Certificates; Transport Layer Security Cheat Sheet › Certificates › Use an Appropriate Certification Authority for the Application's User Base"
+    ]
+   ]
+  }
+ ]
+}

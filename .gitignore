@@ -36,3 +36,6 @@ evals/candidates.jsonl
 
 # Progresso parcial da avaliação (permite retomar uma rodada interrompida)
 evals/results/.checkpoints/
+
+# Material pessoal de estudo (não versionado)
+docs/estudo/

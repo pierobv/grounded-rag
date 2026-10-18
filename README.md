@@ -1,38 +1,197 @@
 # Grounded RAG
 
-Assistente de perguntas e respostas sobre documentos, rodando 100% local e com custo zero.
-Toda resposta cita fonte e localização (página ou seção); se os trechos recuperados não contêm a resposta,
-o assistente diz que não sabe.
+A question-answering assistant over security documentation that runs entirely on my laptop,
+cites the section behind every claim, and says "I don't know" when the documents don't have the
+answer.
 
-O foco do projeto é a **avaliação**: cada decisão (chunking, busca, reranking, modelo) é
-medida com métricas e registrada em [`docs/decisions.md`](docs/decisions.md).
+I built it to learn AI engineering properly, which for me meant two things: no LangChain or
+LlamaIndex (I wanted to write the chunking, rank fusion and metrics myself and understand every
+line), and no decision made on gut feeling. Every choice in the pipeline, from chunk size to the
+reranker, was measured against an evaluation set before it became the default.
 
-## Requisitos
+```
+$ uv run grounded-rag ask "How do I stop other sites from embedding my pages in an iframe?"
 
-- [uv](https://docs.astral.sh/uv/)
-- [Ollama](https://ollama.com/) com os modelos:
-  `ollama pull nomic-embed-text && ollama pull qwen2.5:7b && ollama pull llama3.2:3b`
+You can use the `X-Frame-Options` header or the `frame-ancestors` directive in a Content
+Security Policy (CSP) to stop other sites from embedding your pages in an iframe [1][2][4].
+Setting these headers or directives appropriately can help prevent clickjacking attacks and
+ensure that your content is not embedded into other sites [1][2][4].
 
-## Começando
+Fontes:
+  [1] owasp/Clickjacking_Defense_Cheat_Sheet.md — Clickjacking Defense Cheat Sheet › Defending with X-Frame-Options Response Headers
+  [2] owasp/Clickjacking_Defense_Cheat_Sheet.md — Clickjacking Defense Cheat Sheet › Defending with Content Security Policy (CSP) frame-ancestors directive
+  [4] owasp/XS_Leaks_Cheat_Sheet.md — Cross-site leaks Cheat Sheet › Attacks using the element ID attribute › Defense › Framing protection
 
-```bash
-uv sync                 # cria o ambiente e instala as dependências
-cp .env.example .env    # ajuste OLLAMA_BASE_URL
-uv run python scripts/fetch_corpus.py   # baixa o corpus (OWASP Cheat Sheets)
-uv run grounded-rag ingest              # gera os trechos e o índice vetorial (Chroma)
-uv run grounded-rag search "How do I prevent CSRF?"   # padrão: híbrido (RRF) + reranking
-uv run grounded-rag search "..." --mode bm25 --no-rerank   # modos: vector | bm25 | hybrid
-uv run grounded-rag ask "How should I store passwords?"    # resposta com citações
-uv run grounded-rag ask "..." --dev --show-context         # modelo 3B + trechos usados
-uv run pytest           # testes (offline; o Ollama é simulado)
-uv run pytest -m ollama # testes de integração com o Ollama real
-uv run pytest -m models # testes com o cross-encoder real (baixa o modelo)
-uv run grounded-rag --help
+(qwen2.5:7b · busca 11044 ms · 1º token 20.9 s · total 28.6 s · 81 tokens (10 tok/s) · prompt 1150 tokens)
 ```
 
-## Corpus
+(That's a real run, copied as is. The CLI talks in Portuguese, and the timings are from a cold
+start with the models still loading.)
 
-O corpus público são os [OWASP Cheat Sheets](https://github.com/OWASP/CheatSheetSeries),
-© OWASP Foundation, licenciados sob [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-Os arquivos não são versionados aqui: `scripts/fetch_corpus.py` os baixa em um commit fixo, e
-`data/public/owasp/MANIFEST.json` registra o commit e o hash de cada arquivo.
+## What's inside
+
+The corpus is the [OWASP Cheat Sheet Series](https://github.com/OWASP/CheatSheetSeries): 137
+Markdown documents, pinned to a specific commit so results stay comparable.
+
+```
+question ─┬─ vector search (bge-m3, top 20) ─┐
+          └─ BM25          (top 20)          ┴─ reciprocal rank fusion ─ cross-encoder rerank ─ top 5
+                                                                                             │
+          prompt: rules + 2 examples + 5 numbered excerpts + question ◄──────────────────────┘
+                                         │
+                            qwen2.5:7b via Ollama (streaming)
+                                         │
+                text with [n] markers ── validated with Pydantic ── answer + sources
+```
+
+- **Ingestion.** Markdown is split by section, keeping the full heading path
+  (`Password Storage Cheat Sheet › Password Hashing Algorithms › Argon2id`) as the location.
+  Long sections become 200-word windows with overlap, and the heading path is prepended to each
+  chunk, which turned out to matter a lot (see below). PDFs are read page by page.
+- **Retrieval.** Embeddings come from Ollama and live in a persistent Chroma collection, one
+  collection per configuration. BM25 is built in memory. The two rankings are merged with
+  reciprocal rank fusion and the top 20 are reordered by a cross-encoder.
+- **Generation.** The model has to put `[n]` after every factual sentence. A parser checks every
+  marker against the excerpts that were actually sent, drops citations to excerpts that don't
+  exist, and builds a Pydantic model that cannot be constructed without at least one valid
+  citation. An answer with no valid citation becomes "I don't know". That rule lives in the
+  code, not just in the prompt.
+- **Evaluation.** 101 questions, retrieval and answer metrics, an LLM judge for faithfulness, and
+  bootstrap confidence intervals on everything.
+
+## How I evaluated it
+
+The dataset (`evals/dataset.jsonl`) has 101 questions: 56 generated by an LLM from randomly
+sampled sections and then reviewed by hand, 15 Portuguese translations of those, 10 questions
+that need several sections, and 20 questions the corpus can't answer (half of them close to the
+domain, like "What is the CVSS score of Log4Shell?"). I threw away 24 of the 80 generated
+candidates, mostly because the answer also existed in another cheat sheet, which would have
+punished retrieval for being right. The whole curation is recorded in
+`scripts/build_dataset.py`.
+
+Relevance is labeled by section, not by chunk ID, so the same dataset can score any chunking
+strategy. All metrics are implemented in `src/grounded_rag/evaluation/metrics.py`.
+
+### Retrieval (recall@5, 81 answerable questions, 95% CI in parentheses)
+
+| Configuration | R@5 | R@1 | MRR@10 | Portuguese | Search p50 |
+|---|---|---|---|---|---|
+| BM25 | 66 (55–75) | 42 | 55 | 40 | 4 ms |
+| Vector (nomic-embed-text) | 83 (75–90) | 53 | 68 | 53 | 29 ms |
+| Hybrid, no rerank | 78 (69–87) | 51 | 66 | 47 | 34 ms |
+| Hybrid + MiniLM reranker | 85 (77–92) | 58 | 72 | 53 | 155 ms |
+| + heading path in chunks | 88 (80–94) | 62 | 77 | 53 | 250 ms |
+| **bge-m3 + bge-reranker-v2-m3 + headings** (default) | **95 (90–99)** | **74** | **86** | **93** | 4.2 s |
+
+Things I didn't expect:
+
+- **Hybrid search without reranking was worse than plain vector search.** BM25 is weak on this
+  corpus and fusion gives it the same weight. With a reranker on top, hybrid becomes the best
+  of the three. So "just add BM25" is not free.
+- **Chunk size barely mattered** (100, 200 and 400 words all landed between 82 and 85).
+  Putting the heading path inside each chunk did: questions that span several sections went
+  from 60% to 83%. Short sections like "Don't do this." are useless without their title.
+- **Multilingual models only helped when used together.** Switching just the embedding model or
+  just the reranker barely moved the Portuguese questions. Switching both took them from 53% to
+  93%, and also pushed English from 85% to 94%.
+- The price is latency: the multilingual reranker has 568M parameters and takes about 4 seconds
+  on my M4. I kept it as the default because generation takes longer than that anyway, but the
+  fast English-only setup is one line in `.env` away.
+
+### Answers
+
+Measured on the 3B model (llama3.2:3b) with the default retrieval setup. Answer and refusal rates
+come together on purpose: a system that always says "I don't know" would score 100% on refusals.
+
+| Metric | llama3.2:3b |
+|---|---|
+| Answers the answerable questions | 88% (80–94) |
+| Refuses the out-of-corpus questions | 90% (75–100) |
+| Citations pointing to a relevant section | 77% (69–85) |
+| Key facts present in the answer | 85% (75–92) |
+| Cited sentences supported by their excerpt (judge) | 79% (69–88) |
+| Citations to excerpts that don't exist | 0% |
+
+The faithfulness judge is qwen2.5:7b, asked whether each cited sentence is supported by the
+excerpts it cites. I checked it against 30 verdicts I labeled myself and it agreed on 29. The
+one miss was the worse kind of mistake (it approved a claim the excerpt didn't support), so treat
+that column as slightly optimistic.
+
+Two things stood out in the 3B run. Every time it said "I don't know" to a question it should
+have answered, the right excerpt was already in its top 5, so those misses are on the model, not
+on retrieval. And twice it answered a question the corpus can't answer, with a citation (an
+invented `certbot` command and "Kubernetes 1.30 was released [2]"). Checking that a citation
+exists doesn't catch that; the faithfulness judge did. The 7B run is still in progress and will
+be added here.
+
+Full tables for all 19 experiments are in [`evals/results/README.md`](evals/results/README.md),
+and the reasoning behind each decision is in [`docs/decisions.md`](docs/decisions.md) (in
+Portuguese, my working language for this project).
+
+## Running it
+
+You need [uv](https://docs.astral.sh/uv/) and [Ollama](https://ollama.com/).
+
+```bash
+ollama pull bge-m3 && ollama pull qwen2.5:7b && ollama pull llama3.2:3b
+uv sync
+cp .env.example .env                     # OLLAMA_BASE_URL and friends
+uv run python scripts/fetch_corpus.py    # downloads the pinned OWASP corpus
+uv run grounded-rag ingest               # chunks + embeddings
+uv run grounded-rag ask "How should I store user passwords?"
+```
+
+The reranker (`BAAI/bge-reranker-v2-m3`, about 2 GB) is downloaded from Hugging Face the first
+time it runs. Other useful commands:
+
+```bash
+uv run grounded-rag ask "..." --dev --show-context     # 3B model, shows the excerpts it got
+uv run grounded-rag search "JWT alg none" --mode bm25 --no-rerank
+uv run grounded-rag eval --retrieval-only              # every retrieval experiment
+uv run grounded-rag eval --experiments D2-qwen7b       # generation + judge (slow, resumable)
+uv run pytest                                          # offline tests, Ollama is mocked
+uv run pytest -m ollama                                # tests against the real models
+```
+
+Everything is configured through environment variables (see `.env.example`). The Ollama address
+is never hardcoded, so the heavy evaluation runs can point at another machine.
+
+## Project layout
+
+```
+src/grounded_rag/
+  ingest/       readers (Markdown by section, PDF by page), cleaning, chunking
+  retrieval/    embeddings, Chroma, BM25, reciprocal rank fusion, reranking
+  generation/   prompt, streaming Ollama client, citation validation
+  evaluation/   dataset schema, metrics, LLM judge, experiment runner, report
+evals/          dataset, experiments.toml, results
+scripts/        corpus download, question generation, dataset curation
+docs/           decision log
+```
+
+The CI runs ruff, the test suite (with every model mocked) and Semgrep on each push.
+
+## Limitations
+
+- 101 questions is a small set. That's why every number comes with a confidence interval, and
+  why I don't read much into differences of two or three points.
+- The questions were generated from the text, which favors exact terms. The paraphrase subset
+  exists to keep that honest.
+- The judge is an LLM, and for the 7B run it's the same model that wrote the answers.
+- Latency numbers come from a 16 GB M4 with other apps open.
+- I only evaluated Markdown. The PDF reader is tested, but not measured on real documents yet.
+
+## What's next
+
+An API with a streaming `/ask` endpoint and a small web UI, weighted fusion with less weight on
+BM25, and running the same evaluation on the PDFs from my master's course, which are in
+Portuguese.
+
+## Credits
+
+The corpus is the OWASP Cheat Sheet Series, © OWASP Foundation, licensed under
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). It isn't stored in this
+repository; `scripts/fetch_corpus.py` downloads it at a pinned commit and
+`data/public/owasp/MANIFEST.json` records the hash of every file.
+
+I built this with Claude Code as a pair programmer.
