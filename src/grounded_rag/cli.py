@@ -205,7 +205,10 @@ def run_ask(args: argparse.Namespace) -> int:
     try:
         retriever = factory.build_retriever(settings, config, mode, rerank)
         llm = factory.make_llm(settings, model)
-        for event in stream_answer(args.question, retriever, llm, k, min_score):
+        events = stream_answer(
+            args.question, retriever, llm, k, min_score, settings.abstain_message
+        )
+        for event in events:
             if isinstance(event, Retrieved) and args.show_context:
                 print("Trechos enviados ao modelo:")
                 for n, r in enumerate(event.results, start=1):

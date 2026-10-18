@@ -12,7 +12,12 @@ import time
 from collections.abc import Iterator
 from dataclasses import dataclass
 
-from grounded_rag.generation.citations import Answer, abstention, build_answer
+from grounded_rag.generation.citations import (
+    DEFAULT_ABSTAIN_MESSAGE,
+    Answer,
+    abstention,
+    build_answer,
+)
 from grounded_rag.generation.llm import LLM, ChatDelta, ChatDone
 from grounded_rag.generation.prompt import ABSTAIN_SENTINEL, PROMPT_VERSION, build_messages
 from grounded_rag.retrieval.base import Retriever, SearchResult
@@ -92,6 +97,7 @@ def stream_answer(
     llm: LLM,
     k: int,
     min_score: float | None = None,
+    abstain_message: str = DEFAULT_ABSTAIN_MESSAGE,
 ) -> Iterator[AnswerEvent]:
     started = time.perf_counter()
 
@@ -106,7 +112,7 @@ def stream_answer(
     # responde "não sei" sem gastar uma chamada ao LLM.
     if not results or (min_score is not None and results[0].score < min_score):
         stats = GenerationStats(llm.name, PROMPT_VERSION, retrieval_ms, None, elapsed_ms())
-        yield Final(abstention(raw_text=""), stats)
+        yield Final(abstention(raw_text="", message=abstain_message), stats)
         return
 
     chunks = [r.chunk for r in results]
@@ -140,4 +146,4 @@ def stream_answer(
             done and prompt_tokens >= CONTEXT_WARNING_RATIO * done.context_window
         ),
     )
-    yield Final(build_answer("".join(text_parts), chunks), stats)
+    yield Final(build_answer("".join(text_parts), chunks, abstain_message), stats)

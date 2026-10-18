@@ -48,19 +48,21 @@ def abstention(raw_text: str, message: str = DEFAULT_ABSTAIN_MESSAGE) -> Answer:
     return Answer(text=message, citations=[], abstained=True, raw_text=raw_text)
 
 
-def build_answer(raw_text: str, chunks: list[Chunk]) -> Answer:
+def build_answer(
+    raw_text: str, chunks: list[Chunk], abstain_message: str = DEFAULT_ABSTAIN_MESSAGE
+) -> Answer:
     """Valida o texto do modelo contra os trechos que foram enviados no prompt.
 
-    1. Sentinela presente -> abstenção (usando a frase que o modelo escreveu depois dele).
+    1. Sentinela presente -> abstenção com a NOSSA mensagem fixa. A frase que o modelo escreve
+       depois do sentinela é ignorada (fica só em raw_text): o qwen2.5:7b chegou a escrevê-la
+       em chinês para uma pergunta em português (decisão 034).
     2. Marcadores para trechos inexistentes ([7] com 5 trechos) são removidos e registrados.
     3. Nenhuma citação válida -> abstenção: afirmação sem fonte não chega ao usuário.
     """
     text = raw_text.strip()
 
-    if match := SENTINEL_RE.search(text):
-        message = text[match.end() :].strip(" :.-\n")
-        message = MARKER_RE.sub("", message).strip()  # ex.: "INSUFFICIENT_CONTEXT[1]"
-        return abstention(raw_text, f"{message}." if message else DEFAULT_ABSTAIN_MESSAGE)
+    if SENTINEL_RE.search(text):
+        return abstention(raw_text, abstain_message)
 
     valid: list[int] = []  # na ordem da primeira aparição no texto
     invalid: list[int] = []
@@ -78,7 +80,7 @@ def build_answer(raw_text: str, chunks: list[Chunk]) -> Answer:
     cleaned = MARKER_RE.sub(check_marker, text)
 
     if not valid:
-        return abstention(raw_text)
+        return abstention(raw_text, abstain_message)
 
     citations = [
         Citation(number=n, source=chunks[n - 1].source, location=chunks[n - 1].location)

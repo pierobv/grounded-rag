@@ -68,6 +68,9 @@ class Settings(BaseSettings):
     # Portão de confiança: se o melhor trecho (após reranking) tiver score abaixo disso,
     # responde "não sei" sem chamar o LLM. Desligado (vazio) até ser calibrado na avaliação.
     min_rerank_score: float | None = None
+    # Mensagem mostrada quando o assistente não sabe. Fixa (não é o LLM que escreve):
+    # previsível e sempre no idioma escolhido.
+    abstain_message: str = "Não encontrei essa informação nos documentos."
 
     @model_validator(mode="after")
     def _check_overlap(self) -> Self:

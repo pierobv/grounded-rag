@@ -55,7 +55,7 @@ def test_sentinel_is_not_streamed_to_the_user():
 
     assert text == ""  # nada de "INSUFFICIENT_CONTEXT" na tela
     assert final.answer.abstained
-    assert final.answer.text == "The documents do not say."
+    assert final.answer.text == "Não encontrei essa informação nos documentos."
 
 
 def test_text_that_only_looks_like_sentinel_at_first_is_released():

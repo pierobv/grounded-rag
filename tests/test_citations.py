@@ -58,15 +58,25 @@ def test_only_invalid_citations_also_abstains():
         "INSUFFICIENT_CONTEXT[1] The documents do not contain this information.",
     ],
 )
-def test_sentinel_variants_abstain_with_model_message(raw):
+def test_sentinel_variants_abstain_with_fixed_message(raw):
     answer = build_answer(raw, CHUNKS)
 
     assert answer.abstained
-    assert answer.text == "The documents do not contain this information."
+    assert answer.text == DEFAULT_ABSTAIN_MESSAGE
+    assert answer.raw_text == raw  # a frase do modelo fica só no texto bruto
 
 
-def test_bare_sentinel_uses_default_message():
-    assert build_answer("INSUFFICIENT_CONTEXT", CHUNKS).text == DEFAULT_ABSTAIN_MESSAGE
+def test_model_sentence_in_another_language_is_ignored():
+    # Caso real: qwen2.5:7b respondeu em chinês a uma pergunta em português.
+    answer = build_answer("INSUFFICIENT_CONTEXT 文档中没有包含此信息。", CHUNKS)
+
+    assert answer.text == DEFAULT_ABSTAIN_MESSAGE
+
+
+def test_custom_abstain_message():
+    answer = build_answer("No citation here.", CHUNKS, abstain_message="I don't know.")
+
+    assert answer.abstained and answer.text == "I don't know."
 
 
 def test_model_refuses_ungrounded_answer():

@@ -152,6 +152,20 @@ def test_cli_ask_discards_uncited_answer(cli_env, capsys, fake_llm):
     assert "Não encontrei essa informação nos documentos." in out
 
 
+def test_cli_ask_uses_configured_abstain_message(cli_env, capsys, monkeypatch, fake_llm):
+    monkeypatch.setenv("ABSTAIN_MESSAGE", "I could not find this in the documents.")
+    get_settings.cache_clear()
+    main(["ingest", *SIZE])
+    capsys.readouterr()
+    fake_llm.reply = "INSUFFICIENT_CONTEXT 文档中没有包含此信息。"
+
+    main(["ask", "capital of Australia?", *SIZE])
+
+    out = capsys.readouterr().out
+    assert "I could not find this in the documents." in out
+    assert "文档" not in out
+
+
 @pytest.mark.parametrize(
     ("flags", "expected"),
     [([], "qwen2.5:7b"), (["--dev"], "llama3.2:3b"), (["--model", "x:1b"], "x:1b")],
