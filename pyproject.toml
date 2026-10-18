@@ -3,6 +3,8 @@ name = "grounded-rag"
 version = "0.1.0"
 description = "Assistente RAG local e avaliado: respostas fundamentadas em documentos, com citações de fonte e página."
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     { name = "Piero Volpato", email = "pierobvdev@gmail.com" }
 ]

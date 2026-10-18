@@ -187,7 +187,9 @@ An API with a streaming `/ask` endpoint and a small web UI, weighted fusion with
 BM25, and running the same evaluation on the PDFs from my master's course, which are in
 Portuguese.
 
-## Credits
+## License and credits
+
+The code is MIT licensed (see `LICENSE`).
 
 The corpus is the OWASP Cheat Sheet Series, © OWASP Foundation, licensed under
 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). It isn't stored in this
