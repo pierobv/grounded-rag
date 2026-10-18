@@ -24,14 +24,26 @@ def find_documents(data_dir: Path) -> list[Path]:
     return sorted(p for p in data_dir.rglob("*") if p.is_file() and p.suffix.lower() in READERS)
 
 
-def ingest_folder(data_dir: Path, strategy: str, size: int, overlap: int) -> list[Chunk]:
+def with_heading(chunk: Chunk) -> Chunk:
+    """Contextual chunk header: põe a localização no início do texto do trecho.
+
+    Um trecho como "Don't do this." sozinho não diz nada; com o cabeçalho
+    "Cryptographic Storage Cheat Sheet › Algorithms › Custom Algorithms" ele passa a ser
+    encontrável (embedding e BM25 veem os títulos) e compreensível para o LLM.
+    """
+    return replace(chunk, text=f"{chunk.location}\n\n{chunk.text}")
+
+
+def ingest_folder(
+    data_dir: Path, strategy: str, size: int, overlap: int, headings: bool = False
+) -> list[Chunk]:
     chunks: list[Chunk] = []
     for path in find_documents(data_dir):
         clean = CLEANERS[path.suffix.lower()]
         segments = [replace(s, text=clean(s.text)) for s in read_document(path, root=data_dir)]
         segments = [s for s in segments if s.text]  # a limpeza pode esvaziar um segmento
         chunks.extend(chunk_segments(segments, strategy, size, overlap))
-    return chunks
+    return [with_heading(c) for c in chunks] if headings else chunks
 
 
 def write_jsonl(chunks: list[Chunk], path: Path) -> None:

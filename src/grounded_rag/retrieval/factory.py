@@ -26,10 +26,12 @@ class ChunkingConfig:
     strategy: str
     size: int
     overlap: int
+    headings: bool = False  # contextual chunk headers (título no início do trecho)
 
     @property
     def index_name(self) -> str:
-        return f"{self.strategy}-{self.size}-{self.overlap}"
+        suffix = "-h" if self.headings else ""
+        return f"{self.strategy}-{self.size}-{self.overlap}{suffix}"
 
 
 def chunks_path(settings: Settings, config: ChunkingConfig) -> Path:
@@ -56,6 +58,13 @@ def make_llm(settings: Settings, model: str) -> LLM:
         temperature=settings.temperature,
         seed=settings.seed,
     )
+
+
+def make_judge(settings: Settings):
+    """Juiz de fidelidade da avaliação: usa o LLM principal (LLM_MODEL)."""
+    from grounded_rag.evaluation.judge import OllamaJudge
+
+    return OllamaJudge(make_llm(settings, settings.llm_model))
 
 
 def make_reranker(settings: Settings) -> Reranker:

@@ -68,7 +68,7 @@ def test_cli_ingest_writes_chunks_indexes_and_prints_stats(cli_env, capsys):
     out = capsys.readouterr().out
     assert "Documentos: 2  Trechos: 2" in out
     assert "Índice vetorial: 2 novos, 0 removidos, 0 mantidos" in out
-    assert len(read_jsonl(cli_env / "processed" / "chunks-fixed-50-0.jsonl")) == 2
+    assert len(read_jsonl(cli_env / "processed" / "chunks-fixed-50-0-h.jsonl")) == 2
 
 
 def test_cli_ingest_no_index_skips_embeddings(cli_env, capsys, fake_embedder):

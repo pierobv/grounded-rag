@@ -11,6 +11,7 @@ Com stream=true, a resposta é NDJSON: um objeto JSON por linha, à medida que o
 """
 
 import json
+import time
 from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Protocol
@@ -38,12 +39,21 @@ class ChatDone:
 
 ChatEvent = ChatDelta | ChatDone
 
+# Erros 5xx do Ollama costumam ser transitórios (ex.: "timed out waiting for llama-server to
+# start" quando a memória está apertada e ele está trocando de modelo). Tentamos de novo.
+RETRIES = 3
+RETRY_WAIT_S = 10.0
+
 
 class LLM(Protocol):
     @property
     def name(self) -> str: ...
 
     def stream_chat(self, messages: list[dict[str, str]]) -> Iterator[ChatEvent]: ...
+
+
+class _TransientError(Exception):
+    """Erro 5xx antes do streaming começar: vale tentar de novo."""
 
 
 class OllamaChat:
@@ -70,7 +80,49 @@ class OllamaChat:
     def name(self) -> str:
         return self.model
 
+    def complete_json(self, messages: list[dict[str, str]], schema: dict) -> dict:
+        """Resposta inteira (sem streaming) forçada a seguir um JSON Schema.
+
+        O Ollama aceita o schema no campo `format` e restringe a geração token a token
+        (structured outputs): a saída é sempre JSON válido nesse formato.
+        """
+        payload = {
+            "model": self.model,
+            "messages": messages,
+            "stream": False,
+            "format": schema,
+            "options": self.options,
+        }
+        try:
+            response = self._client.post("/api/chat", json=payload)
+            for attempt in range(1, RETRIES):
+                if response.status_code < 500:
+                    break
+                time.sleep(RETRY_WAIT_S * attempt)
+                response = self._client.post("/api/chat", json=payload)
+        except httpx.ConnectError as exc:
+            raise OllamaError(f"Não foi possível conectar ao Ollama em {self._base_url}.") from exc
+        if response.status_code == 404:
+            raise OllamaError(
+                f"Modelo '{self.model}' não encontrado. Rode: ollama pull {self.model}"
+            )
+        if response.is_error:
+            raise OllamaError(f"Ollama respondeu {response.status_code}: {response.text[:200]}")
+        return json.loads(response.json()["message"]["content"])
+
     def stream_chat(self, messages: list[dict[str, str]]) -> Iterator[ChatEvent]:
+        # Tenta de novo só se o erro 5xx vier ANTES do primeiro pedaço de texto: depois que o
+        # streaming começou, repetir duplicaria o texto já entregue.
+        for attempt in range(1, RETRIES + 1):
+            try:
+                yield from self._stream_chat_once(messages)
+                return
+            except _TransientError as exc:
+                if attempt == RETRIES:
+                    raise OllamaError(str(exc)) from exc
+                time.sleep(RETRY_WAIT_S * attempt)
+
+    def _stream_chat_once(self, messages: list[dict[str, str]]) -> Iterator[ChatEvent]:
         payload = {
             "model": self.model,
             "messages": messages,
@@ -86,9 +138,10 @@ class OllamaChat:
                     )
                 if response.is_error:
                     response.read()
-                    raise OllamaError(
-                        f"Ollama respondeu {response.status_code}: {response.text[:200]}"
-                    )
+                    message = f"Ollama respondeu {response.status_code}: {response.text[:200]}"
+                    if response.status_code >= 500:
+                        raise _TransientError(message)
+                    raise OllamaError(message)
 
                 for line in response.iter_lines():
                     if not line:

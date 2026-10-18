@@ -74,3 +74,47 @@ def test_connection_error_has_helpful_message():
 
     with pytest.raises(OllamaError, match="OLLAMA_BASE_URL"):
         list(make_llm(handler).stream_chat(MESSAGES))
+
+
+def test_transient_5xx_is_retried(monkeypatch):
+    monkeypatch.setattr("grounded_rag.generation.llm.RETRY_WAIT_S", 0)
+    calls = []
+
+    def handler(request):
+        calls.append(1)
+        if len(calls) == 1:
+            return httpx.Response(500, json={"error": "timed out waiting for llama-server"})
+        return httpx.Response(
+            200, content=ndjson({"message": {"content": "ok"}, "done": False}, {"done": True})
+        )
+
+    events = list(make_llm(handler).stream_chat(MESSAGES))
+
+    assert len(calls) == 2
+    assert events[0] == ChatDelta("ok")
+
+
+def test_persistent_5xx_gives_up(monkeypatch):
+    monkeypatch.setattr("grounded_rag.generation.llm.RETRY_WAIT_S", 0)
+
+    def handler(request):
+        return httpx.Response(500, json={"error": "boom"})
+
+    with pytest.raises(OllamaError, match="500"):
+        list(make_llm(handler).stream_chat(MESSAGES))
+
+
+def test_complete_json_retries_and_parses(monkeypatch):
+    monkeypatch.setattr("grounded_rag.generation.llm.RETRY_WAIT_S", 0)
+    calls = []
+
+    def handler(request):
+        calls.append(json.loads(request.content))
+        if len(calls) == 1:
+            return httpx.Response(503)
+        return httpx.Response(200, json={"message": {"content": '{"supported": true}'}})
+
+    result = make_llm(handler).complete_json(MESSAGES, {"type": "object"})
+
+    assert result == {"supported": True}
+    assert calls[1]["format"] == {"type": "object"} and calls[1]["stream"] is False

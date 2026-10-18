@@ -26,7 +26,8 @@ class Settings(BaseSettings):
     # por isso têm padrão; podem ser trocados por variável de ambiente.
     llm_model: str = "qwen2.5:7b"
     dev_llm_model: str = "llama3.2:3b"
-    embedding_model: str = "nomic-embed-text"
+    # bge-m3: multilíngue, venceu a avaliação (docs/decisions.md, decisões 029 e 030).
+    embedding_model: str = "bge-m3"
 
     # Caminhos de dados (relativos à raiz do projeto).
     data_dir: Path = Path("data/public")
@@ -38,11 +39,13 @@ class Settings(BaseSettings):
     chunk_strategy: Literal["fixed", "structure"] = "structure"
     chunk_size: PositiveInt = 200
     chunk_overlap: int = 40
+    # Contextual chunk headers: o caminho de títulos vai no início do texto de cada trecho.
+    chunk_headings: bool = True
 
-    # Embeddings. O nomic-embed-text foi treinado com prefixos de tarefa; outro modelo
-    # pode precisar de outros prefixos (ou nenhum: defina a variável vazia).
-    embed_doc_prefix: str = "search_document: "
-    embed_query_prefix: str = "search_query: "
+    # Prefixos de tarefa do embedding. O bge-m3 não usa; o nomic-embed-text usa
+    # "search_document: " e "search_query: ".
+    embed_doc_prefix: str = ""
+    embed_query_prefix: str = ""
     embed_batch_size: PositiveInt = 32
 
     # Busca
@@ -54,7 +57,9 @@ class Settings(BaseSettings):
 
     # Reranking com cross-encoder (sentence-transformers; baixado do Hugging Face no 1º uso).
     rerank: bool = True
-    rerank_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    # bge-reranker-v2-m3: multilíngue e mais preciso; ~2–4 s por pergunta no M4.
+    # Alternativa rápida (só inglês): cross-encoder/ms-marco-MiniLM-L-6-v2.
+    rerank_model: str = "BAAI/bge-reranker-v2-m3"
 
     # Geração
     num_ctx: PositiveInt = 8192  # contexto do LLM em tokens (o Ollama corta o que passar)

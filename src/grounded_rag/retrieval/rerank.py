@@ -8,6 +8,7 @@ Bem mais preciso, mas exige uma passada do modelo por par (pergunta, trecho): in
 corpus inteiro. Por isso o fluxo é: busca barata traz N candidatos -> cross-encoder reordena.
 """
 
+from functools import lru_cache
 from typing import Protocol
 
 from grounded_rag.retrieval.base import Retriever, SearchResult
@@ -17,15 +18,21 @@ class Reranker(Protocol):
     def score(self, query: str, texts: list[str]) -> list[float]: ...
 
 
+@lru_cache(maxsize=2)
+def _load_cross_encoder(model_name: str):
+    """Carrega o modelo uma vez por processo (a avaliação roda vários experimentos seguidos)."""
+    # Import aqui dentro: carregar sentence-transformers traz o PyTorch (segundos de
+    # inicialização). Assim, quem não usa reranking (e os testes) não paga esse custo.
+    from sentence_transformers import CrossEncoder
+
+    # Na primeira execução o modelo é baixado do Hugging Face e fica em cache local.
+    # O dispositivo é escolhido automaticamente (MPS = GPU do Mac, quando disponível).
+    return CrossEncoder(model_name)
+
+
 class CrossEncoderReranker:
     def __init__(self, model_name: str) -> None:
-        # Import aqui dentro: carregar sentence-transformers traz o PyTorch (segundos de
-        # inicialização). Assim, quem não usa reranking (e os testes) não paga esse custo.
-        from sentence_transformers import CrossEncoder
-
-        # Na primeira execução o modelo é baixado do Hugging Face e fica em cache local.
-        # O dispositivo é escolhido automaticamente (MPS = GPU do Mac, quando disponível).
-        self._model = CrossEncoder(model_name)
+        self._model = _load_cross_encoder(model_name)
 
     def score(self, query: str, texts: list[str]) -> list[float]:
         if not texts:

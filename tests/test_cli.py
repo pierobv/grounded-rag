@@ -1,6 +1,6 @@
 import pytest
 
-from grounded_rag.cli import build_parser, main
+from grounded_rag.cli import build_parser
 
 
 def test_ask_parses_question():
@@ -16,8 +16,3 @@ def test_unknown_command_exits_with_error():
         build_parser().parse_args(["voar"])
 
     assert exc.value.code == 2
-
-
-def test_unimplemented_command_returns_nonzero(capsys):
-    assert main(["eval"]) == 1
-    assert "ainda não implementado" in capsys.readouterr().err

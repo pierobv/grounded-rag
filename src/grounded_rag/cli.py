@@ -1,7 +1,7 @@
 """Interface de linha de comando: `grounded-rag ingest | search | ask | eval`.
 
 O CLI é uma camada fina: lê argumentos, chama as funções do projeto e imprime o resultado.
-`eval` ganha implementação na etapa de avaliação.
+`eval` roda os experimentos de evals/experiments.toml e gera o relatório.
 """
 
 import argparse
@@ -35,6 +35,11 @@ def build_parser() -> argparse.ArgumentParser:
     chunking.add_argument("--strategy", choices=sorted(STRATEGIES), help="Estratégia de chunking.")
     chunking.add_argument("--size", type=int, help="Tamanho do trecho, em palavras.")
     chunking.add_argument("--overlap", type=int, help="Sobreposição entre trechos, em palavras.")
+    chunking.add_argument(
+        "--headings",
+        action=argparse.BooleanOptionalAction,
+        help="Põe o caminho de títulos no início de cada trecho.",
+    )
 
     ingest = sub.add_parser(
         "ingest", parents=[chunking], help="Divide os documentos em trechos e os indexa."
@@ -72,7 +77,21 @@ def build_parser() -> argparse.ArgumentParser:
         "--show-context", action="store_true", help="Mostra os trechos enviados ao modelo."
     )
 
-    sub.add_parser("eval", help="Roda a avaliação sobre evals/dataset.jsonl.")
+    evaluate = sub.add_parser("eval", help="Roda a avaliação sobre evals/dataset.jsonl.")
+    evaluate.add_argument(
+        "--experiments", help="Nomes separados por vírgula (padrão: todos do arquivo)."
+    )
+    evaluate.add_argument(
+        "--file", default="evals/experiments.toml", help="Arquivo de experimentos."
+    )
+    evaluate.add_argument("--dataset", default="evals/dataset.jsonl", help="Dataset de perguntas.")
+    evaluate.add_argument("--results", default="evals/results", help="Pasta dos resultados.")
+    evaluate.add_argument(
+        "--retrieval-only", action="store_true", help="Ignora o LLM (só métricas de busca)."
+    )
+    evaluate.add_argument(
+        "--report-only", action="store_true", help="Só regenera o relatório a partir dos JSON."
+    )
 
     return parser
 
@@ -87,6 +106,7 @@ def resolve_chunking(args: argparse.Namespace, settings: Settings) -> ChunkingCo
         strategy=pick(args.strategy, settings.chunk_strategy),
         size=pick(args.size, settings.chunk_size),
         overlap=pick(args.overlap, settings.chunk_overlap),
+        headings=pick(args.headings, settings.chunk_headings),
     )
 
 
@@ -99,7 +119,9 @@ def run_ingest(args: argparse.Namespace) -> int:
         return 1
 
     try:
-        chunks = ingest_folder(settings.data_dir, config.strategy, config.size, config.overlap)
+        chunks = ingest_folder(
+            settings.data_dir, config.strategy, config.size, config.overlap, config.headings
+        )
     except ValueError as exc:  # ex.: overlap >= size passado pela linha de comando
         print(f"Erro: {exc}", file=sys.stderr)
         return 1
@@ -108,7 +130,7 @@ def run_ingest(args: argparse.Namespace) -> int:
     write_jsonl(chunks, output)
 
     stats = compute_stats(chunks)
-    print(f"Estratégia: {config.strategy} (size={config.size}, overlap={config.overlap})")
+    print(f"Índice: {config.index_name}")
     print(f"Documentos: {stats.documents}  Trechos: {stats.chunks}")
     print(
         f"Palavras por trecho: média {stats.avg_words:.0f}, "
@@ -234,7 +256,59 @@ def print_final(final: Final, streamed: bool) -> None:
         print("⚠ O prompt está perto do limite de contexto (NUM_CTX): trechos podem ser cortados.")
 
 
-COMMANDS = {"ingest": run_ingest, "search": run_search, "ask": run_ask}
+def run_eval(args: argparse.Namespace) -> int:
+    # Imports locais: a avaliação puxa módulos que os outros comandos não precisam.
+    from pathlib import Path
+
+    from grounded_rag.evaluation.dataset import load_dataset, unknown_sections
+    from grounded_rag.evaluation.report import write_report
+    from grounded_rag.evaluation.runner import load_experiments, run_experiment, save_result
+
+    results_dir = Path(args.results)
+    if args.report_only:
+        print(f"Relatório: {write_report(results_dir)}")
+        return 0
+
+    settings = get_settings()
+    questions = load_dataset(Path(args.dataset))
+    if problems := unknown_sections(questions, settings.data_dir):
+        print("Seções rotuladas que não existem no corpus:", file=sys.stderr)
+        for problem in problems:
+            print(f"  {problem}", file=sys.stderr)
+        return 1
+
+    experiments = load_experiments(Path(args.file))
+    if args.experiments:
+        wanted = set(args.experiments.split(","))
+        if missing := wanted - {e.name for e in experiments}:
+            print(f"Experimentos não encontrados: {', '.join(sorted(missing))}", file=sys.stderr)
+            return 1
+        experiments = [e for e in experiments if e.name in wanted]
+    if args.retrieval_only:
+        experiments = [e.model_copy(update={"llm_model": None}) for e in experiments]
+
+    print(f"{len(questions)} perguntas · {len(experiments)} experimento(s)")
+    for exp in experiments:
+        started = time.perf_counter()
+
+        def progress(done: int, total: int, name: str = exp.name) -> None:
+            print(f"\r  {name}: {done}/{total}", end="", flush=True)
+
+        try:
+            result = run_experiment(exp, settings, questions, progress)
+        except (IndexNotReadyError, OllamaError) as exc:
+            print(f"\nErro em {exp.name}: {exc}", file=sys.stderr)
+            return 1
+        path = save_result(result, results_dir)
+        recall = result["aggregate"]["retrieval"]["recall@5"]
+        recall_txt = f"R@5 {recall['mean']:.0%}" if recall else ""
+        print(f"  {recall_txt} · {time.perf_counter() - started:.0f}s → {path}")
+
+    print(f"Relatório: {write_report(results_dir)}")
+    return 0
+
+
+COMMANDS = {"ingest": run_ingest, "search": run_search, "ask": run_ask, "eval": run_eval}
 
 
 def main(argv: list[str] | None = None) -> int:

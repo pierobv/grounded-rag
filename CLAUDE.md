@@ -27,7 +27,9 @@ implementados no próprio projeto.
 - `src/grounded_rag/generation/` — prompt, chamada ao Ollama, citações validadas com Pydantic
 - `src/grounded_rag/api/` — FastAPI (`/ask` com streaming, `/health`)
 - `src/grounded_rag/cli.py` — comandos `ingest`, `search`, `ask`, `eval`
-- `evals/` — `dataset.jsonl`, métricas, runner e `results/`
+- `src/grounded_rag/evaluation/` — dataset (schema), métricas, juiz, runner e relatório
+- `evals/` — `dataset.jsonl`, `experiments.toml` e `results/` (JSON por experimento + README gerado)
+- `scripts/` — `fetch_corpus.py`, `generate_questions.py`, `build_dataset.py` (curadoria)
 - `tests/`, `web/`, `docs/decisions.md`
 
 ## Comandos
@@ -35,6 +37,7 @@ implementados no próprio projeto.
 - Testes: `uv run pytest`
 - Lint e formatação: `uv run ruff check . && uv run ruff format .`
 - CLI: `uv run grounded-rag ingest | search "..." | ask "..." | eval`
+- Testes com modelos reais (fora do CI): `uv run pytest -m ollama` e `uv run pytest -m models`
 
 ## Regras
 - Trabalhamos **uma etapa por vez**. Mostre o plano antes de escrever código e espere aprovação.

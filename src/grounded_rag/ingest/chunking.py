@@ -20,6 +20,7 @@ from grounded_rag.ingest.models import Chunk, Segment
 WORD_RE = re.compile(r"\S+")
 SEGMENT_SEP = "\n\n"
 PAGE_PREFIX = "p. "
+LOCATION_LIST_SEP = "; "
 
 
 @dataclass(frozen=True)
@@ -56,7 +57,7 @@ def combine_locations(locations: list[str]) -> str:
         return unique[0]
     if all(loc.startswith(PAGE_PREFIX) for loc in unique):
         return f"{unique[0]}–{unique[-1].removeprefix(PAGE_PREFIX)}"
-    return "; ".join(unique)
+    return LOCATION_LIST_SEP.join(unique)
 
 
 def _chunk_id(source: str, strategy: str, index: int, text: str) -> str:

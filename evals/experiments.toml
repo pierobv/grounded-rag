@@ -1,0 +1,136 @@
+# Experimentos da avaliação. Rode com:  uv run grounded-rag eval [--experiments a,b]
+#
+# Desenho: um fator por vez a partir de uma linha de base (structure-200-40, híbrido + rerank),
+# em vez da matriz completa (2 estratégias x 3 tamanhos x 2 cabeçalhos x 3 modos x 2 rerank = 72).
+# Cada grupo responde a uma pergunta específica.
+
+[defaults]
+strategy = "structure"
+size = 200
+overlap = 40
+headings = false
+mode = "hybrid"
+rerank = true
+
+# --- A. Modo de busca: vetorial, BM25 ou híbrido? O reranking ajuda? -----------------------
+
+[[experiment]]
+name = "A1-vector"
+mode = "vector"
+rerank = false
+
+[[experiment]]
+name = "A2-bm25"
+mode = "bm25"
+rerank = false
+
+[[experiment]]
+name = "A3-hybrid"
+rerank = false
+
+[[experiment]]
+name = "A4-vector-rerank"
+mode = "vector"
+
+[[experiment]]
+name = "A5-bm25-rerank"
+mode = "bm25"
+
+[[experiment]]
+name = "A6-hybrid-rerank"
+description = "Linha de base"
+
+# --- B. Chunking: estratégia, tamanho e contextual chunk headers (todos híbrido + rerank) ---
+
+[[experiment]]
+name = "B1-fixed-200"
+strategy = "fixed"
+
+[[experiment]]
+name = "B2-structure-100"
+size = 100
+overlap = 20
+
+[[experiment]]
+name = "B3-structure-400"
+size = 400
+overlap = 80
+
+[[experiment]]
+name = "B4-fixed-100"
+strategy = "fixed"
+size = 100
+overlap = 20
+
+[[experiment]]
+name = "B5-fixed-400"
+strategy = "fixed"
+size = 400
+overlap = 80
+
+[[experiment]]
+name = "B6-structure-200-headings"
+headings = true
+
+[[experiment]]
+name = "B7-fixed-200-headings"
+strategy = "fixed"
+headings = true
+
+[[experiment]]
+name = "B8-vector-headings"
+description = "Cabeçalhos ajudam a busca vetorial sozinha?"
+mode = "vector"
+rerank = false
+headings = true
+
+# --- C. Multilíngue: perguntas em português ------------------------------------------------
+
+[[experiment]]
+name = "C1-bge-m3"
+embedding_model = "bge-m3"
+embed_doc_prefix = ""
+embed_query_prefix = ""
+
+[[experiment]]
+name = "C2-bge-reranker"
+rerank_model = "BAAI/bge-reranker-v2-m3"
+
+[[experiment]]
+name = "C3-bge-m3-bge-reranker"
+embedding_model = "bge-m3"
+embed_doc_prefix = ""
+embed_query_prefix = ""
+rerank_model = "BAAI/bge-reranker-v2-m3"
+
+[[experiment]]
+name = "C4-bge-m3-bge-reranker-headings"
+description = "Combina os dois melhores fatores: modelos multilíngues + cabeçalhos"
+headings = true
+embedding_model = "bge-m3"
+embed_doc_prefix = ""
+embed_query_prefix = ""
+rerank_model = "BAAI/bge-reranker-v2-m3"
+
+# --- D. Geração (lento): melhor configuração de busca (C4) com cada LLM ----------------
+# Rodar explicitamente: uv run grounded-rag eval --experiments D1-llama3b,D2-qwen7b
+
+[[experiment]]
+name = "D1-llama3b"
+headings = true
+embedding_model = "bge-m3"
+embed_doc_prefix = ""
+embed_query_prefix = ""
+rerank_model = "BAAI/bge-reranker-v2-m3"
+llm_model = "llama3.2:3b"
+judge = true
+
+[[experiment]]
+name = "D2-qwen7b"
+headings = true
+embedding_model = "bge-m3"
+embed_doc_prefix = ""
+embed_query_prefix = ""
+rerank_model = "BAAI/bge-reranker-v2-m3"
+llm_model = "qwen2.5:7b"
+judge = true

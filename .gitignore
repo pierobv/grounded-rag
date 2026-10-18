@@ -30,3 +30,6 @@ data/processed/
 
 # macOS
 .DS_Store
+
+# Candidatos gerados para o dataset (revisados antes de entrar em evals/dataset.jsonl)
+evals/candidates.jsonl

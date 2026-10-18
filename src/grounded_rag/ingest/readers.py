@@ -22,9 +22,25 @@ def read_markdown(path: Path, source: str) -> list[Segment]:
     os títulos de nível >= N e empilhamos o novo. Ex.: "# A", "## B", "### C", "## D"
     gera as localizações "A", "A › B", "A › B › C", "A › D".
     """
+    segments, _ = _parse_markdown(path, source)
+    return segments
+
+
+def find_sections(path: Path) -> list[str]:
+    """Todas as localizações de títulos do arquivo, inclusive seções sem texto próprio.
+
+    Usado para validar o dataset de avaliação: "A › B" pode não ter texto (só subseções),
+    mas é um rótulo válido.
+    """
+    _, locations = _parse_markdown(path, source=path.name)
+    return locations
+
+
+def _parse_markdown(path: Path, source: str) -> tuple[list[Segment], list[str]]:
     lines = path.read_text(encoding="utf-8").splitlines()
 
     segments: list[Segment] = []
+    locations: list[str] = []
     headings: list[tuple[int, str]] = []  # pilha de (nível, título)
     buffer: list[str] = []
     in_code = False
@@ -50,11 +66,12 @@ def read_markdown(path: Path, source: str) -> list[Segment]:
             while headings and headings[-1][0] >= level:
                 headings.pop()
             headings.append((level, title))
+            locations.append(LOCATION_SEP.join(t for _, t in headings))
         else:
             buffer.append(line)
 
     flush()
-    return segments
+    return segments, locations
 
 
 def read_pdf(path: Path, source: str) -> list[Segment]:

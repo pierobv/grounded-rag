@@ -42,6 +42,10 @@ extend-exclude = ["data"]
 # B: bugs comuns (bugbear); UP: sintaxe moderna; SIM: simplificações.
 select = ["E", "F", "I", "B", "UP", "SIM"]
 
+[tool.ruff.lint.per-file-ignores]
+# Arquivo de dados da curadoria: perguntas longas ficam mais legíveis numa linha só.
+"scripts/build_dataset.py" = ["E501"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 # Testes que usam modelos reais ficam fora por padrão (o CI não tem modelo).
