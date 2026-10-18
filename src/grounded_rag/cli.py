@@ -298,7 +298,8 @@ def run_eval(args: argparse.Namespace) -> int:
             print(f"\r  {name}: {done}/{total}", end="", flush=True)
 
         try:
-            result = run_experiment(exp, settings, questions, progress)
+            checkpoint = results_dir / ".checkpoints" / f"{exp.name}.json"
+            result = run_experiment(exp, settings, questions, progress, checkpoint)
         except (IndexNotReadyError, OllamaError) as exc:
             print(f"\nErro em {exp.name}: {exc}", file=sys.stderr)
             return 1

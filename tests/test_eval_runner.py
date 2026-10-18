@@ -124,3 +124,30 @@ def test_eval_rejects_dataset_with_unknown_section(eval_env, capsys):
 
     assert main(ARGS) == 1
     assert "Encodnig" in capsys.readouterr().err
+
+
+def test_interrupted_run_resumes_from_checkpoint(eval_env, fake_llm, monkeypatch):
+    calls = {"n": 0}
+    original = fake_llm.stream_chat
+
+    def crashing_stream(messages):
+        calls["n"] += 1
+        if calls["n"] == 2:  # segunda pergunta: simula o processo morrendo
+            raise KeyboardInterrupt
+        yield from original(messages)
+
+    monkeypatch.setattr(fake_llm, "stream_chat", crashing_stream)
+    with pytest.raises(KeyboardInterrupt):
+        main([*ARGS, "--experiments", "hybrid-llm"])
+
+    checkpoint = eval_env / "out" / ".checkpoints" / "hybrid-llm.json"
+    assert checkpoint.exists()
+
+    monkeypatch.setattr(fake_llm, "stream_chat", original)
+    fake_llm.calls.clear()
+    assert main([*ARGS, "--experiments", "hybrid-llm"]) == 0
+
+    assert len(fake_llm.calls) == 1  # só a pergunta que faltava foi gerada de novo
+    assert not checkpoint.exists()
+    result = json.loads((eval_env / "out" / "hybrid-llm.json").read_text())
+    assert [q["id"] for q in result["questions"]] == ["a1", "u1"]

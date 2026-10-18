@@ -33,3 +33,6 @@ data/processed/
 
 # Candidatos gerados para o dataset (revisados antes de entrar em evals/dataset.jsonl)
 evals/candidates.jsonl
+
+# Progresso parcial da avaliação (permite retomar uma rodada interrompida)
+evals/results/.checkpoints/

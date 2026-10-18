@@ -256,8 +256,12 @@ def run_experiment(
     base: Settings,
     questions: list[EvalQuestion],
     progress: Callable[[int, int], None] = lambda done, total: None,
+    checkpoint: Path | None = None,
 ) -> dict:
+    """Roda o experimento. Com `checkpoint`, salva o progresso a cada pergunta e retoma de
+    onde parou se o processo for interrompido (uma rodada com geração leva ~1 h no M4)."""
     settings = exp.settings(base)
+    saved = _load_checkpoint(checkpoint, exp)
     ensure_index(settings, exp)
     retriever = factory.build_retriever(settings, exp.chunking, exp.mode, exp.rerank)
     llm = factory.make_llm(settings, exp.llm_model) if exp.llm_model else None
@@ -269,7 +273,16 @@ def run_experiment(
         started = time.perf_counter()
         results = retriever.search(q.question, RETRIEVE_K)
         search_ms = (time.perf_counter() - started) * 1000
-        rows.append(evaluate_question(q, results, search_ms, exp, llm))
+        previous = saved.get(q.id)
+        if previous is not None and (llm is None or "abstained" in previous):
+            # Já gerada numa execução anterior: a busca é refeita (os trechos são necessários
+            # para o juiz), mas a resposta do LLM é reaproveitada.
+            row = previous
+        else:
+            row = evaluate_question(q, results, search_ms, exp, llm)
+            saved[q.id] = row
+            _save_checkpoint(checkpoint, exp, saved)
+        rows.append(row)
         all_results.append(results)
         progress(done, len(questions))
 
@@ -278,8 +291,14 @@ def run_experiment(
     # modelo ~200 vezes e, com 16 GB, chegou a falhar ao carregar (decisão 032).
     if judge is not None:
         for done, (row, results) in enumerate(zip(rows, all_results, strict=True), start=1):
-            judge_row(row, results, exp, judge)
+            if not row.get("judged"):
+                judge_row(row, results, exp, judge)
+                row["judged"] = True
+                _save_checkpoint(checkpoint, exp, saved)
             progress(done, len(questions))
+
+    if checkpoint is not None:
+        checkpoint.unlink(missing_ok=True)  # terminou: o resultado final substitui o checkpoint
 
     return {
         "experiment": exp.model_dump(),
@@ -295,6 +314,25 @@ def run_experiment(
         "aggregate": aggregate(rows),
         "questions": rows,
     }
+
+
+def _load_checkpoint(path: Path | None, exp: Experiment) -> dict[str, dict]:
+    """Linhas já calculadas, por ID de pergunta. Ignorado se a configuração mudou."""
+    if path is None or not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return data["rows"] if data["experiment"] == exp.model_dump() else {}
+
+
+def _save_checkpoint(path: Path | None, exp: Experiment, rows: dict[str, dict]) -> None:
+    if path is None:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    # Grava num arquivo temporário e renomeia: uma interrupção no meio da escrita nunca deixa
+    # um checkpoint corrompido (o rename é atômico no mesmo disco).
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps({"experiment": exp.model_dump(), "rows": rows}), encoding="utf-8")
+    tmp.replace(path)
 
 
 def save_result(result: dict, results_dir: Path) -> Path:
